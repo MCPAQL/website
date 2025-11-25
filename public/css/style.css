@@ -194,6 +194,42 @@ h3 {
     margin-top: 1.5rem;
 }
 
+/* API Cards section */
+.api-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.api-card {
+    background-color: var(--white);
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    box-shadow: var(--card-shadow);
+    border: 2px solid var(--border-color);
+    text-decoration: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    display: block;
+}
+
+.api-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 20px -5px rgba(180, 83, 9, 0.2);
+    border-color: var(--primary-color);
+}
+
+.api-card h3 {
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+.api-card p {
+    color: var(--text-light);
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
 /* Discussions section */
 .discussion-links {
     display: flex;
@@ -278,4 +314,40 @@ footer a:hover {
     .btn {
         text-align: center;
     }
+
+    .api-cards {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* API subpage styles */
+.api-hero {
+    padding: 3rem 0;
+}
+
+.content-placeholder {
+    background-color: var(--white);
+    padding: 2rem;
+    border-radius: 0.75rem;
+    box-shadow: var(--card-shadow);
+    border-left: 4px solid var(--secondary-color);
+    margin-top: 1.5rem;
+}
+
+.content-placeholder h3 {
+    color: var(--secondary-color);
+    margin-bottom: 0.5rem;
+}
+
+.content-placeholder p {
+    color: var(--text-light);
+}
+
+#back-link {
+    margin-top: 2rem;
+}
+
+#content p {
+    margin-bottom: 1rem;
+    max-width: 800px;
 }
