@@ -15,27 +15,27 @@ This open-source specification is designed to work in conjunction with [Dollhous
 
 ## Website Structure
 
-This is a static GitHub Pages website containing:
+This is a static GitHub Pages website. All static site files are in the `public/` directory:
 
-- **Home Page** (`index.html`) - Overview of MCPAQL specification
-- **Styling** (`css/style.css`) - Modern, responsive CSS styling
+- **Home Page** (`public/index.html`) - Overview of MCPAQL specification
+- **Styling** (`public/css/style.css`) - Modern, responsive CSS styling
 
 ## Deployment
 
-The website is automatically deployed to GitHub Pages when changes are pushed to the `main` branch. The deployment workflow is configured in `.github/workflows/static.yml`.
+The website is automatically deployed to GitHub Pages when changes are pushed to the `main` branch. The deployment workflow is configured in `.github/workflows/static.yml` and deploys only the `public/` directory to avoid exposing workflow files.
 
 ### Local Development
 
 To preview the website locally, you can:
 
-1. Open `index.html` directly in your browser
+1. Open `public/index.html` directly in your browser
 2. Or use a local server:
    ```bash
    # Using Python
-   python -m http.server 8000
+   cd public && python -m http.server 8000
    
    # Using Node.js
-   npx serve .
+   npx serve public
    ```
 
 ## Contributing
