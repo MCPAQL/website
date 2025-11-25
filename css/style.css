@@ -1,14 +1,17 @@
-/* CSS Variables for theming */
+/* CSS Variables for theming - Orange/Amber Family */
 :root {
-    --primary-color: #2563eb;
-    --primary-dark: #1d4ed8;
-    --secondary-color: #64748b;
-    --background-color: #f8fafc;
+    --primary-color: #b45309;      /* Deep Orange */
+    --primary-dark: #92400e;       /* Darker Orange for hover states */
+    --secondary-color: #f59e0b;    /* Amber */
+    --accent-1: #d97706;           /* Orange */
+    --accent-2: #fbbf24;           /* Gold */
+    --accent-3: #fcd34d;           /* Light Gold */
+    --background-color: #fffbeb;   /* Light Amber */
     --text-color: #1e293b;
     --text-light: #64748b;
     --white: #ffffff;
-    --border-color: #e2e8f0;
-    --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --border-color: #fef3c7;       /* Soft Gold */
+    --card-shadow: 0 4px 6px -1px rgba(180, 83, 9, 0.1), 0 2px 4px -1px rgba(180, 83, 9, 0.06);
 }
 
 /* Reset and base styles */
