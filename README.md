@@ -38,3 +38,9 @@ Then open <http://localhost:8000>.
 
 GitHub Pages deploys automatically from `main` using `.github/workflows/static.yml`.
 The workflow publishes only the `public/` directory.
+
+## License
+
+Licensed under the GNU Affero General Public License v3.0 (AGPL-3.0). See `LICENSE`.
+
+Commercial licenses are available. See `COMMERCIAL-LICENSE.md` or contact `licensing@mcpaql.org`.

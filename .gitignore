@@ -1,0 +1,32 @@
+# OS / filesystem
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Editors / IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+
+# Env files (local only)
+.env
+.env.*
+
+# Claude Code (local context files)
+CLAUDE.md
+.claude/
+
+# DollhouseMCP (local MCP server state)
+.dollhousemcp/
