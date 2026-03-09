@@ -39,7 +39,7 @@
                     <div class="hero-actions">
                         <a class="btn btn-primary" href="https://github.com/MCPAQL/spec/blob/develop/docs/versions/v1.0.0-draft.md">Read The Normative Draft</a>
                         <a class="btn btn-secondary" href="https://github.com/MCPAQL/spec">Spec Repository</a>
-                        <a class="btn btn-secondary" href="https://github.com/MCPAQL/spec/blob/develop/docs/process/preliminary-public-launch-checklist.md">Launch Checklist</a>
+                        <a class="btn btn-secondary" href="launch-checklist.html">Launch Checklist</a>
                     </div>
                 </div>
             </section>
@@ -106,7 +106,7 @@
             <section id="readiness">
                 <h2 class="section-title">Current Launch Gates</h2>
                 <p class="section-subtitle">
-                    These are live links to active launch-track issues and represent the current pre-launch constraint surface.
+                    This is a public draft status snapshot for people evaluating MCP-AQL readiness and current scope.
                 </p>
                 <div class="grid cols-3">
                     <article class="card">
@@ -141,35 +141,41 @@
                 <p class="callout">
                     Launch recommendation: publish as a clearly labeled draft with explicit known-open items, not as a final conformance baseline.
                 </p>
+                <p class="callout">
+                    For a full public-facing checklist view, use the <a href="launch-checklist.html">Launch Checklist page</a> in this site.
+                </p>
             </section>
 
             <section id="learn">
                 <h2 class="section-title">Browse By Integration Surface</h2>
-                <p class="section-subtitle">These pages summarize how MCP-AQL can model operations for different API surfaces.</p>
+                <p class="section-subtitle">These pages currently provide draft integration guidance. Public reference adapters are not yet published.</p>
                 <div class="grid cols-3">
-                    <a class="card" href="apis/mcp-server.html"><h3>MCP Server</h3><p>Native protocol adapter design and operation introspection.</p></a>
-                    <a class="card" href="apis/operating-system.html"><h3>Operating System</h3><p>Permission-sensitive local operations and safety boundary design.</p></a>
-                    <a class="card" href="apis/application.html"><h3>Application</h3><p>Desktop/mobile automation and app-local command surfaces.</p></a>
-                    <a class="card" href="apis/cloud-service.html"><h3>Cloud Service</h3><p>External API orchestration with rate/cost constraints.</p></a>
-                    <a class="card" href="apis/website.html"><h3>Website</h3><p>Web integration patterns for retrieval, extraction, and action flows.</p></a>
+                    <a class="card" href="apis/mcp-server.html"><h3>MCP Server</h3><span class="state-chip pending">Draft guidance only</span><p>Native protocol adapter design and operation introspection.</p></a>
+                    <a class="card" href="apis/operating-system.html"><h3>Operating System</h3><span class="state-chip pending">Draft guidance only</span><p>Permission-sensitive local operations and safety boundary design.</p></a>
+                    <a class="card" href="apis/application.html"><h3>Application</h3><span class="state-chip pending">Draft guidance only</span><p>Desktop/mobile automation and app-local command surfaces.</p></a>
+                    <a class="card" href="apis/cloud-service.html"><h3>Cloud Service</h3><span class="state-chip pending">Draft guidance only</span><p>External API orchestration with rate/cost constraints.</p></a>
+                    <a class="card" href="apis/website.html"><h3>Website</h3><span class="state-chip pending">Draft guidance only</span><p>Web integration patterns for retrieval, extraction, and action flows.</p></a>
                 </div>
             </section>
 
             <section>
-                <h2 class="section-title">Adapter Examples To Build Next</h2>
-                <p class="section-subtitle">High-value public examples that would help adoption before and immediately after draft launch.</p>
-                <div class="grid cols-3">
+                <h2 class="section-title">Public Adapter Examples</h2>
+                <p class="section-subtitle">None are published yet. Once adapters are released, this section will list them with runnable references.</p>
+                <div class="grid cols-2">
                     <article class="card">
-                        <h3>Filesystem MCP Adapter</h3>
-                        <p>Show safe read/write/execute boundaries with confirmation and policy gating patterns.</p>
+                        <h3>MCP Server Reference Adapter</h3>
+                        <span class="state-chip pending">Not published yet</span>
+                        <p>
+                            Planned first example area. The intent is to provide a concrete adapter that maps a known MCP server into MCP-AQL operation contracts.
+                        </p>
                     </article>
                     <article class="card">
-                        <h3>GitHub MCP Adapter</h3>
-                        <p>Demonstrate issue/PR/repo workflows with introspection-first operation discovery.</p>
-                    </article>
-                    <article class="card">
-                        <h3>Postgres MCP Adapter</h3>
-                        <p>Demonstrate query/read optimization and explicit high-risk execute protections.</p>
+                        <h3>What You Can Do Today</h3>
+                        <ul>
+                            <li>Review the normative spec draft and issue tracker.</li>
+                            <li>Evaluate draft integration-surface guidance pages.</li>
+                            <li>Prototype adapters and share implementation feedback.</li>
+                        </ul>
                     </article>
                 </div>
             </section>
@@ -202,7 +208,7 @@
 
     <footer>
         <div class="container">
-            <p>&copy; 2026 MCP-AQL. Public draft documentation portal.</p>
+            <p>&copy; 2026 DollhouseMCP Inc. d/b/a Dollhouse Research. MCP-AQL public draft documentation portal.</p>
             <div class="footer-links">
                 <a href="https://github.com/MCPAQL">MCPAQL Organization</a>
                 <a href="https://github.com/MCPAQL/spec/issues">Spec Issues</a>

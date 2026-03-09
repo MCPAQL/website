@@ -29,11 +29,12 @@
         <div class="container">
             <section class="hero api-hero">
                 <div class="hero-inner">
-                    <span class="status-pill">INTEGRATION SURFACE</span>
+                    <span class="status-pill">DRAFT GUIDANCE - NO PUBLIC ADAPTER YET</span>
                     <h1>MCP Server Adapter Pattern</h1>
                     <p class="lede">
                         MCP-AQL is primarily designed to consolidate and expose MCP server operations through a consistent query contract with runtime introspection.
                     </p>
+                    <p class="callout">Public MCP server adapter examples are planned, but not yet published.</p>
                 </div>
             </section>
 
@@ -62,7 +63,7 @@
             </section>
 
             <section>
-                <h2 class="section-title">Example</h2>
+                <h2 class="section-title">Conceptual Example</h2>
                 <div class="card">
                     <pre class="code-box">{
   "operation": "get_element",
@@ -71,7 +72,7 @@
   }
 }</pre>
                     <p class="callout">
-                        The operation name and parameters are adapter-defined; clients should discover valid operations via <code>introspect</code> before execution.
+                        The operation name and parameters are adapter-defined; clients should discover valid operations via <code>introspect</code> before execution. This page is guidance, not a published adapter implementation.
                     </p>
                 </div>
             </section>
@@ -102,5 +103,15 @@
             </section>
         </div>
     </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 DollhouseMCP Inc. d/b/a Dollhouse Research. MCP-AQL public draft documentation portal.</p>
+            <div class="footer-links">
+                <a href="https://github.com/MCPAQL">MCPAQL Organization</a>
+                <a href="https://github.com/MCPAQL/spec/issues">Spec Issues</a>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>

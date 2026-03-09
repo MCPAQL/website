@@ -22,6 +22,7 @@ This repository hosts browse-first web documentation for MCP-AQL so users can:
 All web assets are under `public/`:
 
 - `public/index.html`: launch overview, readiness gates, repo map
+- `public/launch-checklist.html`: public-facing launch-readiness summary
 - `public/apis/*.html`: integration-surface guidance pages
 - `public/css/style.css`: shared styles and responsive layout
 - `docs/prelaunch-readiness-review.md`: launch readiness assessment and guidance
