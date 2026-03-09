@@ -94,14 +94,14 @@ nav {
 
 .logo-mark::before {
   background: var(--ink-700);
-  border-radius: 999px;
+  border-radius: 2px;
   content: "";
-  height: 3px;
+  height: 2px;
   left: -6px;
   position: absolute;
   top: 2px;
-  width: 3px;
-  box-shadow: 0 4px 0 var(--ink-700), 0 8px 0 var(--ink-700);
+  width: 6px;
+  box-shadow: 0 5px 0 var(--ink-700), 0 10px 0 var(--ink-700);
 }
 
 .logo-mark::after {
@@ -112,7 +112,7 @@ nav {
   position: absolute;
   right: -6px;
   top: 1px;
-  width: 4px;
+  width: 6px;
   box-shadow: 0 3px 0 var(--accent-600), 0 6px 0 var(--accent-600), 0 9px 0 var(--accent-600),
     0 12px 0 var(--accent-600);
 }
