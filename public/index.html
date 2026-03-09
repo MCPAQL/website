@@ -64,12 +64,12 @@
                     <article class="card">
                         <h3>Practical Reference Profile</h3>
                         <p>
-                            DollhouseMCP v2 refactor is treated as a practical reference profile that validates the protocol in a large, real system.
+                            DollhouseMCP production is treated as a practical reference profile that validates the protocol in a large, real system.
                             It is not the canonical definition.
                         </p>
                         <ul>
-                            <li><a href="https://github.com/DollhouseMCP/mcp-server-v2-refactor">DollhouseMCP v2 refactor</a></li>
-                            <li><a href="https://github.com/DollhouseMCP/mcp-server-v2-refactor/issues/578">Spec alignment roadmap</a></li>
+                            <li><a href="https://github.com/DollhouseMCP/mcp-server">DollhouseMCP production server</a></li>
+                            <li><a href="https://dollhousemcp.com">Dollhouse research site</a></li>
                         </ul>
                     </article>
                 </div>
@@ -123,10 +123,9 @@
                         <h3>Dollhouse Profile Alignment</h3>
                         <div class="status-row"><span class="dot warn"></span><strong>In Progress</strong></div>
                         <ul>
-                            <li><a href="https://github.com/DollhouseMCP/mcp-server-v2-refactor/issues/578">#578 alignment roadmap</a></li>
-                            <li><a href="https://github.com/DollhouseMCP/mcp-server-v2-refactor/issues/543">#543 batch safety limits</a></li>
-                            <li><a href="https://github.com/DollhouseMCP/mcp-server-v2-refactor/issues/545">#545 error code surfacing</a></li>
-                            <li><a href="https://github.com/DollhouseMCP/mcp-server-v2-refactor/issues/298">#298 structured machine errors</a></li>
+                            <li>Production adapter profile documentation is being tightened for launch.</li>
+                            <li>Structured error surfacing and batch safety limits remain active priorities.</li>
+                            <li>Public launch messaging keeps protocol-vs-profile boundaries explicit.</li>
                         </ul>
                     </article>
                     <article class="card">
@@ -156,6 +155,25 @@
                 </div>
             </section>
 
+            <section>
+                <h2 class="section-title">Adapter Examples To Build Next</h2>
+                <p class="section-subtitle">High-value public examples that would help adoption before and immediately after draft launch.</p>
+                <div class="grid cols-3">
+                    <article class="card">
+                        <h3>Filesystem MCP Adapter</h3>
+                        <p>Show safe read/write/execute boundaries with confirmation and policy gating patterns.</p>
+                    </article>
+                    <article class="card">
+                        <h3>GitHub MCP Adapter</h3>
+                        <p>Demonstrate issue/PR/repo workflows with introspection-first operation discovery.</p>
+                    </article>
+                    <article class="card">
+                        <h3>Postgres MCP Adapter</h3>
+                        <p>Demonstrate query/read optimization and explicit high-risk execute protections.</p>
+                    </article>
+                </div>
+            </section>
+
             <section id="repos">
                 <h2 class="section-title">Repository Map</h2>
                 <p class="section-subtitle">Primary MCP-AQL and related implementation repositories.</p>
@@ -173,7 +191,6 @@
                     <article class="card">
                         <h3>Dollhouse Research Context</h3>
                         <ul>
-                            <li><a href="https://github.com/DollhouseMCP/mcp-server-v2-refactor">DollhouseMCP v2 refactor</a></li>
                             <li><a href="https://github.com/DollhouseMCP/mcp-server">DollhouseMCP production server</a></li>
                             <li><a href="https://dollhousemcp.com">DollhouseMCP site</a></li>
                         </ul>
@@ -189,7 +206,6 @@
             <div class="footer-links">
                 <a href="https://github.com/MCPAQL">MCPAQL Organization</a>
                 <a href="https://github.com/MCPAQL/spec/issues">Spec Issues</a>
-                <a href="https://github.com/MCPAQL/website/pull/1">Website PR #1</a>
             </div>
         </div>
     </footer>

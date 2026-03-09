@@ -1,7 +1,7 @@
 # MCP-AQL Pre-Launch Readiness Review
 
 Reviewed: 2026-03-09
-Scope: `MCPAQL/spec`, `MCPAQL/website`, Dollhouse practical profile alignment
+Scope: `MCPAQL/spec`, `MCPAQL/website`, Dollhouse practical profile alignment (public-facing view)
 
 ## Executive Status
 
@@ -28,12 +28,11 @@ Recommendation:
 
 ## Track 2: Dollhouse Practical Profile Alignment
 
-The profile remains highly valuable and still has active alignment work:
+The profile remains highly valuable and still has active alignment work.
+Private development tracking exists, but public documentation should reference only:
 
-- [DollhouseMCP/mcp-server-v2-refactor#578](https://github.com/DollhouseMCP/mcp-server-v2-refactor/issues/578)
-- [#543](https://github.com/DollhouseMCP/mcp-server-v2-refactor/issues/543)
-- [#545](https://github.com/DollhouseMCP/mcp-server-v2-refactor/issues/545)
-- [#298](https://github.com/DollhouseMCP/mcp-server-v2-refactor/issues/298)
+- [DollhouseMCP production server](https://github.com/DollhouseMCP/mcp-server)
+- [Dollhouse research site](https://dollhousemcp.com)
 
 Recommendation:
 

@@ -84,11 +84,37 @@ nav {
 }
 
 .logo-mark {
-  background: linear-gradient(135deg, var(--accent-700), var(--ink-700));
+  background: linear-gradient(135deg, #0f766e 0%, #0e7490 45%, #1e3a8a 100%);
   border-radius: 7px;
   display: inline-flex;
-  height: 20px;
-  width: 20px;
+  height: 16px;
+  position: relative;
+  width: 24px;
+}
+
+.logo-mark::before {
+  background: var(--ink-700);
+  border-radius: 999px;
+  content: "";
+  height: 3px;
+  left: -6px;
+  position: absolute;
+  top: 2px;
+  width: 3px;
+  box-shadow: 0 4px 0 var(--ink-700), 0 8px 0 var(--ink-700);
+}
+
+.logo-mark::after {
+  background: var(--accent-600);
+  border-radius: 2px;
+  content: "";
+  height: 2px;
+  position: absolute;
+  right: -6px;
+  top: 1px;
+  width: 4px;
+  box-shadow: 0 3px 0 var(--accent-600), 0 6px 0 var(--accent-600), 0 9px 0 var(--accent-600),
+    0 12px 0 var(--accent-600);
 }
 
 .nav-links {

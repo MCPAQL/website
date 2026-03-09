@@ -14,7 +14,8 @@ This repository hosts browse-first web documentation for MCP-AQL so users can:
 ## Source Of Truth
 
 - Canonical normative protocol text: <https://github.com/MCPAQL/spec>
-- Practical reference profile context: <https://github.com/DollhouseMCP/mcp-server-v2-refactor>
+- Practical reference profile context: <https://github.com/DollhouseMCP/mcp-server>
+- Public research/site context: <https://dollhousemcp.com>
 
 ## Site Structure
 
