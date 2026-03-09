@@ -32,7 +32,7 @@ The profile remains highly valuable and still has active alignment work.
 Private development tracking exists, but public documentation should reference only:
 
 - [DollhouseMCP production server](https://github.com/DollhouseMCP/mcp-server)
-- [Dollhouse research site](https://dollhousemcp.com)
+- [Dollhouse research site](https://dollhouseresearch.com)
 
 Recommendation:
 
