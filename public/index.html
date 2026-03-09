@@ -3,129 +3,195 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="MCPAQL - An efficient GraphQL-like syntax for MCP Servers and tool calls to APIs.">
-    <title>MCPAQL - MCP Server Query Language</title>
+    <meta name="description" content="MCP-AQL public draft hub: protocol overview, readiness gates, and implementation links.">
+    <title>MCP-AQL | Public Draft Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <header>
-        <nav>
-            <div class="logo">MCPAQL</div>
-            <ul class="nav-links">
-                <li><a href="#about">About</a></li>
-                <li><a href="#apis">APIs</a></li>
-                <li><a href="#spec">Specification</a></li>
-                <li><a href="#implementations">Implementations</a></li>
-                <li><a href="#discussions">Discussions</a></li>
-            </ul>
-        </nav>
+        <div class="container">
+            <nav>
+                <a class="logo" href="index.html"><span class="logo-mark"></span>MCP-AQL</a>
+                <ul class="nav-links">
+                    <li><a href="#overview">Overview</a></li>
+                    <li><a href="#flow">How It Works</a></li>
+                    <li><a href="#readiness">Readiness</a></li>
+                    <li><a href="#repos">Repositories</a></li>
+                    <li><a href="#learn">Learn</a></li>
+                </ul>
+            </nav>
+        </div>
     </header>
 
     <main>
-        <section id="hero">
-            <h1>MCPAQL</h1>
-            <p class="tagline">An efficient GraphQL-like syntax for MCP Servers</p>
-            <p class="subtitle">Open Specification for Model Context Protocol Query Language</p>
-        </section>
-
-        <section id="about">
-            <h2>About MCPAQL</h2>
-            <p>
-                MCPAQL (Model Context Protocol Query Language) is an open specification designed to provide 
-                an efficient GraphQL-like syntax for making tool calls to MCP servers and other APIs.
-            </p>
-            <p>
-                This open-source specification is designed to work in conjunction with 
-                <a href="https://github.com/MCPAQL/DollhouseMCP">DollhouseMCP</a>, utilizing memory and template elements, 
-                but may also be implemented separately for standalone use cases.
-            </p>
-        </section>
-
-        <section id="apis">
-            <h2>Supported API Types</h2>
-            <p>
-                MCPAQL can work with a variety of API types, enabling seamless integration across different platforms:
-            </p>
-            <div class="api-cards">
-                <a href="apis/mcp-server.html" class="api-card">
-                    <h3>MCP Server</h3>
-                    <p>Native integration with Model Context Protocol servers for AI tool calls</p>
-                </a>
-                <a href="apis/operating-system.html" class="api-card">
-                    <h3>Operating System</h3>
-                    <p>System-level APIs for file management, process control, and OS interactions</p>
-                </a>
-                <a href="apis/application.html" class="api-card">
-                    <h3>Application</h3>
-                    <p>Desktop and mobile application APIs for cross-platform integration</p>
-                </a>
-                <a href="apis/cloud-service.html" class="api-card">
-                    <h3>Cloud Service</h3>
-                    <p>Cloud platform APIs for scalable, distributed computing resources</p>
-                </a>
-                <a href="apis/website.html" class="api-card">
-                    <h3>Website</h3>
-                    <p>Web APIs and REST services for browser and server-side interactions</p>
-                </a>
-            </div>
-        </section>
-
-        <section id="spec">
-            <h2>Specification</h2>
-            <p>
-                The MCPAQL specification defines a query language that enables efficient communication 
-                between AI models and MCP servers. Key features include:
-            </p>
-            <div class="spec-features">
-                <div class="feature-card">
-                    <h3>GraphQL-like Syntax</h3>
-                    <p>Familiar, expressive query syntax for developers</p>
+        <div class="container">
+            <section class="hero" id="overview">
+                <div class="hero-inner">
+                    <span class="status-pill">PRELIMINARY PUBLIC DRAFT</span>
+                    <h1>MCP-AQL Documentation Portal</h1>
+                    <p class="lede">
+                        MCP-AQL is a protocol for reducing tool-surface token bloat by consolidating operations into a predictable query and endpoint model.
+                        This site is the browse-first companion to the spec repository and launch readiness work.
+                    </p>
+                    <div class="hero-actions">
+                        <a class="btn btn-primary" href="https://github.com/MCPAQL/spec/blob/develop/docs/versions/v1.0.0-draft.md">Read The Normative Draft</a>
+                        <a class="btn btn-secondary" href="https://github.com/MCPAQL/spec">Spec Repository</a>
+                        <a class="btn btn-secondary" href="https://github.com/MCPAQL/spec/blob/develop/docs/process/preliminary-public-launch-checklist.md">Launch Checklist</a>
+                    </div>
                 </div>
-                <div class="feature-card">
-                    <h3>Tool Calls</h3>
-                    <p>Streamlined API for invoking server-side tools</p>
-                </div>
-                <div class="feature-card">
-                    <h3>Memory Integration</h3>
-                    <p>Works with DollhouseMCP memory elements</p>
-                </div>
-                <div class="feature-card">
-                    <h3>Template Support</h3>
-                    <p>Reusable templates for common operations</p>
-                </div>
-            </div>
-        </section>
+            </section>
 
-        <section id="implementations">
-            <h2>Implementations</h2>
-            <p>
-                MCPAQL is designed to be implemented across various platforms and languages. 
-                Reference implementations and community contributions are welcome.
-            </p>
-            <div class="implementation-info">
-                <h3>Reference Implementation</h3>
-                <p>Coming soon - Stay tuned for the official reference implementation.</p>
-            </div>
-        </section>
+            <section>
+                <h2 class="section-title">Launch Positioning</h2>
+                <p class="section-subtitle">
+                    Protocol authority and implementation reality are intentionally separated for draft launch clarity.
+                </p>
+                <div class="grid cols-2">
+                    <article class="card">
+                        <h3>Canonical Protocol Source</h3>
+                        <p>
+                            Normative behavior is defined in <code>MCPAQL/spec</code>, especially the versioned draft document.
+                            Informative docs support implementation but do not override normative requirements.
+                        </p>
+                        <ul>
+                            <li><a href="https://github.com/MCPAQL/spec/blob/develop/docs/versions/v1.0.0-draft.md">Normative: v1.0.0-draft</a></li>
+                            <li><a href="https://github.com/MCPAQL/spec/blob/develop/docs/README.md">Docs map and authority model</a></li>
+                        </ul>
+                    </article>
+                    <article class="card">
+                        <h3>Practical Reference Profile</h3>
+                        <p>
+                            DollhouseMCP v2 refactor is treated as a practical reference profile that validates the protocol in a large, real system.
+                            It is not the canonical definition.
+                        </p>
+                        <ul>
+                            <li><a href="https://github.com/DollhouseMCP/mcp-server-v2-refactor">DollhouseMCP v2 refactor</a></li>
+                            <li><a href="https://github.com/DollhouseMCP/mcp-server-v2-refactor/issues/578">Spec alignment roadmap</a></li>
+                        </ul>
+                    </article>
+                </div>
+            </section>
 
-        <section id="discussions">
-            <h2>Discussions</h2>
-            <p>
-                Join the community to discuss the MCPAQL specification, share ideas, 
-                and contribute to its development.
-            </p>
-            <div class="discussion-links">
-                <a href="https://github.com/MCPAQL/Org-Website/discussions" class="btn">GitHub Discussions</a>
-                <a href="https://github.com/MCPAQL/Org-Website/issues" class="btn btn-secondary">Report Issues</a>
-            </div>
-        </section>
+            <section id="flow">
+                <h2 class="section-title">How MCP-AQL Works</h2>
+                <p class="section-subtitle">
+                    A typical request path starts with introspection and ends with operation dispatch through CRUDE/single mode.
+                </p>
+                <div class="grid cols-3">
+                    <article class="card">
+                        <h3>1. Discover</h3>
+                        <p>Clients call <code>introspect</code> to discover supported operations and parameter contracts at runtime.</p>
+                    </article>
+                    <article class="card">
+                        <h3>2. Route</h3>
+                        <p>Operations are routed through semantic endpoints (Create, Read, Update, Delete, Execute) or single-endpoint mode.</p>
+                    </article>
+                    <article class="card">
+                        <h3>3. Enforce</h3>
+                        <p>Adapters apply validation, safety, and policy controls before execution (including gatekeeper-style modules).</p>
+                    </article>
+                </div>
+                <div class="card" style="margin-top: 1rem;">
+                    <h3>Example Query Shape</h3>
+                    <pre class="code-box">{
+  "operation": "introspect",
+  "params": { "query": "operations" }
+}</pre>
+                </div>
+            </section>
+
+            <section id="readiness">
+                <h2 class="section-title">Current Launch Gates</h2>
+                <p class="section-subtitle">
+                    These are live links to active launch-track issues and represent the current pre-launch constraint surface.
+                </p>
+                <div class="grid cols-3">
+                    <article class="card">
+                        <h3>Spec Core Robustness</h3>
+                        <div class="status-row"><span class="dot warn"></span><strong>In Progress</strong></div>
+                        <ul>
+                            <li><a href="https://github.com/MCPAQL/spec/issues/193">#193 MCP protocol capability audit</a></li>
+                            <li><a href="https://github.com/MCPAQL/spec/issues/197">#197 batch/resource safeguards</a></li>
+                            <li><a href="https://github.com/MCPAQL/spec/issues/199">#199 structured error alignment</a></li>
+                            <li><a href="https://github.com/MCPAQL/spec/issues/194">#194 draft release epic</a></li>
+                        </ul>
+                    </article>
+                    <article class="card">
+                        <h3>Dollhouse Profile Alignment</h3>
+                        <div class="status-row"><span class="dot warn"></span><strong>In Progress</strong></div>
+                        <ul>
+                            <li><a href="https://github.com/DollhouseMCP/mcp-server-v2-refactor/issues/578">#578 alignment roadmap</a></li>
+                            <li><a href="https://github.com/DollhouseMCP/mcp-server-v2-refactor/issues/543">#543 batch safety limits</a></li>
+                            <li><a href="https://github.com/DollhouseMCP/mcp-server-v2-refactor/issues/545">#545 error code surfacing</a></li>
+                            <li><a href="https://github.com/DollhouseMCP/mcp-server-v2-refactor/issues/298">#298 structured machine errors</a></li>
+                        </ul>
+                    </article>
+                    <article class="card">
+                        <h3>Public Documentation Presence</h3>
+                        <div class="status-row"><span class="dot warn"></span><strong>Now Being Built</strong></div>
+                        <ul>
+                            <li>This website is the browse-first documentation surface.</li>
+                            <li>Spec repo remains source of truth for normative text.</li>
+                            <li>Additional walkthrough pages should continue post-launch.</li>
+                        </ul>
+                    </article>
+                </div>
+                <p class="callout">
+                    Launch recommendation: publish as a clearly labeled draft with explicit known-open items, not as a final conformance baseline.
+                </p>
+            </section>
+
+            <section id="learn">
+                <h2 class="section-title">Browse By Integration Surface</h2>
+                <p class="section-subtitle">These pages summarize how MCP-AQL can model operations for different API surfaces.</p>
+                <div class="grid cols-3">
+                    <a class="card" href="apis/mcp-server.html"><h3>MCP Server</h3><p>Native protocol adapter design and operation introspection.</p></a>
+                    <a class="card" href="apis/operating-system.html"><h3>Operating System</h3><p>Permission-sensitive local operations and safety boundary design.</p></a>
+                    <a class="card" href="apis/application.html"><h3>Application</h3><p>Desktop/mobile automation and app-local command surfaces.</p></a>
+                    <a class="card" href="apis/cloud-service.html"><h3>Cloud Service</h3><p>External API orchestration with rate/cost constraints.</p></a>
+                    <a class="card" href="apis/website.html"><h3>Website</h3><p>Web integration patterns for retrieval, extraction, and action flows.</p></a>
+                </div>
+            </section>
+
+            <section id="repos">
+                <h2 class="section-title">Repository Map</h2>
+                <p class="section-subtitle">Primary MCP-AQL and related implementation repositories.</p>
+                <div class="grid cols-2 repo-list">
+                    <article class="card">
+                        <h3>MCPAQL Organization</h3>
+                        <ul>
+                            <li><a href="https://github.com/MCPAQL/spec">spec</a></li>
+                            <li><a href="https://github.com/MCPAQL/website">website</a></li>
+                            <li><a href="https://github.com/MCPAQL/examples">examples</a></li>
+                            <li><a href="https://github.com/MCPAQL/adapter-generator">adapter-generator</a></li>
+                            <li><a href="https://github.com/MCPAQL/mcpaql-adapter">mcpaql-adapter</a></li>
+                        </ul>
+                    </article>
+                    <article class="card">
+                        <h3>Dollhouse Research Context</h3>
+                        <ul>
+                            <li><a href="https://github.com/DollhouseMCP/mcp-server-v2-refactor">DollhouseMCP v2 refactor</a></li>
+                            <li><a href="https://github.com/DollhouseMCP/mcp-server">DollhouseMCP production server</a></li>
+                            <li><a href="https://dollhousemcp.com">DollhouseMCP site</a></li>
+                        </ul>
+                    </article>
+                </div>
+            </section>
+        </div>
     </main>
 
     <footer>
-        <p>&copy; 2024-2025 MCPAQL. Open Source Specification.</p>
-        <p>
-            <a href="https://github.com/MCPAQL">GitHub Organization</a>
-        </p>
+        <div class="container">
+            <p>&copy; 2026 MCP-AQL. Public draft documentation portal.</p>
+            <div class="footer-links">
+                <a href="https://github.com/MCPAQL">MCPAQL Organization</a>
+                <a href="https://github.com/MCPAQL/spec/issues">Spec Issues</a>
+                <a href="https://github.com/MCPAQL/website/pull/1">Website PR #1</a>
+            </div>
+        </div>
     </footer>
 </body>
 </html>

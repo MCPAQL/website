@@ -1,47 +1,40 @@
-# MCPAQL Organization Website
+# MCP-AQL Website
 
-Website for the MCPAQL organization with information about the public specification, implementations, and discussions.
+Static website for the MCP-AQL public draft documentation portal.
 
-## About MCPAQL
+## Purpose
 
-MCPAQL (Model Context Protocol Query Language) is an open specification designed to provide an efficient GraphQL-like syntax for making tool calls to MCP servers and other APIs used by:
+This repository hosts browse-first web documentation for MCP-AQL so users can:
 
-- Operating Systems
-- Websites
-- Applications
-- Cloud Services
+- Understand protocol goals and launch positioning
+- Navigate integration guidance without cloning the spec repo
+- Follow live readiness gates through linked issues
+- Discover canonical spec docs and practical implementation references
 
-This open-source specification is designed to work in conjunction with [DollhouseMCP](https://github.com/MCPAQL/DollhouseMCP), utilizing memory and template elements, but may also be implemented separately.
+## Source Of Truth
 
-## Website Structure
+- Canonical normative protocol text: <https://github.com/MCPAQL/spec>
+- Practical reference profile context: <https://github.com/DollhouseMCP/mcp-server-v2-refactor>
 
-This is a static GitHub Pages website. All static site files are in the `public/` directory:
+## Site Structure
 
-- **Home Page** (`public/index.html`) - Overview of MCPAQL specification
-- **Styling** (`public/css/style.css`) - Modern, responsive CSS styling
+All web assets are under `public/`:
+
+- `public/index.html`: launch overview, readiness gates, repo map
+- `public/apis/*.html`: integration-surface guidance pages
+- `public/css/style.css`: shared styles and responsive layout
+- `docs/prelaunch-readiness-review.md`: launch readiness assessment and guidance
+
+## Local Preview
+
+```bash
+cd public
+python -m http.server 8000
+```
+
+Then open <http://localhost:8000>.
 
 ## Deployment
 
-The website is automatically deployed to GitHub Pages when changes are pushed to the `main` branch. The deployment workflow is configured in `.github/workflows/static.yml` and deploys only the `public/` directory to avoid exposing workflow files.
-
-### Local Development
-
-To preview the website locally, you can:
-
-1. Open `public/index.html` directly in your browser
-2. Or use a local server:
-   ```bash
-   # Using Python
-   cd public && python -m http.server 8000
-   
-   # Using Node.js
-   npx serve public
-   ```
-
-## Contributing
-
-Contributions to the MCPAQL specification and this website are welcome. Please open an issue or submit a pull request.
-
-## License
-
-This project is open source. See the specification documentation for details.
+GitHub Pages deploys automatically from `main` using `.github/workflows/static.yml`.
+The workflow publishes only the `public/` directory.
