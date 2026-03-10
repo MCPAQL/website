@@ -8,5 +8,6 @@ This repository is part of the MCP-AQL project. You must preserve this notice an
 
 Canonical: <https://mcpaql.org>
 Source: <https://github.com/MCPAQL/website>
+Project steward: DollhouseMCP Inc. d/b/a Dollhouse Research (<https://dollhouseresearch.com>)
 
 Commercial licenses are available: `licensing@mcpaql.org` (see `COMMERCIAL-LICENSE.md`).
