@@ -7,9 +7,10 @@ Static website for the MCP-AQL public draft documentation portal.
 This repository hosts browse-first web documentation for MCP-AQL so users can:
 
 - Understand protocol goals and launch positioning
-- Navigate integration guidance without cloning the spec repo
-- Follow live readiness gates through linked issues
+- Navigate protocol, security, conformance, and implementation guidance without cloning repos
+- Track launch readiness through public-facing status pages
 - Discover canonical spec docs and practical implementation references
+- Search documentation content directly within the site
 
 ## Source Of Truth
 
@@ -21,10 +22,13 @@ This repository hosts browse-first web documentation for MCP-AQL so users can:
 
 All web assets are under `public/`:
 
-- `public/index.html`: launch overview, readiness gates, repo map
-- `public/launch-checklist.html`: public-facing launch-readiness summary
+- `public/index.html`: portal home and repository map
+- `public/docs/*.html`: protocol library pages (core, security, conformance, profiles, roadmap)
+- `public/launch-checklist.html`: public launch readiness summary
 - `public/apis/*.html`: integration-surface guidance pages
 - `public/css/style.css`: shared styles and responsive layout
+- `public/js/search.js`: client-side documentation search
+- `public/data/search-index.json`: search index catalog
 - `docs/prelaunch-readiness-review.md`: launch readiness assessment and guidance
 
 ## Local Preview

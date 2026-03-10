@@ -1,6 +1,5 @@
 # MCP-AQL Pre-Launch Readiness Review
 
-Reviewed: 2026-03-09
 Scope: `MCPAQL/spec`, `MCPAQL/website`, Dollhouse practical profile alignment (public-facing view)
 
 ## Executive Status
@@ -15,10 +14,10 @@ Overall status: **Yellow (near-launch with explicit draft framing)**
 
 Live issue state indicates remaining pre-launch work:
 
-- [MCPAQL/spec#193](https://github.com/MCPAQL/spec/issues/193): MCP capability audit
-- [MCPAQL/spec#197](https://github.com/MCPAQL/spec/issues/197): batch/resource safeguards
-- [MCPAQL/spec#199](https://github.com/MCPAQL/spec/issues/199): structured error alignment
-- [MCPAQL/spec#194](https://github.com/MCPAQL/spec/issues/194): release epic coordination
+- `MCPAQL/spec#193`: MCP capability audit
+- `MCPAQL/spec#197`: batch/resource safeguards
+- `MCPAQL/spec#199`: structured error alignment
+- `MCPAQL/spec#194`: release epic coordination
 
 Recommendation:
 

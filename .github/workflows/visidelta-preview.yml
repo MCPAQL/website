@@ -73,7 +73,7 @@ jobs:
             process.exit(0);
           }
 
-          const routes = JSON.parse(fs.readFileSync(routesPath, "utf8"));
+          const loadedRoutes = JSON.parse(fs.readFileSync(routesPath, "utf8"));
 
           const escapeHtml = (value) =>
             value
@@ -100,43 +100,355 @@ jobs:
             </body>
           </html>`;
 
-          const readBaseFile = (filePath) => {
+          const readBaseFileBuffer = (filePath) => {
             try {
-              return cp.execSync(`git show ${baseRef}:${filePath}`, {
-                encoding: "utf8",
+              return cp.execFileSync("git", ["show", `${baseRef}:${filePath}`], {
                 stdio: ["ignore", "pipe", "ignore"]
               });
             } catch {
-              return `File not present in base ref (${baseRef}): ${filePath}\n`;
+              return null;
             }
+          };
+
+          const readBaseFile = (filePath) => {
+            const buffer = readBaseFileBuffer(filePath);
+            if (buffer === null) {
+              return null;
+            }
+            return buffer.toString("utf8");
+          };
+
+          const listBaseFiles = (pathSpec) => {
+            try {
+              const output = cp.execFileSync("git", ["ls-tree", "-r", "--name-only", baseRef, pathSpec], {
+                encoding: "utf8",
+                stdio: ["ignore", "pipe", "ignore"]
+              });
+              return output.split(/\r?\n/).map((value) => value.trim()).filter(Boolean);
+            } catch {
+              return [];
+            }
+          };
+
+          const listCurrentFiles = (dirPath) => {
+            if (!fs.existsSync(dirPath)) {
+              return [];
+            }
+            const files = [];
+            const walk = (inputDir) => {
+              for (const dirent of fs.readdirSync(inputDir, { withFileTypes: true })) {
+                const resolved = path.join(inputDir, dirent.name);
+                if (dirent.isDirectory()) {
+                  walk(resolved);
+                } else if (dirent.isFile()) {
+                  files.push(resolved.replace(/\\/g, "/"));
+                }
+              }
+            };
+            walk(dirPath);
+            return files;
+          };
+
+          const resolveRouteCandidates = (item) => {
+            const routePath = (item.route || "/").replace(/^\/+|\/+$/g, "");
+            const candidates = [];
+            if (item.file) {
+              candidates.push(item.file);
+            }
+            if (!routePath) {
+              candidates.push("public/index.html");
+            } else {
+              candidates.push(`public/${routePath}`);
+              candidates.push(`public/${routePath}.html`);
+              candidates.push(`public/${routePath}/index.html`);
+            }
+            return [...new Set(candidates)];
+          };
+
+          const readCurrentResolved = (candidates) => {
+            for (const filePath of candidates) {
+              if (fs.existsSync(filePath)) {
+                return { filePath, content: fs.readFileSync(filePath, "utf8") };
+              }
+            }
+            return null;
+          };
+
+          const readBaseResolved = (candidates) => {
+            for (const filePath of candidates) {
+              const content = readBaseFile(filePath);
+              if (content !== null) {
+                return { filePath, content };
+              }
+            }
+            return null;
+          };
+
+          const renderResolvedSnapshot = (label, resolved) => {
+            if (resolved.filePath.endsWith(".html")) {
+              return resolved.content;
+            }
+            if (resolved.filePath.endsWith(".md")) {
+              return renderMarkdownSnapshot(`${label} - ${resolved.filePath}`, resolved.content);
+            }
+            return renderMarkdownSnapshot(`${label} - ${resolved.filePath}`, resolved.content);
+          };
+
+          const routeToOutputPath = (rootDir, route) => {
+            const routePath = (route || "/").replace(/^\/+/g, "");
+            if (!routePath) {
+              return path.join(rootDir, "index.html");
+            }
+            if (routePath.endsWith(".html")) {
+              return path.join(rootDir, routePath);
+            }
+            return path.join(rootDir, routePath.replace(/\/+$/g, ""), "index.html");
+          };
+
+          const normalizeRoute = (routeValue) => {
+            if (!routeValue || routeValue === "") {
+              return "/";
+            }
+            return routeValue.startsWith("/") ? routeValue : `/${routeValue}`;
+          };
+
+          const routeFromPublicHtml = (filePath) => {
+            if (filePath === "public/index.html") {
+              return "/";
+            }
+            return `/${filePath.replace(/^public\//, "")}`;
+          };
+
+          const usedIds = new Set(loadedRoutes.map((item) => item.id).filter(Boolean));
+          let generatedIdCounter = 1;
+          const nextGeneratedId = () => {
+            let candidate = `h${String(generatedIdCounter).padStart(3, "0")}`;
+            while (usedIds.has(candidate)) {
+              generatedIdCounter += 1;
+              candidate = `h${String(generatedIdCounter).padStart(3, "0")}`;
+            }
+            usedIds.add(candidate);
+            generatedIdCounter += 1;
+            return candidate;
+          };
+
+          const routeMap = new Map();
+          for (const item of loadedRoutes) {
+            const routeKey = normalizeRoute(item.route);
+            if (!routeMap.has(routeKey)) {
+              routeMap.set(routeKey, { ...item, route: routeKey });
+            }
+          }
+
+          const currentHtmlFiles = listCurrentFiles("public").filter((value) => value.endsWith(".html"));
+          const baseHtmlFiles = listBaseFiles("public").filter((value) => value.endsWith(".html"));
+          const htmlUnion = new Set([...currentHtmlFiles, ...baseHtmlFiles]);
+          for (const filePath of htmlUnion) {
+            const routeValue = routeFromPublicHtml(filePath);
+            if (!routeMap.has(routeValue)) {
+              routeMap.set(routeValue, {
+                id: nextGeneratedId(),
+                file: filePath,
+                route: routeValue
+              });
+            }
+          }
+
+          const routes = Array.from(routeMap.values()).sort((left, right) => {
+            const a = normalizeRoute(left.route);
+            const b = normalizeRoute(right.route);
+            if (a === "/" && b !== "/") {
+              return -1;
+            }
+            if (b === "/" && a !== "/") {
+              return 1;
+            }
+            return a.localeCompare(b);
+          });
+
+          fs.writeFileSync(routesPath, `${JSON.stringify(routes, null, 2)}\n`, "utf8");
+
+          // VisiDelta's default viewer normalizes every route with a trailing slash.
+          // That breaks routes that intentionally end with `.html` (e.g. `/docs/index.html`).
+          // Patch viewer route normalization so `.html` routes stay file-based.
+          const viewerPath = path.join(outDir, "viewer.html");
+          if (fs.existsSync(viewerPath)) {
+            const viewerSource = fs.readFileSync(viewerPath, "utf8");
+            const normalizeRouteOriginal = `function normalizeRoute(path) {\n        if (!path) return "/";\n        const withLeading = path.startsWith("/") ? path : \`/\${path}\`;\n        return withLeading.endsWith("/") ? withLeading : \`\${withLeading}/\`;\n      }`;
+            const normalizeRoutePatched = `function normalizeRoute(path) {\n        if (!path) return "/";\n        const withLeading = path.startsWith("/") ? path : \`/\${path}\`;\n        if (withLeading === "/") return "/";\n        if (withLeading.endsWith(".html")) return withLeading;\n        return withLeading.endsWith("/") ? withLeading : \`\${withLeading}/\`;\n      }`;
+            if (viewerSource.includes(normalizeRouteOriginal)) {
+              fs.writeFileSync(
+                viewerPath,
+                viewerSource.replace(normalizeRouteOriginal, normalizeRoutePatched),
+                "utf8"
+              );
+              console.log("Patched viewer route normalization for .html paths.");
+            } else {
+              console.log("Viewer normalization patch skipped (pattern not found).");
+            }
+          } else {
+            console.log("viewer.html not present; skipping route normalization patch.");
+          }
+
+          // Mirror current site files into `new` snapshots so route-local assets resolve.
+          if (fs.existsSync("public")) {
+            fs.cpSync("public", path.join(outDir, "new"), { recursive: true });
+          }
+
+          // Mirror base ref site files into `old` snapshots.
+          for (const baseFile of listBaseFiles("public")) {
+            const contents = readBaseFileBuffer(baseFile);
+            if (contents === null) {
+              continue;
+            }
+            const outPath = path.join(outDir, "old", baseFile.replace(/^public\//, ""));
+            fs.mkdirSync(path.dirname(outPath), { recursive: true });
+            fs.writeFileSync(outPath, contents);
+          }
+
+          const normalizeDiffLine = (value) => value.replace(/\s+/g, " ").trim().toLowerCase();
+
+          const extractComparableLines = (resolved) => {
+            if (!resolved || !resolved.content) {
+              return [];
+            }
+            let text = resolved.content;
+            if (resolved.filePath.endsWith(".html")) {
+              text = text
+                .replace(/<script[\s\S]*?<\/script>/gi, " ")
+                .replace(/<style[\s\S]*?<\/style>/gi, " ")
+                .replace(/<\/(p|div|li|h1|h2|h3|h4|h5|h6|section|article|header|footer|main|nav)>/gi, "\n")
+                .replace(/<[^>]+>/g, " ");
+            }
+            return text
+              .split(/\r?\n/)
+              .map((line) => line.replace(/\s+/g, " ").trim())
+              .filter((line) => line.length >= 8);
+          };
+
+          const computeSimpleDiff = (oldLines, newLines) => {
+            const oldMap = new Map();
+            const newMap = new Map();
+            for (const line of oldLines) {
+              oldMap.set(normalizeDiffLine(line), line);
+            }
+            for (const line of newLines) {
+              newMap.set(normalizeDiffLine(line), line);
+            }
+            const additions = [];
+            const deletions = [];
+            for (const [key, line] of newMap.entries()) {
+              if (!oldMap.has(key)) {
+                additions.push(line);
+              }
+            }
+            for (const [key, line] of oldMap.entries()) {
+              if (!newMap.has(key)) {
+                deletions.push(line);
+              }
+            }
+            return { additions, deletions };
           };
 
           let materialized = 0;
 
           for (const item of routes) {
-            if (!item.file || !item.file.endsWith(".md")) {
+            if (!item.route) {
               continue;
             }
 
-            const routeSegment = (item.route || "/").replace(/^\/+|\/+$/g, "") || "index";
-            const oldOut = path.join(outDir, "old", routeSegment, "index.html");
-            const newOut = path.join(outDir, "new", routeSegment, "index.html");
+            const oldOut = routeToOutputPath(path.join(outDir, "old"), item.route);
+            const newOut = routeToOutputPath(path.join(outDir, "new"), item.route);
 
-            const baseMarkdown = readBaseFile(item.file);
-            const newMarkdown = fs.existsSync(item.file)
-              ? fs.readFileSync(item.file, "utf8")
-              : `File not present in current branch: ${item.file}\n`;
+            const candidates = resolveRouteCandidates(item);
+            const baseResolved = readBaseResolved(candidates);
+            const currentResolved = readCurrentResolved(candidates);
 
             fs.mkdirSync(path.dirname(oldOut), { recursive: true });
             fs.mkdirSync(path.dirname(newOut), { recursive: true });
 
-            fs.writeFileSync(oldOut, renderMarkdownSnapshot(`Old - ${item.file}`, baseMarkdown), "utf8");
-            fs.writeFileSync(newOut, renderMarkdownSnapshot(`New - ${item.file}`, newMarkdown), "utf8");
+            if (baseResolved) {
+              fs.writeFileSync(oldOut, renderResolvedSnapshot("Old", baseResolved), "utf8");
+            } else {
+              fs.writeFileSync(
+                oldOut,
+                renderMarkdownSnapshot(
+                  `Old snapshot unavailable - ${item.file || item.route || "/"}`,
+                  `No source file found in base ref (${baseRef}) for route ${item.route || "/"}.\nTried:\n${candidates.join("\n")}\n`
+                ),
+                "utf8"
+              );
+            }
+
+            if (currentResolved) {
+              fs.writeFileSync(newOut, renderResolvedSnapshot("New", currentResolved), "utf8");
+            } else {
+              fs.writeFileSync(
+                newOut,
+                renderMarkdownSnapshot(
+                  `New snapshot unavailable - ${item.file || item.route || "/"}`,
+                  `No source file found in current branch for route ${item.route || "/"}.\nTried:\n${candidates.join("\n")}\n`
+                ),
+                "utf8"
+              );
+            }
+
+            const addPath = path.join(outDir, "diffs", `${item.id}.add.txt`);
+            const delPath = path.join(outDir, "diffs", `${item.id}.del.txt`);
+            if (!fs.existsSync(addPath) || !fs.existsSync(delPath)) {
+              fs.mkdirSync(path.dirname(addPath), { recursive: true });
+              const oldLines = extractComparableLines(baseResolved);
+              const newLines = extractComparableLines(currentResolved);
+              const { additions, deletions } = computeSimpleDiff(oldLines, newLines);
+              fs.writeFileSync(addPath, additions.join("\n"), "utf8");
+              fs.writeFileSync(delPath, deletions.join("\n"), "utf8");
+            }
 
             materialized += 1;
           }
 
-          console.log(`Materialized markdown route pages: ${materialized}`);
+          console.log(`Materialized route pages: ${materialized}`);
+
+          // Ensure every route has old/new pages so VisiDelta links never 404,
+          // including root route (`/`) compares.
+          let placeholders = 0;
+          for (const item of routes) {
+            const oldOut = routeToOutputPath(path.join(outDir, "old"), item.route);
+            const newOut = routeToOutputPath(path.join(outDir, "new"), item.route);
+
+            const addPath = path.join(outDir, "diffs", `${item.id}.add.txt`);
+            const delPath = path.join(outDir, "diffs", `${item.id}.del.txt`);
+            const addPreview = fs.existsSync(addPath) ? fs.readFileSync(addPath, "utf8") : "";
+            const delPreview = fs.existsSync(delPath) ? fs.readFileSync(delPath, "utf8") : "";
+
+            if (!fs.existsSync(oldOut)) {
+              fs.mkdirSync(path.dirname(oldOut), { recursive: true });
+                  fs.writeFileSync(
+                    oldOut,
+                    renderMarkdownSnapshot(
+                      `Old snapshot unavailable - ${item.file || item.route || "/"}`,
+                      delPreview || `No rendered old snapshot was generated for route ${item.route || "/"}.\n`
+                    ),
+                    "utf8"
+                  );
+              placeholders += 1;
+            }
+
+            if (!fs.existsSync(newOut)) {
+              fs.mkdirSync(path.dirname(newOut), { recursive: true });
+                  fs.writeFileSync(
+                    newOut,
+                    renderMarkdownSnapshot(
+                      `New snapshot unavailable - ${item.file || item.route || "/"}`,
+                      addPreview || `No rendered new snapshot was generated for route ${item.route || "/"}.\n`
+                    ),
+                    "utf8"
+                  );
+              placeholders += 1;
+            }
+          }
+
+          console.log(`Materialized fallback route snapshots: ${placeholders}`);
           NODE
 
       - name: Compute Preview URL
