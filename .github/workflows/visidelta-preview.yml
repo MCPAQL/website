@@ -73,7 +73,7 @@ jobs:
             process.exit(0);
           }
 
-          const routes = JSON.parse(fs.readFileSync(routesPath, "utf8"));
+          const loadedRoutes = JSON.parse(fs.readFileSync(routesPath, "utf8"));
 
           const escapeHtml = (value) =>
             value
@@ -100,15 +100,53 @@ jobs:
             </body>
           </html>`;
 
-          const readBaseFile = (filePath) => {
+          const readBaseFileBuffer = (filePath) => {
             try {
-              return cp.execSync(`git show ${baseRef}:${filePath}`, {
-                encoding: "utf8",
+              return cp.execFileSync("git", ["show", `${baseRef}:${filePath}`], {
                 stdio: ["ignore", "pipe", "ignore"]
               });
             } catch {
               return null;
             }
+          };
+
+          const readBaseFile = (filePath) => {
+            const buffer = readBaseFileBuffer(filePath);
+            if (buffer === null) {
+              return null;
+            }
+            return buffer.toString("utf8");
+          };
+
+          const listBaseFiles = (pathSpec) => {
+            try {
+              const output = cp.execFileSync("git", ["ls-tree", "-r", "--name-only", baseRef, pathSpec], {
+                encoding: "utf8",
+                stdio: ["ignore", "pipe", "ignore"]
+              });
+              return output.split(/\r?\n/).map((value) => value.trim()).filter(Boolean);
+            } catch {
+              return [];
+            }
+          };
+
+          const listCurrentFiles = (dirPath) => {
+            if (!fs.existsSync(dirPath)) {
+              return [];
+            }
+            const files = [];
+            const walk = (inputDir) => {
+              for (const dirent of fs.readdirSync(inputDir, { withFileTypes: true })) {
+                const resolved = path.join(inputDir, dirent.name);
+                if (dirent.isDirectory()) {
+                  walk(resolved);
+                } else if (dirent.isFile()) {
+                  files.push(resolved.replace(/\\/g, "/"));
+                }
+              }
+            };
+            walk(dirPath);
+            return files;
           };
 
           const resolveRouteCandidates = (item) => {
@@ -120,6 +158,7 @@ jobs:
             if (!routePath) {
               candidates.push("public/index.html");
             } else {
+              candidates.push(`public/${routePath}`);
               candidates.push(`public/${routePath}.html`);
               candidates.push(`public/${routePath}/index.html`);
             }
@@ -155,23 +194,149 @@ jobs:
             return renderMarkdownSnapshot(`${label} - ${resolved.filePath}`, resolved.content);
           };
 
-          const routeToIndexPath = (rootDir, route) => {
-            const routePath = (route || "/").replace(/^\/+|\/+$/g, "");
+          const routeToOutputPath = (rootDir, route) => {
+            const routePath = (route || "/").replace(/^\/+/g, "");
             if (!routePath) {
               return path.join(rootDir, "index.html");
             }
-            return path.join(rootDir, routePath, "index.html");
+            if (routePath.endsWith(".html")) {
+              return path.join(rootDir, routePath);
+            }
+            return path.join(rootDir, routePath.replace(/\/+$/g, ""), "index.html");
+          };
+
+          const normalizeRoute = (routeValue) => {
+            if (!routeValue || routeValue === "") {
+              return "/";
+            }
+            return routeValue.startsWith("/") ? routeValue : `/${routeValue}`;
+          };
+
+          const routeFromPublicHtml = (filePath) => {
+            if (filePath === "public/index.html") {
+              return "/";
+            }
+            return `/${filePath.replace(/^public\//, "")}`;
+          };
+
+          const usedIds = new Set(loadedRoutes.map((item) => item.id).filter(Boolean));
+          let generatedIdCounter = 1;
+          const nextGeneratedId = () => {
+            let candidate = `h${String(generatedIdCounter).padStart(3, "0")}`;
+            while (usedIds.has(candidate)) {
+              generatedIdCounter += 1;
+              candidate = `h${String(generatedIdCounter).padStart(3, "0")}`;
+            }
+            usedIds.add(candidate);
+            generatedIdCounter += 1;
+            return candidate;
+          };
+
+          const routeMap = new Map();
+          for (const item of loadedRoutes) {
+            const routeKey = normalizeRoute(item.route);
+            if (!routeMap.has(routeKey)) {
+              routeMap.set(routeKey, { ...item, route: routeKey });
+            }
+          }
+
+          const currentHtmlFiles = listCurrentFiles("public").filter((value) => value.endsWith(".html"));
+          const baseHtmlFiles = listBaseFiles("public").filter((value) => value.endsWith(".html"));
+          const htmlUnion = new Set([...currentHtmlFiles, ...baseHtmlFiles]);
+          for (const filePath of htmlUnion) {
+            const routeValue = routeFromPublicHtml(filePath);
+            if (!routeMap.has(routeValue)) {
+              routeMap.set(routeValue, {
+                id: nextGeneratedId(),
+                file: filePath,
+                route: routeValue
+              });
+            }
+          }
+
+          const routes = Array.from(routeMap.values()).sort((left, right) => {
+            const a = normalizeRoute(left.route);
+            const b = normalizeRoute(right.route);
+            if (a === "/" && b !== "/") {
+              return -1;
+            }
+            if (b === "/" && a !== "/") {
+              return 1;
+            }
+            return a.localeCompare(b);
+          });
+
+          fs.writeFileSync(routesPath, `${JSON.stringify(routes, null, 2)}\n`, "utf8");
+
+          // Mirror current site files into `new` snapshots so route-local assets resolve.
+          if (fs.existsSync("public")) {
+            fs.cpSync("public", path.join(outDir, "new"), { recursive: true });
+          }
+
+          // Mirror base ref site files into `old` snapshots.
+          for (const baseFile of listBaseFiles("public")) {
+            const contents = readBaseFileBuffer(baseFile);
+            if (contents === null) {
+              continue;
+            }
+            const outPath = path.join(outDir, "old", baseFile.replace(/^public\//, ""));
+            fs.mkdirSync(path.dirname(outPath), { recursive: true });
+            fs.writeFileSync(outPath, contents);
+          }
+
+          const normalizeDiffLine = (value) => value.replace(/\s+/g, " ").trim().toLowerCase();
+
+          const extractComparableLines = (resolved) => {
+            if (!resolved || !resolved.content) {
+              return [];
+            }
+            let text = resolved.content;
+            if (resolved.filePath.endsWith(".html")) {
+              text = text
+                .replace(/<script[\s\S]*?<\/script>/gi, " ")
+                .replace(/<style[\s\S]*?<\/style>/gi, " ")
+                .replace(/<\/(p|div|li|h1|h2|h3|h4|h5|h6|section|article|header|footer|main|nav)>/gi, "\n")
+                .replace(/<[^>]+>/g, " ");
+            }
+            return text
+              .split(/\r?\n/)
+              .map((line) => line.replace(/\s+/g, " ").trim())
+              .filter((line) => line.length >= 8);
+          };
+
+          const computeSimpleDiff = (oldLines, newLines) => {
+            const oldMap = new Map();
+            const newMap = new Map();
+            for (const line of oldLines) {
+              oldMap.set(normalizeDiffLine(line), line);
+            }
+            for (const line of newLines) {
+              newMap.set(normalizeDiffLine(line), line);
+            }
+            const additions = [];
+            const deletions = [];
+            for (const [key, line] of newMap.entries()) {
+              if (!oldMap.has(key)) {
+                additions.push(line);
+              }
+            }
+            for (const [key, line] of oldMap.entries()) {
+              if (!newMap.has(key)) {
+                deletions.push(line);
+              }
+            }
+            return { additions, deletions };
           };
 
           let materialized = 0;
 
           for (const item of routes) {
-            if (!item.file || !item.file.endsWith(".md")) {
+            if (!item.route) {
               continue;
             }
 
-            const oldOut = routeToIndexPath(path.join(outDir, "old"), item.route);
-            const newOut = routeToIndexPath(path.join(outDir, "new"), item.route);
+            const oldOut = routeToOutputPath(path.join(outDir, "old"), item.route);
+            const newOut = routeToOutputPath(path.join(outDir, "new"), item.route);
 
             const candidates = resolveRouteCandidates(item);
             const baseResolved = readBaseResolved(candidates);
@@ -206,17 +371,28 @@ jobs:
               );
             }
 
+            const addPath = path.join(outDir, "diffs", `${item.id}.add.txt`);
+            const delPath = path.join(outDir, "diffs", `${item.id}.del.txt`);
+            if (!fs.existsSync(addPath) || !fs.existsSync(delPath)) {
+              fs.mkdirSync(path.dirname(addPath), { recursive: true });
+              const oldLines = extractComparableLines(baseResolved);
+              const newLines = extractComparableLines(currentResolved);
+              const { additions, deletions } = computeSimpleDiff(oldLines, newLines);
+              fs.writeFileSync(addPath, additions.join("\n"), "utf8");
+              fs.writeFileSync(delPath, deletions.join("\n"), "utf8");
+            }
+
             materialized += 1;
           }
 
-          console.log(`Materialized markdown route pages: ${materialized}`);
+          console.log(`Materialized route pages: ${materialized}`);
 
           // Ensure every route has old/new pages so VisiDelta links never 404,
           // including root route (`/`) compares.
           let placeholders = 0;
           for (const item of routes) {
-            const oldOut = routeToIndexPath(path.join(outDir, "old"), item.route);
-            const newOut = routeToIndexPath(path.join(outDir, "new"), item.route);
+            const oldOut = routeToOutputPath(path.join(outDir, "old"), item.route);
+            const newOut = routeToOutputPath(path.join(outDir, "new"), item.route);
 
             const addPath = path.join(outDir, "diffs", `${item.id}.add.txt`);
             const delPath = path.join(outDir, "diffs", `${item.id}.del.txt`);
