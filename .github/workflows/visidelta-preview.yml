@@ -268,6 +268,28 @@ jobs:
 
           fs.writeFileSync(routesPath, `${JSON.stringify(routes, null, 2)}\n`, "utf8");
 
+          // VisiDelta's default viewer normalizes every route with a trailing slash.
+          // That breaks routes that intentionally end with `.html` (e.g. `/docs/index.html`).
+          // Patch viewer route normalization so `.html` routes stay file-based.
+          const viewerPath = path.join(outDir, "viewer.html");
+          if (fs.existsSync(viewerPath)) {
+            const viewerSource = fs.readFileSync(viewerPath, "utf8");
+            const normalizeRouteOriginal = `function normalizeRoute(path) {\n        if (!path) return "/";\n        const withLeading = path.startsWith("/") ? path : \`/\${path}\`;\n        return withLeading.endsWith("/") ? withLeading : \`\${withLeading}/\`;\n      }`;
+            const normalizeRoutePatched = `function normalizeRoute(path) {\n        if (!path) return "/";\n        const withLeading = path.startsWith("/") ? path : \`/\${path}\`;\n        if (withLeading === "/") return "/";\n        if (withLeading.endsWith(".html")) return withLeading;\n        return withLeading.endsWith("/") ? withLeading : \`\${withLeading}/\`;\n      }`;
+            if (viewerSource.includes(normalizeRouteOriginal)) {
+              fs.writeFileSync(
+                viewerPath,
+                viewerSource.replace(normalizeRouteOriginal, normalizeRoutePatched),
+                "utf8"
+              );
+              console.log("Patched viewer route normalization for .html paths.");
+            } else {
+              console.log("Viewer normalization patch skipped (pattern not found).");
+            }
+          } else {
+            console.log("viewer.html not present; skipping route normalization patch.");
+          }
+
           // Mirror current site files into `new` snapshots so route-local assets resolve.
           if (fs.existsSync("public")) {
             fs.cpSync("public", path.join(outDir, "new"), { recursive: true });
