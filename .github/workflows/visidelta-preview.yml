@@ -24,6 +24,7 @@ jobs:
     env:
       PREVIEW_OWNER: MCPAQL
       PREVIEW_REPO: website-visidelta-preview
+      VISIDELTA_PREVIEW_PAGES_TOKEN: ${{ secrets.VISIDELTA_PREVIEW_PAGES_TOKEN }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -74,10 +75,10 @@ jobs:
           echo "latest_url=$latest_url" >> "$GITHUB_OUTPUT"
 
       - name: Publish Hosted Preview
-        if: ${{ secrets.VISIDELTA_PREVIEW_PAGES_TOKEN != '' }}
+        if: ${{ env.VISIDELTA_PREVIEW_PAGES_TOKEN != '' }}
         uses: peaceiris/actions-gh-pages@v4
         with:
-          personal_token: ${{ secrets.VISIDELTA_PREVIEW_PAGES_TOKEN }}
+          personal_token: ${{ env.VISIDELTA_PREVIEW_PAGES_TOKEN }}
           external_repository: ${{ env.PREVIEW_OWNER }}/${{ env.PREVIEW_REPO }}
           publish_branch: gh-pages
           publish_dir: /tmp/visidelta
@@ -87,10 +88,10 @@ jobs:
           enable_jekyll: false
 
       - name: Publish Hosted Preview (Latest Alias)
-        if: ${{ secrets.VISIDELTA_PREVIEW_PAGES_TOKEN != '' }}
+        if: ${{ env.VISIDELTA_PREVIEW_PAGES_TOKEN != '' }}
         uses: peaceiris/actions-gh-pages@v4
         with:
-          personal_token: ${{ secrets.VISIDELTA_PREVIEW_PAGES_TOKEN }}
+          personal_token: ${{ env.VISIDELTA_PREVIEW_PAGES_TOKEN }}
           external_repository: ${{ env.PREVIEW_OWNER }}/${{ env.PREVIEW_REPO }}
           publish_branch: gh-pages
           publish_dir: /tmp/visidelta
@@ -107,7 +108,7 @@ jobs:
           retention-days: 14
 
       - name: Comment Preview URL
-        if: ${{ github.event_name == 'pull_request' && secrets.VISIDELTA_PREVIEW_PAGES_TOKEN != '' }}
+        if: ${{ github.event_name == 'pull_request' && env.VISIDELTA_PREVIEW_PAGES_TOKEN != '' }}
         uses: marocchino/sticky-pull-request-comment@v2
         with:
           header: visidelta-preview
@@ -120,7 +121,7 @@ jobs:
             - Artifact: `visidelta-${{ github.run_id }}-${{ github.run_attempt }}`
 
       - name: Comment Artifact-Only Preview
-        if: ${{ github.event_name == 'pull_request' && secrets.VISIDELTA_PREVIEW_PAGES_TOKEN == '' }}
+        if: ${{ github.event_name == 'pull_request' && env.VISIDELTA_PREVIEW_PAGES_TOKEN == '' }}
         uses: marocchino/sticky-pull-request-comment@v2
         with:
           header: visidelta-preview
@@ -141,7 +142,7 @@ jobs:
             echo ""
             echo "- Base ref: \`${{ steps.base.outputs.ref }}\`"
             echo "- Artifact: \`visidelta-${{ github.run_id }}-${{ github.run_attempt }}\`"
-            if [[ -n "${{ secrets.VISIDELTA_PREVIEW_PAGES_TOKEN }}" ]]; then
+            if [[ -n "${VISIDELTA_PREVIEW_PAGES_TOKEN}" ]]; then
               echo "- Hosted preview: ${{ steps.preview_meta.outputs.url }}"
               echo "- Latest preview for this branch: ${{ steps.preview_meta.outputs.latest_url }}"
             else
