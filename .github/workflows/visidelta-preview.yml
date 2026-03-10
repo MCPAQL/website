@@ -53,6 +53,92 @@ jobs:
           out_dir: /tmp/visidelta
           mode: build
 
+      - name: Materialize Markdown Route Pages
+        shell: bash
+        env:
+          BASE_REF: ${{ steps.base.outputs.ref }}
+        run: |
+          set -euo pipefail
+          node <<'NODE'
+          const fs = require("fs");
+          const path = require("path");
+          const cp = require("child_process");
+
+          const outDir = "/tmp/visidelta";
+          const routesPath = path.join(outDir, "routes.json");
+          const baseRef = process.env.BASE_REF;
+
+          if (!fs.existsSync(routesPath)) {
+            console.log("No routes.json found. Skipping markdown route materialization.");
+            process.exit(0);
+          }
+
+          const routes = JSON.parse(fs.readFileSync(routesPath, "utf8"));
+
+          const escapeHtml = (value) =>
+            value
+              .replace(/&/g, "&amp;")
+              .replace(/</g, "&lt;")
+              .replace(/>/g, "&gt;")
+              .replace(/\"/g, "&quot;");
+
+          const renderMarkdownSnapshot = (title, markdownText) => `<!doctype html>
+          <html lang="en">
+            <head>
+              <meta charset="utf-8" />
+              <meta name="viewport" content="width=device-width, initial-scale=1" />
+              <title>${escapeHtml(title)}</title>
+              <style>
+                body { font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; margin: 1rem; color: #111827; }
+                h1 { font-size: 1.05rem; margin: 0 0 0.75rem; }
+                pre { white-space: pre-wrap; word-break: break-word; background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 0.45rem; padding: 0.85rem; }
+              </style>
+            </head>
+            <body>
+              <h1>${escapeHtml(title)}</h1>
+              <pre>${escapeHtml(markdownText)}</pre>
+            </body>
+          </html>`;
+
+          const readBaseFile = (filePath) => {
+            try {
+              return cp.execSync(`git show ${baseRef}:${filePath}`, {
+                encoding: "utf8",
+                stdio: ["ignore", "pipe", "ignore"]
+              });
+            } catch {
+              return `File not present in base ref (${baseRef}): ${filePath}\n`;
+            }
+          };
+
+          let materialized = 0;
+
+          for (const item of routes) {
+            if (!item.file || !item.file.endsWith(".md")) {
+              continue;
+            }
+
+            const routeSegment = (item.route || "/").replace(/^\/+|\/+$/g, "") || "index";
+            const oldOut = path.join(outDir, "old", routeSegment, "index.html");
+            const newOut = path.join(outDir, "new", routeSegment, "index.html");
+
+            const baseMarkdown = readBaseFile(item.file);
+            const newMarkdown = fs.existsSync(item.file)
+              ? fs.readFileSync(item.file, "utf8")
+              : `File not present in current branch: ${item.file}\n`;
+
+            fs.mkdirSync(path.dirname(oldOut), { recursive: true });
+            fs.mkdirSync(path.dirname(newOut), { recursive: true });
+
+            fs.writeFileSync(oldOut, renderMarkdownSnapshot(`Old - ${item.file}`, baseMarkdown), "utf8");
+            fs.writeFileSync(newOut, renderMarkdownSnapshot(`New - ${item.file}`, newMarkdown), "utf8");
+
+            materialized += 1;
+          }
+
+          console.log(`Materialized markdown route pages: ${materialized}`);
+          NODE
+
       - name: Compute Preview URL
         id: preview_meta
         shell: bash
