@@ -41,6 +41,14 @@ Then open <http://localhost:8000>.
 GitHub Pages deploys automatically from `main` using `.github/workflows/static.yml`.
 The workflow publishes only the `public/` directory.
 
+## CI Checks
+
+Pull requests and pushes to `main` run `.github/workflows/website-quality.yml`:
+
+- Markdown linting (`markdownlint-cli2`)
+- HTML linting for files under `public/` (`htmlhint`)
+- Link checks across Markdown and HTML (`lychee`)
+
 ## License
 
 Licensed under the GNU Affero General Public License v3.0 (AGPL-3.0). See `LICENSE`.
