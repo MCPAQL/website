@@ -10,4 +10,3 @@ Thank you for your interest in contributing to MCP-AQL.
 
 - This repository is licensed under AGPL-3.0. See `LICENSE`.
 - Commercial licenses are available. See `COMMERCIAL-LICENSE.md`.
-

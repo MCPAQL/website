@@ -14,7 +14,7 @@ Suggested self-certification text:
 
 The commercial license includes restrictions such as **no reverse engineering** and **no competitive re-implementation**. See `spec/COMMERCIAL-LICENSE-TERMS.md` in the MCP-AQL spec repo:
 
-- https://github.com/MCPAQL/spec/blob/main/COMMERCIAL-LICENSE-TERMS.md
+- <https://github.com/MCPAQL/spec/blob/main/COMMERCIAL-LICENSE-TERMS.md>
 
 ## Paid Commercial License (At/Over $1M Revenue) or Custom Terms
 
