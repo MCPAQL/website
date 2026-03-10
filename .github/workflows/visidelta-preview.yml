@@ -107,8 +107,52 @@ jobs:
                 stdio: ["ignore", "pipe", "ignore"]
               });
             } catch {
-              return `File not present in base ref (${baseRef}): ${filePath}\n`;
+              return null;
             }
+          };
+
+          const resolveRouteCandidates = (item) => {
+            const routePath = (item.route || "/").replace(/^\/+|\/+$/g, "");
+            const candidates = [];
+            if (item.file) {
+              candidates.push(item.file);
+            }
+            if (!routePath) {
+              candidates.push("public/index.html");
+            } else {
+              candidates.push(`public/${routePath}.html`);
+              candidates.push(`public/${routePath}/index.html`);
+            }
+            return [...new Set(candidates)];
+          };
+
+          const readCurrentResolved = (candidates) => {
+            for (const filePath of candidates) {
+              if (fs.existsSync(filePath)) {
+                return { filePath, content: fs.readFileSync(filePath, "utf8") };
+              }
+            }
+            return null;
+          };
+
+          const readBaseResolved = (candidates) => {
+            for (const filePath of candidates) {
+              const content = readBaseFile(filePath);
+              if (content !== null) {
+                return { filePath, content };
+              }
+            }
+            return null;
+          };
+
+          const renderResolvedSnapshot = (label, resolved) => {
+            if (resolved.filePath.endsWith(".html")) {
+              return resolved.content;
+            }
+            if (resolved.filePath.endsWith(".md")) {
+              return renderMarkdownSnapshot(`${label} - ${resolved.filePath}`, resolved.content);
+            }
+            return renderMarkdownSnapshot(`${label} - ${resolved.filePath}`, resolved.content);
           };
 
           const routeToIndexPath = (rootDir, route) => {
@@ -129,16 +173,38 @@ jobs:
             const oldOut = routeToIndexPath(path.join(outDir, "old"), item.route);
             const newOut = routeToIndexPath(path.join(outDir, "new"), item.route);
 
-            const baseMarkdown = readBaseFile(item.file);
-            const newMarkdown = fs.existsSync(item.file)
-              ? fs.readFileSync(item.file, "utf8")
-              : `File not present in current branch: ${item.file}\n`;
+            const candidates = resolveRouteCandidates(item);
+            const baseResolved = readBaseResolved(candidates);
+            const currentResolved = readCurrentResolved(candidates);
 
             fs.mkdirSync(path.dirname(oldOut), { recursive: true });
             fs.mkdirSync(path.dirname(newOut), { recursive: true });
 
-            fs.writeFileSync(oldOut, renderMarkdownSnapshot(`Old - ${item.file}`, baseMarkdown), "utf8");
-            fs.writeFileSync(newOut, renderMarkdownSnapshot(`New - ${item.file}`, newMarkdown), "utf8");
+            if (baseResolved) {
+              fs.writeFileSync(oldOut, renderResolvedSnapshot("Old", baseResolved), "utf8");
+            } else {
+              fs.writeFileSync(
+                oldOut,
+                renderMarkdownSnapshot(
+                  `Old snapshot unavailable - ${item.file || item.route || "/"}`,
+                  `No source file found in base ref (${baseRef}) for route ${item.route || "/"}.\nTried:\n${candidates.join("\n")}\n`
+                ),
+                "utf8"
+              );
+            }
+
+            if (currentResolved) {
+              fs.writeFileSync(newOut, renderResolvedSnapshot("New", currentResolved), "utf8");
+            } else {
+              fs.writeFileSync(
+                newOut,
+                renderMarkdownSnapshot(
+                  `New snapshot unavailable - ${item.file || item.route || "/"}`,
+                  `No source file found in current branch for route ${item.route || "/"}.\nTried:\n${candidates.join("\n")}\n`
+                ),
+                "utf8"
+              );
+            }
 
             materialized += 1;
           }
