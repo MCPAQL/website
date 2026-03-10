@@ -111,6 +111,14 @@ jobs:
             }
           };
 
+          const routeToIndexPath = (rootDir, route) => {
+            const routePath = (route || "/").replace(/^\/+|\/+$/g, "");
+            if (!routePath) {
+              return path.join(rootDir, "index.html");
+            }
+            return path.join(rootDir, routePath, "index.html");
+          };
+
           let materialized = 0;
 
           for (const item of routes) {
@@ -118,9 +126,8 @@ jobs:
               continue;
             }
 
-            const routeSegment = (item.route || "/").replace(/^\/+|\/+$/g, "") || "index";
-            const oldOut = path.join(outDir, "old", routeSegment, "index.html");
-            const newOut = path.join(outDir, "new", routeSegment, "index.html");
+            const oldOut = routeToIndexPath(path.join(outDir, "old"), item.route);
+            const newOut = routeToIndexPath(path.join(outDir, "new"), item.route);
 
             const baseMarkdown = readBaseFile(item.file);
             const newMarkdown = fs.existsSync(item.file)
@@ -137,6 +144,47 @@ jobs:
           }
 
           console.log(`Materialized markdown route pages: ${materialized}`);
+
+          // Ensure every route has old/new pages so VisiDelta links never 404,
+          // including root route (`/`) compares.
+          let placeholders = 0;
+          for (const item of routes) {
+            const oldOut = routeToIndexPath(path.join(outDir, "old"), item.route);
+            const newOut = routeToIndexPath(path.join(outDir, "new"), item.route);
+
+            const addPath = path.join(outDir, "diffs", `${item.id}.add.txt`);
+            const delPath = path.join(outDir, "diffs", `${item.id}.del.txt`);
+            const addPreview = fs.existsSync(addPath) ? fs.readFileSync(addPath, "utf8") : "";
+            const delPreview = fs.existsSync(delPath) ? fs.readFileSync(delPath, "utf8") : "";
+
+            if (!fs.existsSync(oldOut)) {
+              fs.mkdirSync(path.dirname(oldOut), { recursive: true });
+              fs.writeFileSync(
+                oldOut,
+                renderMarkdownSnapshot(
+                  `Old snapshot unavailable - ${item.file}`,
+                  delPreview || `No rendered old snapshot was generated for route ${item.route || "/"}.\n`
+                ),
+                "utf8"
+              );
+              placeholders += 1;
+            }
+
+            if (!fs.existsSync(newOut)) {
+              fs.mkdirSync(path.dirname(newOut), { recursive: true });
+              fs.writeFileSync(
+                newOut,
+                renderMarkdownSnapshot(
+                  `New snapshot unavailable - ${item.file}`,
+                  addPreview || `No rendered new snapshot was generated for route ${item.route || "/"}.\n`
+                ),
+                "utf8"
+              );
+              placeholders += 1;
+            }
+          }
+
+          console.log(`Materialized fallback route snapshots: ${placeholders}`);
           NODE
 
       - name: Compute Preview URL
