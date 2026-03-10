@@ -49,6 +49,12 @@ Pull requests and pushes to `main` run `.github/workflows/website-quality.yml`:
 - HTML linting for files under `public/` (`htmlhint`)
 - Link checks across Markdown and HTML (`lychee`)
 
+Pull requests that modify site content also run `.github/workflows/visidelta-preview.yml`:
+
+- Builds rendered visual diffs with VisiDelta
+- Uploads an artifact for each run (`visidelta-<run_id>-<attempt>`)
+- Optionally publishes hosted previews when `VISIDELTA_PREVIEW_PAGES_TOKEN` is configured
+
 ## License
 
 Licensed under the GNU Affero General Public License v3.0 (AGPL-3.0). See `LICENSE`.

@@ -1,0 +1,150 @@
+name: VisiDelta Preview
+
+on:
+  pull_request:
+    paths:
+      - "public/**"
+      - "docs/**/*.md"
+      - ".github/workflows/visidelta-preview.yml"
+  workflow_dispatch:
+    inputs:
+      base_ref:
+        description: "Base ref to compare against for manual runs"
+        required: false
+        default: "origin/main"
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  visidelta:
+    name: Build Rendered Diffs
+    runs-on: ubuntu-latest
+    env:
+      PREVIEW_OWNER: MCPAQL
+      PREVIEW_REPO: website-visidelta-preview
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Resolve base ref
+        id: base
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            echo "ref=origin/${{ github.base_ref }}" >> "$GITHUB_OUTPUT"
+          else
+            ref="${{ github.event.inputs.base_ref }}"
+            if [[ -z "$ref" ]]; then
+              ref="origin/main"
+            fi
+            echo "ref=$ref" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Generate VisiDelta Output
+        uses: DollhouseMCP/visidelta@main
+        with:
+          base_ref: ${{ steps.base.outputs.ref }}
+          out_dir: /tmp/visidelta
+          mode: build
+
+      - name: Compute Preview URL
+        id: preview_meta
+        shell: bash
+        run: |
+          set -euo pipefail
+          ref_raw="${GITHUB_HEAD_REF:-${GITHUB_REF_NAME}}"
+          ref_slug="$(echo "$ref_raw" | tr '[:upper:]' '[:lower:]' | sed -E 's#[^a-z0-9._-]+#-#g; s#^-+##; s#-+$##')"
+          if [[ -z "$ref_slug" ]]; then
+            ref_slug="run-${GITHUB_RUN_ID}"
+          fi
+          branch_path="website/${ref_slug}"
+          preview_path="${branch_path}/${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          latest_path="${branch_path}/latest"
+          pages_owner="$(echo "${PREVIEW_OWNER}" | tr '[:upper:]' '[:lower:]')"
+          preview_url="https://${pages_owner}.github.io/${PREVIEW_REPO}/${preview_path}/"
+          latest_url="https://${pages_owner}.github.io/${PREVIEW_REPO}/${latest_path}/"
+          echo "path=$preview_path" >> "$GITHUB_OUTPUT"
+          echo "url=$preview_url" >> "$GITHUB_OUTPUT"
+          echo "latest_path=$latest_path" >> "$GITHUB_OUTPUT"
+          echo "latest_url=$latest_url" >> "$GITHUB_OUTPUT"
+
+      - name: Publish Hosted Preview
+        if: ${{ secrets.VISIDELTA_PREVIEW_PAGES_TOKEN != '' }}
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          personal_token: ${{ secrets.VISIDELTA_PREVIEW_PAGES_TOKEN }}
+          external_repository: ${{ env.PREVIEW_OWNER }}/${{ env.PREVIEW_REPO }}
+          publish_branch: gh-pages
+          publish_dir: /tmp/visidelta
+          destination_dir: ${{ steps.preview_meta.outputs.path }}
+          keep_files: true
+          force_orphan: false
+          enable_jekyll: false
+
+      - name: Publish Hosted Preview (Latest Alias)
+        if: ${{ secrets.VISIDELTA_PREVIEW_PAGES_TOKEN != '' }}
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          personal_token: ${{ secrets.VISIDELTA_PREVIEW_PAGES_TOKEN }}
+          external_repository: ${{ env.PREVIEW_OWNER }}/${{ env.PREVIEW_REPO }}
+          publish_branch: gh-pages
+          publish_dir: /tmp/visidelta
+          destination_dir: ${{ steps.preview_meta.outputs.latest_path }}
+          keep_files: true
+          force_orphan: false
+          enable_jekyll: false
+
+      - name: Upload VisiDelta Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: visidelta-${{ github.run_id }}-${{ github.run_attempt }}
+          path: /tmp/visidelta
+          retention-days: 14
+
+      - name: Comment Preview URL
+        if: ${{ github.event_name == 'pull_request' && secrets.VISIDELTA_PREVIEW_PAGES_TOKEN != '' }}
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: visidelta-preview
+          message: |
+            VisiDelta preview is ready.
+
+            - Base ref: `${{ steps.base.outputs.ref }}`
+            - Hosted preview: ${{ steps.preview_meta.outputs.url }}
+            - Latest preview for this branch: ${{ steps.preview_meta.outputs.latest_url }}
+            - Artifact: `visidelta-${{ github.run_id }}-${{ github.run_attempt }}`
+
+      - name: Comment Artifact-Only Preview
+        if: ${{ github.event_name == 'pull_request' && secrets.VISIDELTA_PREVIEW_PAGES_TOKEN == '' }}
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: visidelta-preview
+          message: |
+            VisiDelta preview artifact is ready.
+
+            - Base ref: `${{ steps.base.outputs.ref }}`
+            - Artifact: `visidelta-${{ github.run_id }}-${{ github.run_attempt }}`
+            - Run: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+            Hosted preview publishing is skipped because `VISIDELTA_PREVIEW_PAGES_TOKEN` is not configured.
+
+      - name: Add Run Summary
+        shell: bash
+        run: |
+          {
+            echo "## VisiDelta Output"
+            echo ""
+            echo "- Base ref: \`${{ steps.base.outputs.ref }}\`"
+            echo "- Artifact: \`visidelta-${{ github.run_id }}-${{ github.run_attempt }}\`"
+            if [[ -n "${{ secrets.VISIDELTA_PREVIEW_PAGES_TOKEN }}" ]]; then
+              echo "- Hosted preview: ${{ steps.preview_meta.outputs.url }}"
+              echo "- Latest preview for this branch: ${{ steps.preview_meta.outputs.latest_url }}"
+            else
+              echo "- Hosted preview: skipped (missing \`VISIDELTA_PREVIEW_PAGES_TOKEN\`)"
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"

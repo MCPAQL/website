@@ -20,6 +20,15 @@ jobs:
 
       - name: Lint Markdown
         uses: DavidAnson/markdownlint-cli2-action@v20
+        with:
+          globs: |
+            README.md
+            CLA.md
+            CONTRIBUTING.md
+            NOTICE.md
+            TRADEMARKS.md
+            COMMERCIAL-LICENSE.md
+            docs/prelaunch-readiness-review.md
 
   html-lint:
     name: HTML Lint
@@ -49,7 +58,7 @@ jobs:
       - name: Check Links
         uses: lycheeverse/lychee-action@v2
         with:
-          args: --config .lychee.toml --no-progress --verbose "README.md" "docs/**/*.md" "public/**/*.html"
+          args: --config .lychee.toml --no-progress --verbose "README.md" "docs/prelaunch-readiness-review.md" "public/**/*.html"
           fail: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

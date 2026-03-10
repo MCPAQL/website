@@ -2,5 +2,4 @@
 
 Contributions to this repository require acceptance of the MCP-AQL CLA:
 
-- https://github.com/MCPAQL/spec/blob/main/CLA.md
-
+- <https://github.com/MCPAQL/spec/blob/main/CLA.md>

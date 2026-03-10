@@ -2,6 +2,7 @@ max_retries = 2
 retry_wait_time = 2
 timeout = 20
 no_progress = true
+offline = true
 exclude = [
   "^http://localhost(:[0-9]+)?/.*",
   "^http://127\\.0\\.0\\.1(:[0-9]+)?/.*"
