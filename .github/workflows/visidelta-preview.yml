@@ -225,27 +225,27 @@ jobs:
 
             if (!fs.existsSync(oldOut)) {
               fs.mkdirSync(path.dirname(oldOut), { recursive: true });
-              fs.writeFileSync(
-                oldOut,
-                renderMarkdownSnapshot(
-                  `Old snapshot unavailable - ${item.file}`,
-                  delPreview || `No rendered old snapshot was generated for route ${item.route || "/"}.\n`
-                ),
-                "utf8"
-              );
+                  fs.writeFileSync(
+                    oldOut,
+                    renderMarkdownSnapshot(
+                      `Old snapshot unavailable - ${item.file || item.route || "/"}`,
+                      delPreview || `No rendered old snapshot was generated for route ${item.route || "/"}.\n`
+                    ),
+                    "utf8"
+                  );
               placeholders += 1;
             }
 
             if (!fs.existsSync(newOut)) {
               fs.mkdirSync(path.dirname(newOut), { recursive: true });
-              fs.writeFileSync(
-                newOut,
-                renderMarkdownSnapshot(
-                  `New snapshot unavailable - ${item.file}`,
-                  addPreview || `No rendered new snapshot was generated for route ${item.route || "/"}.\n`
-                ),
-                "utf8"
-              );
+                  fs.writeFileSync(
+                    newOut,
+                    renderMarkdownSnapshot(
+                      `New snapshot unavailable - ${item.file || item.route || "/"}`,
+                      addPreview || `No rendered new snapshot was generated for route ${item.route || "/"}.\n`
+                    ),
+                    "utf8"
+                  );
               placeholders += 1;
             }
           }
