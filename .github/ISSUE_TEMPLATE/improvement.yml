@@ -1,0 +1,37 @@
+name: Improvement
+description: Suggest a UX, information architecture, design, or workflow improvement for the MCP-AQL website.
+title: "improvement: "
+labels:
+  - enhancement
+body:
+  - type: input
+    id: area
+    attributes:
+      label: Improvement area
+      placeholder: Search, navigation, docs structure, workflows
+    validations:
+      required: true
+  - type: textarea
+    id: current_problem
+    attributes:
+      label: Current problem
+      description: What is not working well today?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed improvement
+      description: Describe the change you want to see.
+    validations:
+      required: true
+  - type: textarea
+    id: rationale
+    attributes:
+      label: Why this helps
+      description: Explain the user or maintainer benefit.
+  - type: textarea
+    id: notes
+    attributes:
+      label: Related links or mockups
+      description: Include relevant issues, screenshots, or source material.

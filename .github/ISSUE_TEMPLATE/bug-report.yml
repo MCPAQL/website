@@ -1,0 +1,59 @@
+name: Bug report
+description: Report a broken page, link, layout issue, or behavior bug on the MCP-AQL website.
+title: "bug: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a website bug. Please include enough context for someone else to reproduce it quickly.
+  - type: input
+    id: page_url
+    attributes:
+      label: Affected page or URL
+      description: Include the page path or full URL.
+      placeholder: /docs/protocol-core.html
+    validations:
+      required: true
+  - type: dropdown
+    id: bug_type
+    attributes:
+      label: What kind of issue is this?
+      options:
+        - Broken content or factual mismatch
+        - Layout or responsive issue
+        - Accessibility problem
+        - Broken link or asset
+        - Search or navigation problem
+        - CI or deployment issue
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: Describe the problem and the expected result.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open ...
+        2. Click ...
+        3. Observe ...
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Browser, device, viewport, or screen reader details if relevant.
+      placeholder: Safari 18 on macOS, iPhone 15 Safari, NVDA + Firefox
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Screenshots or links
+      description: Paste screenshots, error output, or related issue links if available.
