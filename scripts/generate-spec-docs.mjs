@@ -20,6 +20,20 @@ const specRoot = path.resolve(
   specDirArgIndex >= 0 && args[specDirArgIndex + 1] ? args[specDirArgIndex + 1] : "../spec"
 );
 const specDocsRoot = path.join(specRoot, "docs");
+const extraSources = [
+  {
+    sourceRepoRel: "README.md",
+    outputRel: "spec/repo/README.html",
+    category: "Core",
+    scopeLabel: "Repository source"
+  },
+  {
+    sourceRepoRel: "CHANGELOG.md",
+    outputRel: "spec/repo/CHANGELOG.html",
+    category: "Process",
+    scopeLabel: "Repository source"
+  }
+];
 
 const categoryOrder = [
   "Core",
@@ -42,34 +56,36 @@ if (!fs.existsSync(specDocsRoot)) {
 
 assertPandoc();
 
-const docs = collectDocs(specDocsRoot).map((sourceFile) => {
-  const sourceRel = path.relative(specDocsRoot, sourceFile).replace(/\\/g, "/");
-  const outputRel = `spec/${sourceRel.replace(/\.md$/i, ".html")}`;
-  const markdown = fs.readFileSync(sourceFile, "utf8");
-  const { body, metadata } = splitFrontMatter(markdown);
-  const title = extractTitle(body, sourceRel, metadata);
-  const status = extractField(body, "Status", metadata);
-  const version = extractField(body, "Version", metadata);
-  const lastUpdated = extractField(body, "Last Updated", metadata);
-  const summary = extractSummary(body, title);
-  const category = categoryFor(sourceRel);
-  const scopeLabel = sourceRel.startsWith("versions/") ? "Normative source" : "Support document";
+const docs = [
+  ...collectDocs(specDocsRoot).map((sourceFile) => {
+    const sourceRel = path.relative(specDocsRoot, sourceFile).replace(/\\/g, "/");
+    return createDocRecord({
+      sourceFile,
+      sourceRepoRel: `docs/${sourceRel}`,
+      outputRel: `spec/${sourceRel.replace(/\.md$/i, ".html")}`,
+      category: categoryFor(sourceRel),
+      scopeLabel: sourceRel.startsWith("versions/") ? "Normative source" : "Support document"
+    });
+  }),
+  ...extraSources
+    .map((source) => {
+      const sourceFile = path.join(specRoot, source.sourceRepoRel);
+      if (!fs.existsSync(sourceFile)) {
+        return null;
+      }
 
-  return {
-    sourceFile,
-    sourceRel,
-    outputRel,
-    markdown,
-    title,
-    status,
-    version,
-    lastUpdated,
-    summary,
-    category,
-    scopeLabel
-  };
-});
+      return createDocRecord({
+        sourceFile,
+        sourceRepoRel: source.sourceRepoRel,
+        outputRel: source.outputRel,
+        category: source.category,
+        scopeLabel: source.scopeLabel
+      });
+    })
+    .filter(Boolean)
+];
 
+const docLookup = new Map(docs.map((doc) => [doc.sourceRepoRel, doc.outputRel]));
 const navGroups = buildNavGroups(docs);
 let changedFiles = 0;
 
@@ -78,7 +94,7 @@ for (const doc of docs) {
   const html = wrapSpecDocPage({
     doc,
     navGroups,
-    bodyHtml: rewriteLinks(stripFirstHeading(fragment), doc.sourceRel, doc.outputRel)
+    bodyHtml: rewriteLinks(stripFirstHeading(fragment), doc.sourceRepoRel, doc.outputRel, docLookup)
   });
   changedFiles += writeFile(path.join(publicRoot, doc.outputRel), html);
 }
@@ -94,12 +110,16 @@ const generatedSearchEntries = docs.map((doc) => ({
   keywords: buildKeywords(doc)
 }));
 
-const mergedSearch = [...baseSearchEntries, {
-  title: "Repo-Synced Spec Reference",
-  url: "/spec/index.html",
-  excerpt: "Full website-hosted mirror of the MCP-AQL spec docs generated from the spec repository source.",
-  keywords: ["spec mirror", "repo synced", "full docs", "reference", "generated"]
-}, ...generatedSearchEntries];
+const mergedSearch = [
+  ...baseSearchEntries,
+  {
+    title: "Repo-Synced Spec Reference",
+    url: "/spec/index.html",
+    excerpt: "Full website-hosted mirror of the MCP-AQL spec docs generated from the spec repository source.",
+    keywords: ["spec mirror", "repo synced", "full docs", "reference", "generated"]
+  },
+  ...generatedSearchEntries
+];
 
 changedFiles += writeFile(
   path.join(publicRoot, "data", "search-index.json"),
@@ -112,6 +132,30 @@ if (isCheck && changedFiles > 0) {
 }
 
 console.log(`${isCheck ? "Checked" : "Generated"} ${docs.length} spec doc pages.`);
+
+function createDocRecord({ sourceFile, sourceRepoRel, outputRel, category, scopeLabel }) {
+  const markdown = fs.readFileSync(sourceFile, "utf8");
+  const { body, metadata } = splitFrontMatter(markdown);
+  const title = extractTitle(body, sourceRepoRel, metadata);
+  const status = extractField(body, "Status", metadata);
+  const version = extractField(body, "Version", metadata);
+  const lastUpdated = extractField(body, "Last Updated", metadata);
+  const summary = extractSummary(body, title);
+
+  return {
+    sourceFile,
+    sourceRepoRel,
+    outputRel,
+    markdown,
+    title,
+    status,
+    version,
+    lastUpdated,
+    summary,
+    category,
+    scopeLabel
+  };
+}
 
 function assertPandoc() {
   try {
@@ -264,36 +308,35 @@ function stripFirstHeading(html) {
   return html.replace(/^<h1[^>]*>[\s\S]*?<\/h1>\n?/, "");
 }
 
-function rewriteLinks(html, currentSourceRel, currentOutputRel) {
+function rewriteLinks(html, currentSourceRepoRel, currentOutputRel, docLookup) {
   return html.replace(/\b(href|src)="([^"]+)"/g, (fullMatch, attribute, target) => {
-    return `${attribute}="${resolveTarget(target, currentSourceRel, currentOutputRel)}"`;
+    return `${attribute}="${resolveTarget(target, currentSourceRepoRel, currentOutputRel, docLookup)}"`;
   });
 }
 
-function resolveTarget(target, currentSourceRel, currentOutputRel) {
+function resolveTarget(target, currentSourceRepoRel, currentOutputRel, docLookup) {
   if (!target || target.startsWith("#") || /^[a-z]+:/i.test(target) || target.startsWith("/")) {
     return target;
   }
 
   const [rawPath, hash = ""] = target.split("#");
   const anchor = hash ? `#${hash}` : "";
-  const specRelativeTarget = path
-    .normalize(path.join("docs", path.dirname(currentSourceRel), rawPath))
+  const repoRelativeTarget = path
+    .normalize(path.join(path.dirname(currentSourceRepoRel), rawPath))
     .replace(/\\/g, "/");
-  const absoluteTarget = path.join(specRoot, specRelativeTarget);
+  const absoluteTarget = path.join(specRoot, repoRelativeTarget);
 
-  if (rawPath.endsWith(".md") && specRelativeTarget.startsWith("docs/") && fs.existsSync(absoluteTarget)) {
-    const docsRelative = specRelativeTarget.replace(/^docs\//, "");
-    const targetOutputRel = `spec/${docsRelative.replace(/\.md$/i, ".html")}`;
+  if (rawPath.endsWith(".md") && docLookup.has(repoRelativeTarget)) {
+    const targetOutputRel = docLookup.get(repoRelativeTarget);
     const relativeUrl = path.relative(path.dirname(currentOutputRel), targetOutputRel).replace(/\\/g, "/");
     return `${relativeUrl || path.basename(targetOutputRel)}${anchor}`;
   }
 
-  if (rawPath.endsWith(".md")) {
-    return `https://github.com/MCPAQL/spec/blob/main/${specRelativeTarget}${anchor}`;
+  if (rawPath.endsWith(".md") && fs.existsSync(absoluteTarget)) {
+    return `https://github.com/MCPAQL/spec/blob/main/${repoRelativeTarget}${anchor}`;
   }
 
-  return `https://github.com/MCPAQL/spec/blob/main/${specRelativeTarget}${anchor}`;
+  return `https://github.com/MCPAQL/spec/blob/main/${repoRelativeTarget}${anchor}`;
 }
 
 function buildNavGroups(docs) {
@@ -316,7 +359,7 @@ function buildNavGroups(docs) {
 
 function wrapSpecDocPage({ doc, navGroups, bodyHtml }) {
   const navHtml = renderNavGroups(navGroups, doc.outputRel);
-  const sourceUrl = `https://github.com/MCPAQL/spec/blob/main/docs/${doc.sourceRel}`;
+  const sourceUrl = `https://github.com/MCPAQL/spec/blob/main/${doc.sourceRepoRel}`;
   const metaBits = [
     `<span class="state-chip live">${escapeHtml(doc.scopeLabel)}</span>`,
     doc.status ? `<span class="state-chip pending">${escapeHtml(doc.status)}</span>` : "",
@@ -372,7 +415,7 @@ function wrapSpecDocPage({ doc, navGroups, bodyHtml }) {
             <h1>${escapeHtml(doc.title)}</h1>
             <p class="lede">${escapeHtml(doc.summary)}</p>
             <div class="spec-meta">${metaBits}</div>
-            <p class="spec-source">Source: <a href="${sourceUrl}">${escapeHtml(`spec/docs/${doc.sourceRel}`)}</a></p>
+            <p class="spec-source">Source: <a href="${sourceUrl}">${escapeHtml(`spec/${doc.sourceRepoRel}`)}</a></p>
             <div class="hero-actions">
               <a class="btn btn-primary" href="${sourceUrl}">Open Source Markdown</a>
               <a class="btn btn-secondary" href="${relativePathFromDoc(doc.outputRel, "spec/index.html")}">Browse Full Spec Reference</a>
@@ -410,14 +453,15 @@ function wrapSpecDocPage({ doc, navGroups, bodyHtml }) {
 function wrapSpecIndexPage(navGroups) {
   const sections = navGroups.map((group) => {
     const cards = group.entries.map((doc) => {
+      const href = relativePathWithinPublic("spec/index.html", doc.outputRel);
       return `<article class="card">
-  <h3>${escapeHtml(doc.title)}</h3>
+  <h3><a href="${href}">${escapeHtml(doc.title)}</a></h3>
   <p>${escapeHtml(doc.summary)}</p>
   <div class="spec-meta">
     <span class="state-chip live">${escapeHtml(doc.scopeLabel)}</span>
     ${doc.status ? `<span class="state-chip pending">${escapeHtml(doc.status)}</span>` : ""}
   </div>
-  <a href="${relativePathWithinPublic("spec/index.html", doc.outputRel)}">Open Page</a>
+  <a href="${href}">Open Page</a>
 </article>`;
     }).join("\n");
 
@@ -469,7 +513,7 @@ function wrapSpecIndexPage(navGroups) {
           <span class="status-pill">REPO-SYNCED SPEC REFERENCE</span>
           <h1>The deeper protocol docs now live on the website too</h1>
           <p class="lede">
-            These pages are generated from <code>MCPAQL/spec/docs</code> so the public site can carry the full protocol and adapter material,
+            These pages are generated from <code>MCPAQL/spec</code> so the public site can carry the full protocol and adapter material,
             not just summaries and links back to GitHub.
           </p>
           <div class="hero-actions">
@@ -528,7 +572,7 @@ function renderNavGroups(navGroups, currentOutputRel) {
 }
 
 function buildKeywords(doc) {
-  const pathWords = doc.sourceRel
+  const pathWords = doc.sourceRepoRel
     .replace(/\.md$/i, "")
     .split(/[\/\-]/)
     .map((value) => value.toLowerCase())
