@@ -29,12 +29,39 @@ All web assets are under `public/`:
 
 - `public/index.html`: portal home and repository map
 - `public/docs/*.html`: protocol library pages (getting started, core, error model, security, conformance, adapter contracts, profiles, roadmap, release notes)
+- `public/spec/**/*.html`: repo-synced spec pages generated from `../spec/docs`
 - `public/launch-checklist.html`: public launch readiness summary
 - `public/apis/*.html`: integration-surface guidance pages
 - `public/css/style.css`: shared styles and responsive layout
 - `public/js/search.js`: client-side documentation search
 - `public/data/search-index.json`: search index catalog
+- `source/search-index.base.json`: hand-authored search entries merged with generated spec entries
+- `scripts/generate-spec-docs.mjs`: Markdown-to-HTML generator for the full website-hosted spec reference
 - `docs/prelaunch-readiness-review.md`: launch readiness assessment and guidance
+
+## Repo-Synced Spec Generation
+
+The website now carries a full spec reference generated from the sibling `MCPAQL/spec` checkout. This lets the public site host the deeper protocol material directly instead of only linking readers back to GitHub.
+
+Generation inputs:
+
+- source Markdown: `../spec/docs/**/*.md`
+- canonical versioned draft: `../spec/docs/versions/v1.0.0-draft.md`
+- generated output: `public/spec/**/*.html`
+- generated index: `public/spec/index.html`
+- merged search output: `public/data/search-index.json`
+
+Generate or refresh the spec mirror:
+
+```bash
+npm run generate:spec-docs
+```
+
+Check whether generated files are up to date:
+
+```bash
+npm run generate:spec-docs:check
+```
 
 ## Local Preview
 
