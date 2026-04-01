@@ -409,6 +409,13 @@ function wrapSpecDocPage({ doc, navGroups, bodyHtml }) {
       </aside>
 
       <article class="docs-main">
+        <nav class="breadcrumbs" aria-label="Breadcrumb">
+          <ol>
+            <li><a href="${relativePathFromDoc(doc.outputRel, "index.html")}">Home</a></li>
+            <li><a href="${relativePathFromDoc(doc.outputRel, "spec/index.html")}">Full Spec</a></li>
+            <li><span class="current">${escapeHtml(doc.title)}</span></li>
+          </ol>
+        </nav>
         <section class="hero docs-hero">
           <div class="hero-inner">
             <span class="status-pill">REPO-SYNCED SPEC DOC</span>
@@ -508,6 +515,12 @@ function wrapSpecIndexPage(navGroups) {
 
   <main>
     <div class="container">
+      <nav class="breadcrumbs" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li><span class="current">Full Spec</span></li>
+        </ol>
+      </nav>
       <section class="hero">
         <div class="hero-inner">
           <span class="status-pill">REPO-SYNCED SPEC REFERENCE</span>
