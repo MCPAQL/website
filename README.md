@@ -30,36 +30,41 @@ All web assets are under `public/`:
 - `public/index.html`: portal home and repository map
 - `public/docs/*.html`: protocol library pages (getting started, core, error model, security, conformance, adapter contracts, profiles, roadmap, release notes)
 - `public/spec/**/*.html`: repo-synced spec pages generated from `../spec/docs`
+- `public/adapter-reference/**/*.html`: repo-synced reference adapter pages generated from `../mcpaql-adapter`
 - `public/launch-checklist.html`: public launch readiness summary
 - `public/apis/*.html`: integration-surface guidance pages
 - `public/css/style.css`: shared styles and responsive layout
 - `public/js/search.js`: client-side documentation search
 - `public/data/search-index.json`: search index catalog
 - `source/search-index.base.json`: hand-authored search entries merged with generated spec entries
-- `scripts/generate-spec-docs.mjs`: Markdown-to-HTML generator for the full website-hosted spec reference
+- `scripts/generate-repo-docs.mjs`: Markdown-to-HTML generator for the website-hosted repo mirrors
+- `scripts/generate-spec-docs.mjs`: compatibility wrapper for the repo-doc generator
 
-## Repo-Synced Spec Generation
+## Repo-Synced Documentation Generation
 
-The website now carries a full spec reference generated from the sibling `MCPAQL/spec` checkout. This lets the public site host the deeper protocol material directly instead of only linking readers back to GitHub.
+The website now carries repo-driven mirrors generated from the sibling `MCPAQL/spec` and `MCPAQL/mcpaql-adapter` checkouts. This lets the public site host the deeper protocol and implementation material directly instead of only linking readers back to GitHub.
 
 Generation inputs:
 
-- source Markdown: `../spec/docs/**/*.md`
-- canonical versioned draft: `../spec/docs/versions/v1.0.0-draft.md`
-- generated output: `public/spec/**/*.html`
-- generated index: `public/spec/index.html`
+- protocol source Markdown: `../spec/docs/**/*.md`
+- adapter source Markdown: `../mcpaql-adapter/docs/**/*.md`
+- protocol repo extras: `../spec/README.md`, `../spec/CHANGELOG.md`
+- adapter repo extras: `../mcpaql-adapter/README.md`, `../mcpaql-adapter/examples/README.md`
+- generated protocol output: `public/spec/**/*.html`
+- generated adapter output: `public/adapter-reference/**/*.html`
+- generated indexes: `public/spec/index.html`, `public/adapter-reference/index.html`
 - merged search output: `public/data/search-index.json`
 
-Generate or refresh the spec mirror:
+Generate or refresh both repo mirrors:
 
 ```bash
-npm run generate:spec-docs
+npm run generate:repo-docs
 ```
 
 Check whether generated files are up to date:
 
 ```bash
-npm run generate:spec-docs:check
+npm run generate:repo-docs:check
 ```
 
 ## Local Preview

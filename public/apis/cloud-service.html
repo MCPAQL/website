@@ -63,6 +63,7 @@
             <p class="callout">This is conceptual guidance. A public cloud-service adapter reference is not published yet.</p>
             <div class="hero-actions">
               <a class="btn btn-primary" href="../docs/adapter-contracts.html">Adapter Contracts</a>
+              <a class="btn btn-secondary" href="../adapter-reference/index.html">Reference Adapter Docs</a>
               <a class="btn btn-secondary" href="../spec/adapter/rate-limiting.html">Rate-Limiting Spec</a>
             </div>
           </div>
@@ -76,6 +77,8 @@
               <p>The protocol-level details for quotas, batches, and output contracts live in the deeper documentation set.</p>
               <ul>
                 <li><a href="../docs/adapter-contracts.html">Adapter Contracts</a></li>
+                <li><a href="../adapter-reference/architecture/runtime.html">Universal Runtime</a></li>
+                <li><a href="../adapter-reference/guides/testing.html">Testing Guide</a></li>
                 <li><a href="../spec/adapter/rate-limiting.html">Rate-Limiting Specification</a></li>
                 <li><a href="../spec/features/pagination.html">Pagination Specification</a></li>
                 <li><a href="../spec/error-codes.html">Structured Error Codes</a></li>
@@ -152,7 +155,26 @@
         </section>
 
         <section>
+          <h2 class="section-title">Implementation Reference</h2>
+          <div class="grid cols-3">
+            <article class="card">
+              <h3><a class="card-title-link" href="../adapter-reference/architecture/runtime.html">Universal Runtime</a></h3>
+              <p>Map quotas, request construction, response parsing, and structured error handling to a real runtime model.</p>
+            </article>
+            <article class="card">
+              <h3><a class="card-title-link" href="../adapter-reference/guides/testing.html">Testing Guide</a></h3>
+              <p>Exercise retry assumptions, route validation, and integration coverage before exposing a remote API broadly.</p>
+            </article>
+            <article class="card">
+              <h3><a class="card-title-link" href="../adapter-reference/architecture/plugin-system.html">Plugin System</a></h3>
+              <p>Use the plugin pipeline docs when auth, transport, serialization, or transformation concerns need clean isolation.</p>
+            </article>
+          </div>
+        </section>
+
+        <section>
           <div class="hero-actions">
+            <a class="btn btn-secondary" href="../adapter-reference/index.html">Reference adapter docs</a>
             <a class="btn btn-secondary" href="../docs/index.html">Back to docs library</a>
             <a class="btn btn-secondary" href="../index.html">&larr; Back to portal</a>
           </div>

@@ -63,6 +63,7 @@
             <p class="callout">This page describes a design pattern. A public operating-system adapter is not published yet.</p>
             <div class="hero-actions">
               <a class="btn btn-primary" href="../docs/security-model.html">Security Model</a>
+              <a class="btn btn-secondary" href="../adapter-reference/index.html">Reference Adapter Docs</a>
               <a class="btn btn-secondary" href="../spec/security/gatekeeper.html">Gatekeeper Spec</a>
             </div>
           </div>
@@ -76,6 +77,8 @@
               <p>These sources carry the policy and execution-safety detail behind this pattern.</p>
               <ul>
                 <li><a href="../docs/security-model.html">Security Model</a></li>
+                <li><a href="../adapter-reference/architecture/runtime.html">Universal Runtime</a></li>
+                <li><a href="../adapter-reference/guides/testing.html">Testing Guide</a></li>
                 <li><a href="../spec/security/gatekeeper.html">Gatekeeper</a></li>
                 <li><a href="../spec/security/confirmation-tokens.html">Confirmation Tokens</a></li>
                 <li><a href="../spec/security/execution-safety-loop.html">Execution Safety Loop</a></li>
@@ -153,7 +156,26 @@
         </section>
 
         <section>
+          <h2 class="section-title">Implementation Reference</h2>
+          <div class="grid cols-3">
+            <article class="card">
+              <h3><a class="card-title-link" href="../adapter-reference/architecture/runtime.html">Universal Runtime</a></h3>
+              <p>See where validation, request building, auth, and response mapping belong before you expose local operations.</p>
+            </article>
+            <article class="card">
+              <h3><a class="card-title-link" href="../adapter-reference/architecture/plugin-system.html">Plugin System</a></h3>
+              <p>Use plugins to keep policy, transport, and transformation concerns isolated around sensitive system operations.</p>
+            </article>
+            <article class="card">
+              <h3><a class="card-title-link" href="../adapter-reference/guides/testing.html">Testing Guide</a></h3>
+              <p>Cover destructive-path validation and routing constraints before enabling write or execute behavior.</p>
+            </article>
+          </div>
+        </section>
+
+        <section>
           <div class="hero-actions">
+            <a class="btn btn-secondary" href="../adapter-reference/index.html">Reference adapter docs</a>
             <a class="btn btn-secondary" href="../docs/index.html">Back to docs library</a>
             <a class="btn btn-secondary" href="../index.html">&larr; Back to portal</a>
           </div>
