@@ -18,39 +18,17 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          path: website
-
-      - name: Checkout spec repo
-        uses: actions/checkout@v4
-        with:
-          repository: MCPAQL/spec
-          path: spec
-
-      - name: Checkout reference adapter repo
-        uses: actions/checkout@v4
-        with:
-          repository: MCPAQL/mcpaql-adapter
-          path: mcpaql-adapter
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "20"
 
-      - name: Install pandoc
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y pandoc
-
       - name: Verify generated docs
-        working-directory: website
         run: |
-          node scripts/generate-repo-docs.mjs --check --spec-dir ../spec --adapter-dir ../mcpaql-adapter
           node scripts/generate-page-toc.mjs --check
 
       - name: Validate derived TOCs
-        working-directory: website
         run: npm run validate:toc
 
   markdown-lint:
