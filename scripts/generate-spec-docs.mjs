@@ -87,6 +87,7 @@ const docs = [
 
 const docLookup = new Map(docs.map((doc) => [doc.sourceRepoRel, doc.outputRel]));
 const navGroups = buildNavGroups(docs);
+const navSequence = navGroups.flatMap((group) => group.entries);
 let changedFiles = 0;
 
 for (const doc of docs) {
@@ -94,6 +95,7 @@ for (const doc of docs) {
   const html = wrapSpecDocPage({
     doc,
     navGroups,
+    navSequence,
     bodyHtml: rewriteLinks(stripFirstHeading(fragment), doc.sourceRepoRel, doc.outputRel, docLookup)
   });
   changedFiles += writeFile(path.join(publicRoot, doc.outputRel), html);
@@ -357,8 +359,9 @@ function buildNavGroups(docs) {
     .filter((group) => group.entries.length > 0);
 }
 
-function wrapSpecDocPage({ doc, navGroups, bodyHtml }) {
+function wrapSpecDocPage({ doc, navGroups, navSequence, bodyHtml }) {
   const navHtml = renderNavGroups(navGroups, doc.outputRel);
+  const pageNavHtml = renderSpecPageNav(doc, navSequence);
   const sourceUrl = `https://github.com/MCPAQL/spec/blob/main/${doc.sourceRepoRel}`;
   const metaBits = [
     `<span class="state-chip live">${escapeHtml(doc.scopeLabel)}</span>`,
@@ -392,7 +395,7 @@ function wrapSpecDocPage({ doc, navGroups, bodyHtml }) {
         </ul>
         <form class="site-search" data-search-form data-index-url="${relativePathFromDoc(doc.outputRel, "data/search-index.json")}" role="search">
           <label class="sr-only" for="site-search-input">Search MCP-AQL docs</label>
-          <input id="site-search-input" data-search-input type="search" placeholder="Search repo-synced spec docs...">
+          <input id="site-search-input" data-search-input type="search" placeholder="Search MCP-AQL docs, spec pages, and adapter patterns...">
           <span class="search-count" data-search-count></span>
           <ul class="search-results" data-search-results hidden></ul>
         </form>
@@ -435,6 +438,7 @@ function wrapSpecDocPage({ doc, navGroups, bodyHtml }) {
             ${bodyHtml}
           </div>
         </section>
+        ${pageNavHtml}
       </article>
     </div>
   </main>
@@ -505,7 +509,7 @@ function wrapSpecIndexPage(navGroups) {
         </ul>
         <form class="site-search" data-search-form data-index-url="../data/search-index.json" role="search">
           <label class="sr-only" for="site-search-input">Search MCP-AQL docs</label>
-          <input id="site-search-input" data-search-input type="search" placeholder="Search full spec reference...">
+          <input id="site-search-input" data-search-input type="search" placeholder="Search MCP-AQL docs, spec pages, and adapter patterns...">
           <span class="search-count" data-search-count></span>
           <ul class="search-results" data-search-results hidden></ul>
         </form>
@@ -573,8 +577,8 @@ function renderNavGroups(navGroups, currentOutputRel) {
   return navGroups.map((group) => {
     const links = group.entries.map((entry) => {
       const href = relativePathWithinPublic(currentOutputRel, entry.outputRel);
-      const currentClass = entry.outputRel === currentOutputRel ? " class=\"current\"" : "";
-      return `<li><a${currentClass} href="${href}">${escapeHtml(entry.title)}</a></li>`;
+      const currentAttr = entry.outputRel === currentOutputRel ? " class=\"current\" aria-current=\"page\"" : "";
+      return `<li><a${currentAttr} href="${href}">${escapeHtml(entry.title)}</a></li>`;
     }).join("");
 
     return `<div class="docs-side-group">
@@ -582,6 +586,47 @@ function renderNavGroups(navGroups, currentOutputRel) {
   <ul>${links}</ul>
 </div>`;
   }).join("");
+}
+
+function renderSpecPageNav(doc, navSequence) {
+  const currentIndex = navSequence.findIndex((entry) => entry.outputRel === doc.outputRel);
+  const previousDoc = currentIndex > 0 ? navSequence[currentIndex - 1] : null;
+  const nextDoc = currentIndex >= 0 && currentIndex < navSequence.length - 1 ? navSequence[currentIndex + 1] : null;
+
+  return renderPageNav({
+    previous: previousDoc ? {
+      href: relativePathWithinPublic(doc.outputRel, previousDoc.outputRel),
+      eyebrow: "Previous spec page",
+      label: previousDoc.title
+    } : {
+      href: relativePathFromDoc(doc.outputRel, "spec/index.html"),
+      eyebrow: "Reference overview",
+      label: "Full Spec Reference"
+    },
+    next: nextDoc ? {
+      href: relativePathWithinPublic(doc.outputRel, nextDoc.outputRel),
+      eyebrow: "Next spec page",
+      label: nextDoc.title
+    } : {
+      href: relativePathFromDoc(doc.outputRel, "spec/index.html"),
+      eyebrow: "Back to index",
+      label: "Full Spec Reference"
+    }
+  });
+}
+
+function renderPageNav({ previous, next }) {
+  return `<nav class="page-nav" aria-label="Page navigation">
+  ${renderPageNavLink(previous, "prev")}
+  ${renderPageNavLink(next, "next")}
+</nav>`;
+}
+
+function renderPageNavLink(entry, direction) {
+  return `<a class="page-nav-link ${direction}" href="${entry.href}">
+    <span class="page-nav-eyebrow">${escapeHtml(entry.eyebrow)}</span>
+    <strong class="page-nav-label">${escapeHtml(entry.label)}</strong>
+  </a>`;
 }
 
 function buildKeywords(doc) {
