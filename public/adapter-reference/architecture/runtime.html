@@ -75,6 +75,20 @@
           </div>
         </section>
 
+        <section class="page-toc-shell" data-page-toc>
+          <div class="card page-toc-card">
+            <div class="page-toc-head">
+              <p class="page-toc-kicker">On this page</p>
+              <h2>Jump to a section</h2>
+              <p class="page-toc-intro">Use the outline to move through longer pages without losing your place.</p>
+            </div>
+            <ol class="page-toc-list" data-page-toc-list>
+              <li class="page-toc-item level-2"><a href="#abstract" data-toc-target="abstract">Abstract</a></li><li class="page-toc-item level-2"><a href="#1-overview" data-toc-target="1-overview">1. Overview</a></li><li class="page-toc-item level-2"><a href="#2-architecture" data-toc-target="2-architecture">2. Architecture</a></li><li class="page-toc-item level-2"><a href="#3-schema-loading" data-toc-target="3-schema-loading">3. Schema Loading</a></li><li class="page-toc-item level-2"><a href="#4-schema-validation" data-toc-target="4-schema-validation">4. Schema Validation</a></li><li class="page-toc-item level-2"><a href="#5-operation-dispatch" data-toc-target="5-operation-dispatch">5. Operation Dispatch</a></li><li class="page-toc-item level-2"><a href="#6-request-building" data-toc-target="6-request-building">6. Request Building</a></li><li class="page-toc-item level-2"><a href="#7-response-handling" data-toc-target="7-response-handling">7. Response Handling</a></li><li class="page-toc-item level-2"><a href="#8-error-mapping" data-toc-target="8-error-mapping">8. Error Mapping</a></li><li class="page-toc-item level-2"><a href="#9-introspection" data-toc-target="9-introspection">9. Introspection</a></li><li class="page-toc-item level-2"><a href="#10-future-extensions" data-toc-target="10-future-extensions">10. Future Extensions</a></li><li class="page-toc-item level-2"><a href="#11-security-considerations" data-toc-target="11-security-considerations">11. Security Considerations</a></li><li class="page-toc-item level-2"><a href="#references" data-toc-target="references">References</a></li>
+            </ol>
+          </div>
+        </section>
+
+
         <section>
           <div class="card spec-prose">
             <p><strong>Version:</strong> 1.0.0-draft <strong>Status:</strong> Draft (MVP) <strong>Last Updated:</strong> 2026-01-26 <strong>Moved from:</strong> <a href="https://github.com/MCPAQL/spec">MCPAQL/spec</a> (formerly <code>docs/architecture/adapter-runtime.md</code>)</p>
@@ -83,21 +97,6 @@
 </blockquote>
 <h2 id="abstract">Abstract</h2>
 <p>This document defines the Universal Adapter Runtime specification - the execution engine that interprets adapter schema files and translates MCP-AQL CRUDE operations to target API calls. The runtime enables schema-driven adapters without per-adapter code generation.</p>
-<hr />
-<h2 id="table-of-contents">Table of Contents</h2>
-<ol type="1">
-<li><a href="#1-overview">Overview</a></li>
-<li><a href="#2-architecture">Architecture</a></li>
-<li><a href="#3-schema-loading">Schema Loading</a></li>
-<li><a href="#4-schema-validation">Schema Validation</a></li>
-<li><a href="#5-operation-dispatch">Operation Dispatch</a></li>
-<li><a href="#6-request-building">Request Building</a></li>
-<li><a href="#7-response-handling">Response Handling</a></li>
-<li><a href="#8-error-mapping">Error Mapping</a></li>
-<li><a href="#9-introspection">Introspection</a></li>
-<li><a href="#10-future-extensions">Future Extensions</a></li>
-<li><a href="#11-security-considerations">Security Considerations</a></li>
-</ol>
 <hr />
 <h2 id="1-overview">1. Overview</h2>
 <h3 id="11-purpose">1.1 Purpose</h3>

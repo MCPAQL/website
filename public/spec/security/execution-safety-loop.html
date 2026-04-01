@@ -93,6 +93,20 @@
           </div>
         </section>
 
+        <section class="page-toc-shell" data-page-toc>
+          <div class="card page-toc-card">
+            <div class="page-toc-head">
+              <p class="page-toc-kicker">On this page</p>
+              <h2>Jump to a section</h2>
+              <p class="page-toc-intro">Use the outline to move through longer pages without losing your place.</p>
+            </div>
+            <ol class="page-toc-list" data-page-toc-list>
+              <li class="page-toc-item level-2"><a href="#abstract" data-toc-target="abstract">Abstract</a></li><li class="page-toc-item level-2"><a href="#1-introduction" data-toc-target="1-introduction">1. Introduction</a></li><li class="page-toc-item level-2"><a href="#2-the-safety-dongle-deployment-model" data-toc-target="2-the-safety-dongle-deployment-model">2. The Safety Dongle Deployment Model</a></li><li class="page-toc-item level-2"><a href="#3-the-execution-safety-loop" data-toc-target="3-the-execution-safety-loop">3. The Execution Safety Loop</a></li><li class="page-toc-item level-2"><a href="#4-minimal-operation-surface" data-toc-target="4-minimal-operation-surface">4. Minimal Operation Surface</a></li><li class="page-toc-item level-2"><a href="#5-integration-with-gatekeeper" data-toc-target="5-integration-with-gatekeeper">5. Integration with Gatekeeper</a></li><li class="page-toc-item level-2"><a href="#6-integration-with-danger-zone" data-toc-target="6-integration-with-danger-zone">6. Integration with Danger Zone</a></li><li class="page-toc-item level-2"><a href="#7-deployment-examples" data-toc-target="7-deployment-examples">7. Deployment Examples</a></li><li class="page-toc-item level-2"><a href="#8-opting-out" data-toc-target="8-opting-out">8. Opting Out</a></li><li class="page-toc-item level-2"><a href="#9-implementation-requirements" data-toc-target="9-implementation-requirements">9. Implementation Requirements</a></li><li class="page-toc-item level-2"><a href="#related-specifications" data-toc-target="related-specifications">Related Specifications</a></li>
+            </ol>
+          </div>
+        </section>
+
+
         <section>
           <div class="card spec-prose">
             <p><strong>Version:</strong> 1.0.0-draft <strong>Status:</strong> Draft <strong>Last Updated:</strong> 2026-02-25</p>
@@ -101,19 +115,6 @@
 </blockquote>
 <h2 id="abstract">Abstract</h2>
 <p>This document specifies the <strong>execution safety loop</strong> — an opt-in monitoring pattern that enables continuous safety evaluation of an LLM's intended actions across all connected MCP servers. It also defines the <strong>safety dongle</strong> deployment model, where a standalone MCP-AQL server functions as a universal safety layer without implementing any other MCP-AQL features.</p>
-<hr />
-<h2 id="table-of-contents">Table of Contents</h2>
-<ol type="1">
-<li><a href="#1-introduction">Introduction</a></li>
-<li><a href="#2-the-safety-dongle-deployment-model">The Safety Dongle Deployment Model</a></li>
-<li><a href="#3-the-execution-safety-loop">The Execution Safety Loop</a></li>
-<li><a href="#4-minimal-operation-surface">Minimal Operation Surface</a></li>
-<li><a href="#5-integration-with-gatekeeper">Integration with Gatekeeper</a></li>
-<li><a href="#6-integration-with-danger-zone">Integration with Danger Zone</a></li>
-<li><a href="#7-deployment-examples">Deployment Examples</a></li>
-<li><a href="#8-opting-out">Opting Out</a></li>
-<li><a href="#9-implementation-requirements">Implementation Requirements</a></li>
-</ol>
 <hr />
 <h2 id="1-introduction">1. Introduction</h2>
 <h3 id="11-purpose">1.1 Purpose</h3>

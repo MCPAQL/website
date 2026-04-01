@@ -93,27 +93,25 @@
           </div>
         </section>
 
+        <section class="page-toc-shell" data-page-toc>
+          <div class="card page-toc-card">
+            <div class="page-toc-head">
+              <p class="page-toc-kicker">On this page</p>
+              <h2>Jump to a section</h2>
+              <p class="page-toc-intro">Use the outline to move through longer pages without losing your place.</p>
+            </div>
+            <ol class="page-toc-list" data-page-toc-list>
+              <li class="page-toc-item level-2"><a href="#abstract" data-toc-target="abstract">Abstract</a></li><li class="page-toc-item level-2"><a href="#1-overview" data-toc-target="1-overview">1. Overview</a></li><li class="page-toc-item level-2"><a href="#2-response-format-extension" data-toc-target="2-response-format-extension">2. Response Format Extension</a></li><li class="page-toc-item level-2"><a href="#3-warning-object-schema" data-toc-target="3-warning-object-schema">3. Warning Object Schema</a></li><li class="page-toc-item level-2"><a href="#4-standard-warning-codes" data-toc-target="4-standard-warning-codes">4. Standard Warning Codes</a></li><li class="page-toc-item level-2"><a href="#5-client-requirements" data-toc-target="5-client-requirements">5. Client Requirements</a></li><li class="page-toc-item level-2"><a href="#6-implementation-requirements" data-toc-target="6-implementation-requirements">6. Implementation Requirements</a></li><li class="page-toc-item level-2"><a href="#references" data-toc-target="references">References</a></li>
+            </ol>
+          </div>
+        </section>
+
+
         <section>
           <div class="card spec-prose">
             <p><strong>Version:</strong> 1.0.0-draft <strong>Status:</strong> Draft <strong>Last Updated:</strong> 2026-01-28</p>
 <h2 id="abstract">Abstract</h2>
 <p>This document specifies the warnings array extension to MCP-AQL's discriminated response format. Warnings provide a mechanism to communicate non-fatal conditions to clients within successful responses, enabling proactive notification without blocking operation execution.</p>
-<hr />
-<h2 id="table-of-contents">Table of Contents</h2>
-<ol type="1">
-<li><a href="#1-overview">Overview</a></li>
-<li><a href="#2-response-format-extension">Response Format Extension</a></li>
-<li><a href="#3-warning-object-schema">Warning Object Schema</a>
-<ul>
-<li><a href="#32-severity-levels">3.2 Severity Levels</a></li>
-</ul></li>
-<li><a href="#4-standard-warning-codes">Standard Warning Codes</a></li>
-<li><a href="#5-client-requirements">Client Requirements</a></li>
-<li><a href="#6-implementation-requirements">Implementation Requirements</a>
-<ul>
-<li><a href="#65-warning-deduplication">6.5 Warning Deduplication</a></li>
-</ul></li>
-</ol>
 <hr />
 <h2 id="1-overview">1. Overview</h2>
 <h3 id="11-purpose">1.1 Purpose</h3>

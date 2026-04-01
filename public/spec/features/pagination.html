@@ -93,22 +93,25 @@
           </div>
         </section>
 
+        <section class="page-toc-shell" data-page-toc>
+          <div class="card page-toc-card">
+            <div class="page-toc-head">
+              <p class="page-toc-kicker">On this page</p>
+              <h2>Jump to a section</h2>
+              <p class="page-toc-intro">Use the outline to move through longer pages without losing your place.</p>
+            </div>
+            <ol class="page-toc-list" data-page-toc-list>
+              <li class="page-toc-item level-2"><a href="#abstract" data-toc-target="abstract">Abstract</a></li><li class="page-toc-item level-2"><a href="#1-overview" data-toc-target="1-overview">1. Overview</a></li><li class="page-toc-item level-2"><a href="#2-pagination-parameters" data-toc-target="2-pagination-parameters">2. Pagination Parameters</a></li><li class="page-toc-item level-2"><a href="#3-pageinfo-response" data-toc-target="3-pageinfo-response">3. PageInfo Response</a></li><li class="page-toc-item level-2"><a href="#4-connection-style-response" data-toc-target="4-connection-style-response">4. Connection-Style Response</a></li><li class="page-toc-item level-2"><a href="#5-applicable-operations" data-toc-target="5-applicable-operations">5. Applicable Operations</a></li><li class="page-toc-item level-2"><a href="#6-implementation-requirements" data-toc-target="6-implementation-requirements">6. Implementation Requirements</a></li><li class="page-toc-item level-2"><a href="#7-future-extensions" data-toc-target="7-future-extensions">7. Future Extensions</a></li><li class="page-toc-item level-2"><a href="#references" data-toc-target="references">References</a></li>
+            </ol>
+          </div>
+        </section>
+
+
         <section>
           <div class="card spec-prose">
             <p><strong>Version:</strong> 1.0.0-draft <strong>Status:</strong> Draft <strong>Last Updated:</strong> 2026-01-28</p>
 <h2 id="abstract">Abstract</h2>
 <p>This document defines cursor-based pagination semantics for MCP-AQL operations that return collections. Cursor pagination enables efficient iteration through large datasets while minimizing token usage in LLM context windows.</p>
-<hr />
-<h2 id="table-of-contents">Table of Contents</h2>
-<ol type="1">
-<li><a href="#1-overview">Overview</a></li>
-<li><a href="#2-pagination-parameters">Pagination Parameters</a></li>
-<li><a href="#3-pageinfo-response">PageInfo Response</a></li>
-<li><a href="#4-connection-style-response">Connection-Style Response</a></li>
-<li><a href="#5-applicable-operations">Applicable Operations</a></li>
-<li><a href="#6-implementation-requirements">Implementation Requirements</a></li>
-<li><a href="#7-future-extensions">Future Extensions</a></li>
-</ol>
 <hr />
 <h2 id="1-overview">1. Overview</h2>
 <h3 id="11-purpose">1.1 Purpose</h3>

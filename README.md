@@ -38,6 +38,8 @@ All web assets are under `public/`:
 - `public/data/search-index.json`: search index catalog
 - `source/search-index.base.json`: hand-authored search entries merged with generated spec entries
 - `scripts/generate-repo-docs.mjs`: Markdown-to-HTML generator for the website-hosted repo mirrors
+- `scripts/generate-page-toc.mjs`: derived TOC generator for hand-authored long-form site pages
+- `scripts/validate-toc.mjs`: TOC validation across authored and repo-mirrored docs
 - `scripts/generate-spec-docs.mjs`: compatibility wrapper for the repo-doc generator
 
 ## Repo-Synced Documentation Generation
@@ -61,10 +63,22 @@ Generate or refresh both repo mirrors:
 npm run generate:repo-docs
 ```
 
+Generate or refresh only the derived TOCs for hand-authored long-form pages:
+
+```bash
+npm run generate:page-toc
+```
+
 Check whether generated files are up to date:
 
 ```bash
 npm run generate:repo-docs:check
+```
+
+Validate TOC accuracy against the current heading structure:
+
+```bash
+npm run validate:toc
 ```
 
 ## Local Preview
@@ -91,6 +105,8 @@ Preview/build behavior:
 
 Pull requests and pushes to `main` or `develop` run `.github/workflows/website-quality.yml`:
 
+- Generated docs verification (`npm run generate:repo-docs:check`)
+- Derived TOC validation (`npm run validate:toc`)
 - Markdown linting (`markdownlint-cli2`)
 - HTML linting for files under `public/` (`htmlhint`)
 

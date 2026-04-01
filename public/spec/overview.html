@@ -93,23 +93,26 @@
           </div>
         </section>
 
+        <section class="page-toc-shell" data-page-toc>
+          <div class="card page-toc-card">
+            <div class="page-toc-head">
+              <p class="page-toc-kicker">On this page</p>
+              <h2>Jump to a section</h2>
+              <p class="page-toc-intro">Use the outline to move through longer pages without losing your place.</p>
+            </div>
+            <ol class="page-toc-list" data-page-toc-list>
+              <li class="page-toc-item level-2"><a href="#protocol-summary" data-toc-target="protocol-summary">Protocol Summary</a></li><li class="page-toc-item level-2"><a href="#the-crude-pattern" data-toc-target="the-crude-pattern">The CRUDE Pattern</a></li><li class="page-toc-item level-3"><a href="#permission-characteristics" data-toc-target="permission-characteristics">Permission Characteristics</a></li><li class="page-toc-item level-3"><a href="#why-crude-not-crud" data-toc-target="why-crude-not-crud">Why CRUDE not CRUD?</a></li><li class="page-toc-item level-2"><a href="#endpoint-modes" data-toc-target="endpoint-modes">Endpoint Modes</a></li><li class="page-toc-item level-3"><a href="#crude-mode" data-toc-target="crude-mode">CRUDE Mode</a></li><li class="page-toc-item level-3"><a href="#single-mode" data-toc-target="single-mode">Single Mode</a></li><li class="page-toc-item level-2"><a href="#token-efficiency" data-toc-target="token-efficiency">Token Efficiency</a></li><li class="page-toc-item level-3"><a href="#token-reduction" data-toc-target="token-reduction">Token Reduction</a></li><li class="page-toc-item level-3"><a href="#runtime-discovery" data-toc-target="runtime-discovery">Runtime Discovery</a></li><li class="page-toc-item level-2"><a href="#core-concepts" data-toc-target="core-concepts">Core Concepts</a></li><li class="page-toc-item level-3"><a href="#schema-driven-operations" data-toc-target="schema-driven-operations">Schema-Driven Operations</a></li><li class="page-toc-item level-3"><a href="#gatekeeper" data-toc-target="gatekeeper">Gatekeeper</a></li><li class="page-toc-item level-3"><a href="#introspection" data-toc-target="introspection">Introspection</a></li><li class="page-toc-item level-2"><a href="#request-flow" data-toc-target="request-flow">Request Flow</a></li><li class="page-toc-item level-3"><a href="#standard-request" data-toc-target="standard-request">Standard Request</a></li><li class="page-toc-item level-3"><a href="#response-format" data-toc-target="response-format">Response Format</a></li><li class="page-toc-item level-2"><a href="#batch-operations" data-toc-target="batch-operations">Batch Operations</a></li><li class="page-toc-item level-3"><a href="#batch-request-format" data-toc-target="batch-request-format">Batch Request Format</a></li><li class="page-toc-item level-3"><a href="#batch-response-format" data-toc-target="batch-response-format">Batch Response Format</a></li><li class="page-toc-item level-2"><a href="#conformance" data-toc-target="conformance">Conformance</a></li><li class="page-toc-item level-2"><a href="#related-specifications" data-toc-target="related-specifications">Related Specifications</a></li>
+            </ol>
+          </div>
+        </section>
+
+
         <section>
           <div class="card spec-prose">
             <blockquote>
 <p><strong>MCP-AQL</strong> (Model Context Protocol - Agent Query Language) is a protocol that consolidates discrete MCP tools into 5 CRUDE endpoints (Create, Read, Update, Delete, Execute), providing significant token reduction while maintaining full functionality.</p>
 <p><strong>Document Status:</strong> This document is <strong>informative</strong>. For normative requirements, see <a href="versions/v1.0.0-draft.html">MCP-AQL Specification v1.0.0</a>.</p>
 </blockquote>
-<h2 id="table-of-contents">Table of Contents</h2>
-<ul>
-<li><a href="#protocol-summary">Protocol Summary</a></li>
-<li><a href="#the-crude-pattern">The CRUDE Pattern</a></li>
-<li><a href="#endpoint-modes">Endpoint Modes</a></li>
-<li><a href="#token-efficiency">Token Efficiency</a></li>
-<li><a href="#core-concepts">Core Concepts</a></li>
-<li><a href="#request-flow">Request Flow</a></li>
-<li><a href="#batch-operations">Batch Operations</a></li>
-</ul>
-<hr />
 <h2 id="protocol-summary">Protocol Summary</h2>
 <p>MCP-AQL defines a schema-driven operation dispatch protocol that:</p>
 <ol type="1">

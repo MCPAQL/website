@@ -83,6 +83,19 @@
           </a>
         </nav>
 
+        <section class="page-toc-shell" data-page-toc>
+          <div class="card page-toc-card">
+            <div class="page-toc-head">
+              <p class="page-toc-kicker">On this page</p>
+              <h2>Jump to a section</h2>
+              <p class="page-toc-intro">Use the outline to move through longer pages without losing your place.</p>
+            </div>
+            <ol class="page-toc-list" data-page-toc-list>
+              <li class="page-toc-item level-2"><a href="#trust-level-mediation" data-toc-target="trust-level-mediation">Trust-Level Mediation</a></li><li class="page-toc-item level-2"><a href="#danger-classification" data-toc-target="danger-classification">Danger Classification</a></li><li class="page-toc-item level-2"><a href="#execution-safety-loop" data-toc-target="execution-safety-loop">Execution Safety Loop</a></li><li class="page-toc-item level-2"><a href="#open-security-hardening-tracks" data-toc-target="open-security-hardening-tracks">Open Security Hardening Tracks</a></li><li class="page-toc-item level-2"><a href="#source-documents-behind-this-summary" data-toc-target="source-documents-behind-this-summary">Source documents behind this summary</a></li>
+            </ol>
+          </div>
+        </section>
+
         <section class="topic-bridge">
           <h2 class="sr-only">Related reading</h2>
           <div class="grid cols-2">
@@ -110,7 +123,7 @@
         </section>
 
         <section>
-          <h2 class="section-title">Trust-Level Mediation</h2>
+          <h2 class="section-title" id="trust-level-mediation">Trust-Level Mediation</h2>
           <div class="card">
             <p>
               Implementations classify requester trust and apply policy gates before operation dispatch. The exact trust taxonomy is adapter-defined,
@@ -125,7 +138,7 @@
         </section>
 
         <section>
-          <h2 class="section-title">Danger Classification</h2>
+          <h2 class="section-title" id="danger-classification">Danger Classification</h2>
           <div class="grid cols-2">
             <article class="card">
               <h3>Operation Risk Labels</h3>
@@ -144,7 +157,7 @@
         </section>
 
         <section>
-          <h2 class="section-title">Execution Safety Loop</h2>
+          <h2 class="section-title" id="execution-safety-loop">Execution Safety Loop</h2>
           <div class="card">
             <p>
               Stateful execute flows must support lifecycle controls (start, continue, complete, abort) and maintain safe transitions.
@@ -156,7 +169,7 @@
         </section>
 
         <section>
-          <h2 class="section-title">Open Security Hardening Tracks</h2>
+          <h2 class="section-title" id="open-security-hardening-tracks">Open Security Hardening Tracks</h2>
           <div class="card">
             <p>
               Public launch posture should explicitly label in-progress hardening work. Current priority categories include batch safeguards,
@@ -171,7 +184,7 @@
         </section>
 
         <section>
-          <h2 class="section-title">Source documents behind this summary</h2>
+          <h2 class="section-title" id="source-documents-behind-this-summary">Source documents behind this summary</h2>
           <div class="card">
             <ul>
               <li><a href="../spec/security/gatekeeper.html">Gatekeeper</a></li>

@@ -75,6 +75,20 @@
           </div>
         </section>
 
+        <section class="page-toc-shell" data-page-toc>
+          <div class="card page-toc-card">
+            <div class="page-toc-head">
+              <p class="page-toc-kicker">On this page</p>
+              <h2>Jump to a section</h2>
+              <p class="page-toc-intro">Use the outline to move through longer pages without losing your place.</p>
+            </div>
+            <ol class="page-toc-list" data-page-toc-list>
+              <li class="page-toc-item level-2"><a href="#abstract" data-toc-target="abstract">Abstract</a></li><li class="page-toc-item level-2"><a href="#1-why-migrate" data-toc-target="1-why-migrate">1. Why Migrate</a></li><li class="page-toc-item level-3"><a href="#11-the-problem-with-individual-tools" data-toc-target="11-the-problem-with-individual-tools">1.1 The Problem with Individual Tools</a></li><li class="page-toc-item level-3"><a href="#12-what-mcp-aql-changes" data-toc-target="12-what-mcp-aql-changes">1.2 What MCP-AQL Changes</a></li><li class="page-toc-item level-3"><a href="#13-what-stays-the-same" data-toc-target="13-what-stays-the-same">1.3 What Stays the Same</a></li><li class="page-toc-item level-2"><a href="#2-before-you-start" data-toc-target="2-before-you-start">2. Before You Start</a></li><li class="page-toc-item level-3"><a href="#21-inventory-your-tools" data-toc-target="21-inventory-your-tools">2.1 Inventory Your Tools</a></li><li class="page-toc-item level-3"><a href="#22-identify-shared-parameters" data-toc-target="22-identify-shared-parameters">2.2 Identify Shared Parameters</a></li><li class="page-toc-item level-2"><a href="#3-migration-steps" data-toc-target="3-migration-steps">3. Migration Steps</a></li><li class="page-toc-item level-3"><a href="#31-overview" data-toc-target="31-overview">3.1 Overview</a></li><li class="page-toc-item level-3"><a href="#32-step-by-step" data-toc-target="32-step-by-step">3.2 Step-by-Step</a></li><li class="page-toc-item level-2"><a href="#4-mapping-tools-to-crude-operations" data-toc-target="4-mapping-tools-to-crude-operations">4. Mapping Tools to CRUDE Operations</a></li><li class="page-toc-item level-3"><a href="#41-categorization-rules" data-toc-target="41-categorization-rules">4.1 Categorization Rules</a></li><li class="page-toc-item level-3"><a href="#42-common-mappings" data-toc-target="42-common-mappings">4.2 Common Mappings</a></li><li class="page-toc-item level-3"><a href="#43-ambiguous-cases" data-toc-target="43-ambiguous-cases">4.3 Ambiguous Cases</a></li><li class="page-toc-item level-2"><a href="#5-converting-tool-handlers" data-toc-target="5-converting-tool-handlers">5. Converting Tool Handlers</a></li><li class="page-toc-item level-3"><a href="#51-before-individual-tool-handler" data-toc-target="51-before-individual-tool-handler">5.1 Before: Individual Tool Handler</a></li><li class="page-toc-item level-3"><a href="#52-after-crude-router" data-toc-target="52-after-crude-router">5.2 After: CRUDE Router</a></li><li class="page-toc-item level-3"><a href="#53-handler-signatures" data-toc-target="53-handler-signatures">5.3 Handler Signatures</a></li><li class="page-toc-item level-2"><a href="#6-adding-introspection" data-toc-target="6-adding-introspection">6. Adding Introspection</a></li><li class="page-toc-item level-3"><a href="#61-required-operation" data-toc-target="61-required-operation">6.1 Required Operation</a></li><li class="page-toc-item level-3"><a href="#62-building-the-operation-catalog" data-toc-target="62-building-the-operation-catalog">6.2 Building the Operation Catalog</a></li><li class="page-toc-item level-2"><a href="#7-validation-checklist" data-toc-target="7-validation-checklist">7. Validation Checklist</a></li><li class="page-toc-item level-2"><a href="#references" data-toc-target="references">References</a></li>
+            </ol>
+          </div>
+        </section>
+
+
         <section>
           <div class="card spec-prose">
             <p><strong>Version:</strong> 1.0.0-draft <strong>Status:</strong> Draft <strong>Last Updated:</strong> 2026-01-26</p>
@@ -83,17 +97,6 @@
 </blockquote>
 <h2 id="abstract">Abstract</h2>
 <p>This guide walks through the process of migrating an existing Model Context Protocol (MCP) server — one that exposes individual tools — to an MCP-AQL adapter that consolidates those tools into semantic CRUDE endpoints. The result is a ~96% reduction in token overhead while preserving full functionality.</p>
-<hr />
-<h2 id="table-of-contents">Table of Contents</h2>
-<ol type="1">
-<li><a href="#1-why-migrate">Why Migrate</a></li>
-<li><a href="#2-before-you-start">Before You Start</a></li>
-<li><a href="#3-migration-steps">Migration Steps</a></li>
-<li><a href="#4-mapping-tools-to-crude-operations">Mapping Tools to CRUDE Operations</a></li>
-<li><a href="#5-converting-tool-handlers">Converting Tool Handlers</a></li>
-<li><a href="#6-adding-introspection">Adding Introspection</a></li>
-<li><a href="#7-validation-checklist">Validation Checklist</a></li>
-</ol>
 <hr />
 <h2 id="1-why-migrate">1. Why Migrate</h2>
 <h3 id="11-the-problem-with-individual-tools">1.1 The Problem with Individual Tools</h3>

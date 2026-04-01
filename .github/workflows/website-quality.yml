@@ -12,6 +12,25 @@ permissions:
   contents: read
 
 jobs:
+  generated-docs:
+    name: Generated Docs Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Verify generated docs
+        run: |
+          node scripts/generate-page-toc.mjs --check
+
+      - name: Validate derived TOCs
+        run: npm run validate:toc
+
   markdown-lint:
     name: Markdown Lint
     runs-on: ubuntu-latest

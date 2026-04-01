@@ -4,6 +4,12 @@ import { execFileSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import {
+  collectGeneratedDocHeadings,
+  indentBlock,
+  renderTocSection,
+  stripMarkdownTableOfContents
+} from "./page-toc-utils.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -40,18 +46,20 @@ for (const state of mirrorStates) {
   const navSequence = navGroups.flatMap((group) => group.entries);
 
   for (const doc of state.docs) {
-    const fragment = renderMarkdown(doc.markdown);
+    const fragment = renderMarkdown(stripMarkdownTableOfContents(doc.markdown));
+    const bodyHtml = rewriteLinks(
+      stripFirstHeading(fragment),
+      doc,
+      state.config,
+      docLookups
+    );
     const html = wrapMirrorDocPage({
       config: state.config,
       doc,
       navGroups,
       navSequence,
-      bodyHtml: rewriteLinks(
-        stripFirstHeading(fragment),
-        doc,
-        state.config,
-        docLookups
-      )
+      bodyHtml,
+      tocEntries: collectGeneratedDocHeadings(bodyHtml)
     });
 
     changedFiles += writeFile(path.join(publicRoot, doc.outputRel), html);
@@ -622,9 +630,10 @@ function buildNavGroups(docs, categoryOrder) {
     .filter((group) => group.entries.length > 0);
 }
 
-function wrapMirrorDocPage({ config, doc, navGroups, navSequence, bodyHtml }) {
+function wrapMirrorDocPage({ config, doc, navGroups, navSequence, bodyHtml, tocEntries }) {
   const navHtml = renderNavGroups(navGroups, doc.outputRel);
   const pageNavHtml = renderDocPageNav(doc, navSequence, config.indexOutputRel);
+  const tocHtml = renderTocSection(tocEntries);
   const sourceUrl = `${config.githubBase}/${doc.sourceRepoRel}`;
   const metaBits = [
     `<span class="state-chip live">${escapeHtml(doc.scopeLabel)}</span>`,
@@ -716,6 +725,7 @@ function wrapMirrorDocPage({ config, doc, navGroups, navSequence, bodyHtml }) {
             </div>
           </div>
         </section>
+${tocHtml ? `\n${indentBlock(tocHtml, 8)}\n` : ""}
 
         <section>
           <div class="card spec-prose">
