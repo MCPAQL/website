@@ -150,6 +150,18 @@
     ]
   },
   {
+    "title": "Adapter Patterns",
+    "url": "/apis/index.html",
+    "excerpt": "Top-level guide to MCP-AQL adapter patterns across MCP servers, applications, cloud services, operating systems, and website-facing workflows.",
+    "keywords": [
+      "adapter patterns",
+      "pattern hub",
+      "integration",
+      "implementation guidance",
+      "apis"
+    ]
+  },
+  {
     "title": "MCP Server Adapter Pattern",
     "url": "/apis/mcp-server.html",
     "excerpt": "Draft guidance for adapting MCP servers to MCP-AQL through introspection and CRUDE operation mapping.",
@@ -196,10 +208,11 @@
   {
     "title": "Website Adapter Pattern",
     "url": "/apis/website.html",
-    "excerpt": "Draft guidance for website-facing integrations and retrieval/action patterns.",
+    "excerpt": "Draft guidance for website and web API integrations, including retrieval/action patterns and structured web workflows.",
     "keywords": [
       "website",
       "web",
+      "web api",
       "retrieval",
       "action"
     ]

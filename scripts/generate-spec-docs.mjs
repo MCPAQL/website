@@ -391,7 +391,7 @@ function wrapSpecDocPage({ doc, navGroups, navSequence, bodyHtml }) {
           <li><a href="${relativePathFromDoc(doc.outputRel, "index.html")}">Home</a></li>
           <li><a href="${relativePathFromDoc(doc.outputRel, "docs/index.html")}">Docs</a></li>
           <li><a href="${relativePathFromDoc(doc.outputRel, "launch-checklist.html")}">Launch Checklist</a></li>
-          <li><a href="${relativePathFromDoc(doc.outputRel, "apis/mcp-server.html")}">Adapter Patterns</a></li>
+          <li><a href="${relativePathFromDoc(doc.outputRel, "apis/index.html")}">Adapter Patterns</a></li>
         </ul>
         <form class="site-search" data-search-form data-index-url="${relativePathFromDoc(doc.outputRel, "data/search-index.json")}" role="search">
           <label class="sr-only" for="site-search-input">Search MCP-AQL docs</label>
@@ -505,7 +505,7 @@ function wrapSpecIndexPage(navGroups) {
           <li><a href="../index.html">Home</a></li>
           <li><a href="../docs/index.html">Docs</a></li>
           <li><a href="../launch-checklist.html">Launch Checklist</a></li>
-          <li><a href="../apis/mcp-server.html">Adapter Patterns</a></li>
+          <li><a href="../apis/index.html">Adapter Patterns</a></li>
         </ul>
         <form class="site-search" data-search-form data-index-url="../data/search-index.json" role="search">
           <label class="sr-only" for="site-search-input">Search MCP-AQL docs</label>
