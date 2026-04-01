@@ -75,6 +75,20 @@
           </div>
         </section>
 
+        <section class="page-toc-shell" data-page-toc>
+          <div class="card page-toc-card">
+            <div class="page-toc-head">
+              <p class="page-toc-kicker">On this page</p>
+              <h2>Jump to a section</h2>
+              <p class="page-toc-intro">Use the outline to move through longer pages without losing your place.</p>
+            </div>
+            <ol class="page-toc-list" data-page-toc-list>
+              <li class="page-toc-item level-2"><a href="#abstract" data-toc-target="abstract">Abstract</a></li><li class="page-toc-item level-2"><a href="#1-plugin-resolution" data-toc-target="1-plugin-resolution">1. Plugin Resolution</a></li><li class="page-toc-item level-2"><a href="#2-mvp-plugin-implementations" data-toc-target="2-mvp-plugin-implementations">2. MVP Plugin Implementations</a></li><li class="page-toc-item level-3"><a href="#21-http-transport-plugin" data-toc-target="21-http-transport-plugin">2.1 HTTP Transport Plugin</a></li><li class="page-toc-item level-3"><a href="#22-rest-protocol-plugin" data-toc-target="22-rest-protocol-plugin">2.2 REST Protocol Plugin</a></li><li class="page-toc-item level-3"><a href="#23-json-serialization-plugin" data-toc-target="23-json-serialization-plugin">2.3 JSON Serialization Plugin</a></li><li class="page-toc-item level-3"><a href="#24-none-auth-plugin" data-toc-target="24-none-auth-plugin">2.4 None Auth Plugin</a></li><li class="page-toc-item level-3"><a href="#25-api-key-auth-plugin" data-toc-target="25-api-key-auth-plugin">2.5 API Key Auth Plugin</a></li><li class="page-toc-item level-3"><a href="#26-bearer-auth-plugin" data-toc-target="26-bearer-auth-plugin">2.6 Bearer Auth Plugin</a></li><li class="page-toc-item level-2"><a href="#3-plugin-composition" data-toc-target="3-plugin-composition">3. Plugin Composition</a></li><li class="page-toc-item level-3"><a href="#31-request-pipeline" data-toc-target="31-request-pipeline">3.1 Request Pipeline</a></li><li class="page-toc-item level-3"><a href="#32-pipeline-execution" data-toc-target="32-pipeline-execution">3.2 Pipeline Execution</a></li><li class="page-toc-item level-2"><a href="#4-future-extensions" data-toc-target="4-future-extensions">4. Future Extensions</a></li><li class="page-toc-item level-3"><a href="#41-additional-transport-plugins" data-toc-target="41-additional-transport-plugins">4.1 Additional Transport Plugins</a></li><li class="page-toc-item level-3"><a href="#42-additional-protocol-plugins" data-toc-target="42-additional-protocol-plugins">4.2 Additional Protocol Plugins</a></li><li class="page-toc-item level-3"><a href="#43-additional-auth-plugins" data-toc-target="43-additional-auth-plugins">4.3 Additional Auth Plugins</a></li><li class="page-toc-item level-3"><a href="#44-pagination-plugins" data-toc-target="44-pagination-plugins">4.4 Pagination Plugins</a></li><li class="page-toc-item level-3"><a href="#45-user-extensible-plugins" data-toc-target="45-user-extensible-plugins">4.5 User-Extensible Plugins</a></li><li class="page-toc-item level-2"><a href="#references" data-toc-target="references">References</a></li>
+            </ol>
+          </div>
+        </section>
+
+
         <section>
           <div class="card spec-prose">
             <p><strong>Version:</strong> 1.0.0-draft <strong>Status:</strong> Draft (MVP) <strong>Last Updated:</strong> 2026-01-26 <strong>Moved from:</strong> <a href="https://github.com/MCPAQL/spec">MCPAQL/spec</a> (implementation portions of <code>docs/architecture/plugin-interface.md</code>)</p>
@@ -83,14 +97,6 @@
 </blockquote>
 <h2 id="abstract">Abstract</h2>
 <p>This document defines the plugin system implementation for the MCP-AQL adapter runtime, including plugin resolution, composition pipeline, execution order, and the behavior of MVP built-in plugins.</p>
-<hr />
-<h2 id="table-of-contents">Table of Contents</h2>
-<ol type="1">
-<li><a href="#1-plugin-resolution">Plugin Resolution</a></li>
-<li><a href="#2-mvp-plugin-implementations">MVP Plugin Implementations</a></li>
-<li><a href="#3-plugin-composition">Plugin Composition</a></li>
-<li><a href="#4-future-extensions">Future Extensions</a></li>
-</ol>
 <hr />
 <h2 id="1-plugin-resolution">1. Plugin Resolution</h2>
 <p>Plugins are resolved by name at runtime:</p>

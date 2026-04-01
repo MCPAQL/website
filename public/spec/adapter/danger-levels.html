@@ -93,24 +93,25 @@
           </div>
         </section>
 
+        <section class="page-toc-shell" data-page-toc>
+          <div class="card page-toc-card">
+            <div class="page-toc-head">
+              <p class="page-toc-kicker">On this page</p>
+              <h2>Jump to a section</h2>
+              <p class="page-toc-intro">Use the outline to move through longer pages without losing your place.</p>
+            </div>
+            <ol class="page-toc-list" data-page-toc-list>
+              <li class="page-toc-item level-2"><a href="#abstract" data-toc-target="abstract">Abstract</a></li><li class="page-toc-item level-2"><a href="#1-overview" data-toc-target="1-overview">1. Overview</a></li><li class="page-toc-item level-2"><a href="#2-danger-level-enum" data-toc-target="2-danger-level-enum">2. Danger Level Enum</a></li><li class="page-toc-item level-2"><a href="#3-operation-schema" data-toc-target="3-operation-schema">3. Operation Schema</a></li><li class="page-toc-item level-2"><a href="#4-trust-to-danger-gating" data-toc-target="4-trust-to-danger-gating">4. Trust-to-Danger Gating</a></li><li class="page-toc-item level-2"><a href="#5-automatic-lockdown" data-toc-target="5-automatic-lockdown">5. Automatic Lockdown</a></li><li class="page-toc-item level-2"><a href="#6-standard-dangerous-patterns" data-toc-target="6-standard-dangerous-patterns">6. Standard Dangerous Patterns</a></li><li class="page-toc-item level-2"><a href="#7-implementation-requirements" data-toc-target="7-implementation-requirements">7. Implementation Requirements</a></li><li class="page-toc-item level-2"><a href="#8-danger-zone-enforcement-during-execution" data-toc-target="8-danger-zone-enforcement-during-execution">8. Danger Zone Enforcement During Execution</a></li><li class="page-toc-item level-2"><a href="#9-future-extensions" data-toc-target="9-future-extensions">9. Future Extensions</a></li><li class="page-toc-item level-2"><a href="#references" data-toc-target="references">References</a></li>
+            </ol>
+          </div>
+        </section>
+
+
         <section>
           <div class="card spec-prose">
             <p><strong>Version:</strong> 1.0.0-draft <strong>Status:</strong> Draft <strong>Last Updated:</strong> 2026-01-28</p>
 <h2 id="abstract">Abstract</h2>
 <p>This document defines a standard classification system for dangerous operations in MCP-AQL adapters. Danger levels enable automatic lockdown of high-risk actions, consistent confirmation requirements, and trust-based permission gating.</p>
-<hr />
-<h2 id="table-of-contents">Table of Contents</h2>
-<ol type="1">
-<li><a href="#1-overview">Overview</a></li>
-<li><a href="#2-danger-level-enum">Danger Level Enum</a></li>
-<li><a href="#3-operation-schema">Operation Schema</a></li>
-<li><a href="#4-trust-to-danger-gating">Trust-to-Danger Gating</a></li>
-<li><a href="#5-automatic-lockdown">Automatic Lockdown</a></li>
-<li><a href="#6-standard-dangerous-patterns">Standard Dangerous Patterns</a></li>
-<li><a href="#7-implementation-requirements">Implementation Requirements</a></li>
-<li><a href="#8-danger-zone-enforcement-during-execution">Danger Zone Enforcement During Execution</a></li>
-<li><a href="#9-future-extensions">Future Extensions</a></li>
-</ol>
 <hr />
 <h2 id="1-overview">1. Overview</h2>
 <h3 id="11-purpose">1.1 Purpose</h3>

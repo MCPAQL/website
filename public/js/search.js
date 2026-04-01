@@ -234,6 +234,65 @@
     });
   }
 
+  function mountPageToc() {
+    const toc = document.querySelector("[data-page-toc]");
+    if (!toc) return;
+
+    const links = Array.prototype.slice.call(
+      toc.querySelectorAll("[data-page-toc-list] a[data-toc-target]")
+    ).map(function (link) {
+      return {
+        link: link,
+        targetId: link.getAttribute("data-toc-target"),
+        heading: document.getElementById(link.getAttribute("data-toc-target"))
+      };
+    }).filter(function (entry) {
+      return entry.heading;
+    });
+
+    if (!links.length) return;
+
+    function setCurrent(targetId) {
+      links.forEach(function (entry) {
+        const isCurrent = entry.targetId === targetId;
+        entry.link.classList.toggle("current", isCurrent);
+        if (isCurrent) {
+          entry.link.setAttribute("aria-current", "location");
+        } else {
+          entry.link.removeAttribute("aria-current");
+        }
+      });
+    }
+
+    function updateCurrentSection() {
+      var currentId = links[0].targetId;
+      var offset = 148;
+
+      links.forEach(function (entry) {
+        if (entry.heading.getBoundingClientRect().top <= offset) {
+          currentId = entry.targetId;
+        }
+      });
+
+      setCurrent(currentId);
+    }
+
+    var ticking = false;
+    function scheduleUpdate() {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(function () {
+        ticking = false;
+        updateCurrentSection();
+      });
+    }
+
+    window.addEventListener("scroll", scheduleUpdate, { passive: true });
+    window.addEventListener("resize", scheduleUpdate);
+    window.addEventListener("hashchange", scheduleUpdate);
+    updateCurrentSection();
+  }
+
   function mountSearchPage() {
     const page = document.querySelector("[data-search-page]");
     if (!page) return;
@@ -297,5 +356,6 @@
     document.querySelectorAll("[data-search-form]").forEach(mountSearch);
     mountSearchPage();
     mountPageNavigationShortcuts();
+    mountPageToc();
   });
 })();

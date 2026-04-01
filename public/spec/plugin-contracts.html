@@ -93,23 +93,25 @@
           </div>
         </section>
 
+        <section class="page-toc-shell" data-page-toc>
+          <div class="card page-toc-card">
+            <div class="page-toc-head">
+              <p class="page-toc-kicker">On this page</p>
+              <h2>Jump to a section</h2>
+              <p class="page-toc-intro">Use the outline to move through longer pages without losing your place.</p>
+            </div>
+            <ol class="page-toc-list" data-page-toc-list>
+              <li class="page-toc-item level-2"><a href="#abstract" data-toc-target="abstract">Abstract</a></li><li class="page-toc-item level-2"><a href="#1-overview" data-toc-target="1-overview">1. Overview</a></li><li class="page-toc-item level-2"><a href="#2-plugin-categories" data-toc-target="2-plugin-categories">2. Plugin Categories</a></li><li class="page-toc-item level-2"><a href="#3-base-plugin-interface" data-toc-target="3-base-plugin-interface">3. Base Plugin Interface</a></li><li class="page-toc-item level-2"><a href="#4-transport-plugin-interface" data-toc-target="4-transport-plugin-interface">4. Transport Plugin Interface</a></li><li class="page-toc-item level-2"><a href="#5-protocol-plugin-interface" data-toc-target="5-protocol-plugin-interface">5. Protocol Plugin Interface</a></li><li class="page-toc-item level-2"><a href="#6-serialization-plugin-interface" data-toc-target="6-serialization-plugin-interface">6. Serialization Plugin Interface</a></li><li class="page-toc-item level-2"><a href="#7-authentication-plugin-interface" data-toc-target="7-authentication-plugin-interface">7. Authentication Plugin Interface</a></li><li class="page-toc-item level-2"><a href="#8-error-code-contracts" data-toc-target="8-error-code-contracts">8. Error Code Contracts</a></li><li class="page-toc-item level-2"><a href="#references" data-toc-target="references">References</a></li>
+            </ol>
+          </div>
+        </section>
+
+
         <section>
           <div class="card spec-prose">
             <p><strong>Version:</strong> 1.0.0-draft <strong>Status:</strong> Draft (MVP) <strong>Last Updated:</strong> 2026-01-27</p>
 <h2 id="abstract">Abstract</h2>
 <p>This document defines the normative plugin interface contracts for the MCP-AQL adapter system. Plugins provide modular, composable functionality for transport, protocol, authentication, and serialization. This specification defines <strong>what</strong> each plugin type MUST provide; implementation details of specific plugins and the composition pipeline are documented in the <a href="https://github.com/MCPAQL/mcpaql-adapter">mcpaql-adapter</a> repository.</p>
-<hr />
-<h2 id="table-of-contents">Table of Contents</h2>
-<ol type="1">
-<li><a href="#1-overview">Overview</a></li>
-<li><a href="#2-plugin-categories">Plugin Categories</a></li>
-<li><a href="#3-base-plugin-interface">Base Plugin Interface</a></li>
-<li><a href="#4-transport-plugin-interface">Transport Plugin Interface</a></li>
-<li><a href="#5-protocol-plugin-interface">Protocol Plugin Interface</a></li>
-<li><a href="#6-serialization-plugin-interface">Serialization Plugin Interface</a></li>
-<li><a href="#7-authentication-plugin-interface">Authentication Plugin Interface</a></li>
-<li><a href="#8-error-code-contracts">Error Code Contracts</a></li>
-</ol>
 <hr />
 <h2 id="1-overview">1. Overview</h2>
 <h3 id="11-purpose">1.1 Purpose</h3>

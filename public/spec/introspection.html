@@ -93,6 +93,20 @@
           </div>
         </section>
 
+        <section class="page-toc-shell" data-page-toc>
+          <div class="card page-toc-card">
+            <div class="page-toc-head">
+              <p class="page-toc-kicker">On this page</p>
+              <h2>Jump to a section</h2>
+              <p class="page-toc-intro">Use the outline to move through longer pages without losing your place.</p>
+            </div>
+            <ol class="page-toc-list" data-page-toc-list>
+              <li class="page-toc-item level-2"><a href="#abstract" data-toc-target="abstract">Abstract</a></li><li class="page-toc-item level-2"><a href="#1-introduction" data-toc-target="1-introduction">1. Introduction</a></li><li class="page-toc-item level-2"><a href="#2-introspection-query-types" data-toc-target="2-introspection-query-types">2. Introspection Query Types</a></li><li class="page-toc-item level-2"><a href="#3-response-structures" data-toc-target="3-response-structures">3. Response Structures</a></li><li class="page-toc-item level-2"><a href="#4-operation-discovery" data-toc-target="4-operation-discovery">4. Operation Discovery</a></li><li class="page-toc-item level-2"><a href="#5-type-discovery" data-toc-target="5-type-discovery">5. Type Discovery</a></li><li class="page-toc-item level-2"><a href="#6-implementation-guidance" data-toc-target="6-implementation-guidance">6. Implementation Guidance</a></li><li class="page-toc-item level-2"><a href="#7-token-efficiency" data-toc-target="7-token-efficiency">7. Token Efficiency</a></li><li class="page-toc-item level-2"><a href="#8-conformance-requirements" data-toc-target="8-conformance-requirements">8. Conformance Requirements</a></li><li class="page-toc-item level-2"><a href="#references" data-toc-target="references">References</a></li>
+            </ol>
+          </div>
+        </section>
+
+
         <section>
           <div class="card spec-prose">
             <p><strong>Version:</strong> 1.0.0-draft <strong>Status:</strong> Draft <strong>Last Updated:</strong> 2026-01-16</p>
@@ -101,18 +115,6 @@
 </blockquote>
 <h2 id="abstract">Abstract</h2>
 <p>This document specifies the MCP-AQL introspection system, which provides GraphQL-style discovery capabilities for operations, parameters, types, and examples at runtime. The introspection system is the only operation that MCP-AQL mandates all adapters implement, enabling AI models to discover capabilities dynamically.</p>
-<h2 id="table-of-contents">Table of Contents</h2>
-<ol type="1">
-<li><a href="#1-introduction">Introduction</a></li>
-<li><a href="#2-introspection-query-types">Introspection Query Types</a></li>
-<li><a href="#3-response-structures">Response Structures</a></li>
-<li><a href="#4-operation-discovery">Operation Discovery</a></li>
-<li><a href="#5-type-discovery">Type Discovery</a></li>
-<li><a href="#6-implementation-guidance">Implementation Guidance</a></li>
-<li><a href="#7-token-efficiency">Token Efficiency</a></li>
-<li><a href="#8-conformance-requirements">Conformance Requirements</a></li>
-</ol>
-<hr />
 <h2 id="1-introduction">1. Introduction</h2>
 <h3 id="11-purpose">1.1 Purpose</h3>
 <p>The introspection system enables AI models to discover available operations at runtime rather than parsing large tool schemas upfront. This provides:</p>

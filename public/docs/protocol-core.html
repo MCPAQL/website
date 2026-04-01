@@ -82,6 +82,19 @@
           </a>
         </nav>
 
+        <section class="page-toc-shell" data-page-toc>
+          <div class="card page-toc-card">
+            <div class="page-toc-head">
+              <p class="page-toc-kicker">On this page</p>
+              <h2>Jump to a section</h2>
+              <p class="page-toc-intro">Use the outline to move through longer pages without losing your place.</p>
+            </div>
+            <ol class="page-toc-list" data-page-toc-list>
+              <li class="page-toc-item level-2"><a href="#protocol-scope" data-toc-target="protocol-scope">Protocol Scope</a></li><li class="page-toc-item level-2"><a href="#crude-endpoint-model" data-toc-target="crude-endpoint-model">CRUDE Endpoint Model</a></li><li class="page-toc-item level-2"><a href="#endpoint-modes" data-toc-target="endpoint-modes">Endpoint Modes</a></li><li class="page-toc-item level-2"><a href="#request-and-response-contract" data-toc-target="request-and-response-contract">Request And Response Contract</a></li><li class="page-toc-item level-2"><a href="#runtime-discovery" data-toc-target="runtime-discovery">Runtime Discovery</a></li><li class="page-toc-item level-2"><a href="#operational-rules-readers-usually-miss" data-toc-target="operational-rules-readers-usually-miss">Operational rules readers usually miss</a></li>
+            </ol>
+          </div>
+        </section>
+
         <section class="topic-bridge">
           <h2 class="sr-only">Related reading</h2>
           <div class="grid cols-2">
@@ -109,7 +122,7 @@
         </section>
 
         <section>
-          <h2 class="section-title">Protocol Scope</h2>
+          <h2 class="section-title" id="protocol-scope">Protocol Scope</h2>
           <div class="card">
             <p>
               MCP-AQL specifies wire-level operation request/response behavior, endpoint semantics, introspection shape,
@@ -124,7 +137,7 @@
         </section>
 
         <section>
-          <h2 class="section-title">CRUDE Endpoint Model</h2>
+          <h2 class="section-title" id="crude-endpoint-model">CRUDE Endpoint Model</h2>
           <div class="card table-card">
             <table class="data-table">
               <thead>
@@ -166,7 +179,7 @@
         </section>
 
         <section>
-          <h2 class="section-title">Endpoint Modes</h2>
+          <h2 class="section-title" id="endpoint-modes">Endpoint Modes</h2>
           <div class="grid cols-2">
             <article class="card">
               <h3>CRUDE Mode (5 endpoints)</h3>
@@ -186,7 +199,7 @@ mcp_aql_execute</pre>
         </section>
 
         <section>
-          <h2 class="section-title">Request And Response Contract</h2>
+          <h2 class="section-title" id="request-and-response-contract">Request And Response Contract</h2>
           <div class="grid cols-2">
             <article class="card">
               <h3>Request Shape</h3>
@@ -211,7 +224,7 @@ mcp_aql_execute</pre>
         </section>
 
         <section>
-          <h2 class="section-title">Runtime Discovery</h2>
+          <h2 class="section-title" id="runtime-discovery">Runtime Discovery</h2>
           <div class="card">
             <p>
               The introspection system is required for runtime capability discovery and is central to reducing up-front tool-definition token load.
@@ -226,7 +239,7 @@ mcp_aql_execute</pre>
         </section>
 
         <section>
-          <h2 class="section-title">Operational rules readers usually miss</h2>
+          <h2 class="section-title" id="operational-rules-readers-usually-miss">Operational rules readers usually miss</h2>
           <div class="grid cols-2">
             <article class="card">
               <h3>Naming and parameter rules</h3>
