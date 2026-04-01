@@ -65,6 +65,7 @@
             <div class="hero-actions">
               <a class="btn btn-primary" href="../docs/adapter-contracts.html">Adapter Contracts</a>
               <a class="btn btn-secondary" href="../docs/implementation-profiles.html">Implementation Profiles</a>
+              <a class="btn btn-secondary" href="../adapter-reference/index.html">Reference Adapter Docs</a>
               <a class="btn btn-secondary" href="../spec/mcp-integration.html">MCP Integration Spec</a>
             </div>
           </div>
@@ -88,6 +89,8 @@
               <ul>
                 <li><a href="../docs/adapter-contracts.html">Adapter Contracts</a></li>
                 <li><a href="../docs/security-model.html">Security Model</a></li>
+                <li><a href="../adapter-reference/index.html">Reference Adapter Docs</a></li>
+                <li><a href="../adapter-reference/architecture/overview.html">Adapter Architecture Overview</a></li>
                 <li><a href="../spec/operations.html">Operations Specification</a></li>
                 <li><a href="../spec/adapter/element-type.html">Adapter Element Type Specification</a></li>
               </ul>
@@ -123,6 +126,37 @@
               <h3><a class="card-title-link" href="website.html">Website / Web API</a></h3>
               <span class="state-chip pending">Web workflow fit</span>
               <p>For retrieval-heavy or action-heavy web flows where scraping, APIs, navigation, and side effects can overlap.</p>
+            </article>
+          </div>
+        </section>
+
+        <section>
+          <h2 class="section-title">Repo-Synced Implementation Reference</h2>
+          <p class="section-subtitle">The implementation architecture is now mirrored onto the website too, so these pattern pages can point into real runtime docs instead of stopping at conceptual guidance.</p>
+          <div class="grid cols-3">
+            <article class="card">
+              <h3><a class="card-title-link" href="../adapter-reference/architecture/overview.html">Architecture Overview</a></h3>
+              <p>Read the internal adapter shape, request flow, and design principles from the reference adapter repo.</p>
+            </article>
+            <article class="card">
+              <h3><a class="card-title-link" href="../adapter-reference/architecture/runtime.html">Universal Runtime</a></h3>
+              <p>See how schema loading, dispatch, request building, response handling, and error mapping are expected to work.</p>
+            </article>
+            <article class="card">
+              <h3><a class="card-title-link" href="../adapter-reference/guides/development.html">Development Guide</a></h3>
+              <p>Use the practical build guidance when you move from choosing a pattern to implementing one.</p>
+            </article>
+            <article class="card">
+              <h3><a class="card-title-link" href="../adapter-reference/guides/testing.html">Testing Guide</a></h3>
+              <p>Cover handler tests, routing tests, introspection checks, and conformance workflow from the same website docs experience.</p>
+            </article>
+            <article class="card">
+              <h3><a class="card-title-link" href="../adapter-reference/guides/migration.html">Migration Guide</a></h3>
+              <p>Use the MCP server migration guide when you are consolidating an existing tool surface into MCP-AQL operations.</p>
+            </article>
+            <article class="card">
+              <h3><a class="card-title-link" href="../adapter-reference/adr/README.html">Implementation ADRs</a></h3>
+              <p>Browse the accepted implementation decisions behind the reference adapter architecture and plugin pipeline.</p>
             </article>
           </div>
         </section>

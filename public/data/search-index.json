@@ -264,7 +264,7 @@
   {
     "title": "Repo-Synced Spec Reference",
     "url": "/spec/index.html",
-    "excerpt": "Full website-hosted mirror of the MCP-AQL spec docs generated from the spec repository source.",
+    "excerpt": "Full website-hosted mirror of the MCP-AQL spec docs generated from the specification repository source.",
     "keywords": [
       "spec mirror",
       "repo synced",
@@ -274,12 +274,24 @@
     ]
   },
   {
+    "title": "Reference Adapter Docs",
+    "url": "/adapter-reference/index.html",
+    "excerpt": "Website-hosted mirror of the reference adapter repo docs covering runtime architecture, guides, ADRs, and examples.",
+    "keywords": [
+      "adapter docs",
+      "implementation",
+      "runtime",
+      "guides",
+      "reference adapter"
+    ]
+  },
+  {
     "title": "Spec: Dangerous Operation Classification Specification",
     "url": "/spec/adapter/danger-levels.html",
     "excerpt": "This document defines a standard classification system for dangerous operations in MCP-AQL adapters. Danger levels enable automatic lockdown of high-risk actions, consistent confirmation requirements, and trust-based per",
     "keywords": [
-      "adapter",
       "spec",
+      "adapter",
       "docs",
       "danger",
       "levels",
@@ -294,8 +306,8 @@
     "url": "/spec/adapter/discovery-bundle.html",
     "excerpt": "Document Status: This document is informative support text for the current MCP-AQL draft. The normative source of truth remains Specification v1.0.0-draft plus the published schemas in spec/schemas/.",
     "keywords": [
-      "adapter",
       "spec",
+      "adapter",
       "docs",
       "discovery",
       "bundle",
@@ -308,8 +320,8 @@
     "url": "/spec/adapter/element-type.html",
     "excerpt": "This document defines the Adapter Element Type, a declarative schema format for describing how MCP-AQL CRUDE operations map to target API calls. Adapters are Markdown files with YAML front matter that a universal runtime",
     "keywords": [
-      "adapter",
       "spec",
+      "adapter",
       "docs",
       "element",
       "type",
@@ -321,8 +333,8 @@
     "url": "/spec/adapter/generator.html",
     "excerpt": "This document specifies the requirements and behavior of MCP-AQL adapter generators. An adapter generator takes a schema definition as input and produces compliant adapter code with required licensing artifacts and prove",
     "keywords": [
-      "adapter",
       "spec",
+      "adapter",
       "docs",
       "generator",
       "specification"
@@ -333,8 +345,8 @@
     "url": "/spec/adapter/rate-limiting.html",
     "excerpt": "This document defines the rate limiting and quota management system for MCP-AQL adapters. Rate limits enable systems to respect API constraints, prevent runaway costs, and provide graceful degradation under load.",
     "keywords": [
-      "adapter",
       "spec",
+      "adapter",
       "docs",
       "rate",
       "limiting",
@@ -349,8 +361,8 @@
     "url": "/spec/adapter/trust-levels.html",
     "excerpt": "This document defines the trust level system for MCP-AQL adapters. Trust levels indicate the verification and validation status of an adapter, enabling systems to make informed decisions about which operations to permit ",
     "keywords": [
-      "adapter",
       "spec",
+      "adapter",
       "docs",
       "trust",
       "levels",
@@ -362,8 +374,8 @@
     "url": "/spec/adr/ADR-001-crude-pattern.html",
     "excerpt": "Date: 2026-01-16",
     "keywords": [
-      "adrs",
       "spec",
+      "adrs",
       "docs",
       "adr",
       "001",
@@ -380,8 +392,8 @@
     "url": "/spec/adr/ADR-002-graphql-style-input.html",
     "excerpt": "Date: 2026-01-16",
     "keywords": [
-      "adrs",
       "spec",
+      "adrs",
       "docs",
       "adr",
       "002",
@@ -398,8 +410,8 @@
     "url": "/spec/adr/ADR-003-snake-case-parameters.html",
     "excerpt": "Date: 2026-01-16",
     "keywords": [
-      "adrs",
       "spec",
+      "adrs",
       "docs",
       "adr",
       "003",
@@ -415,8 +427,8 @@
     "url": "/spec/adr/ADR-004-schema-driven-operations.html",
     "excerpt": "Date: 2026-01-16",
     "keywords": [
-      "adrs",
       "spec",
+      "adrs",
       "docs",
       "adr",
       "004",
@@ -432,8 +444,8 @@
     "url": "/spec/adr/ADR-005-introspection-system.html",
     "excerpt": "Date: 2026-01-16",
     "keywords": [
-      "adrs",
       "spec",
+      "adrs",
       "docs",
       "adr",
       "005",
@@ -448,8 +460,8 @@
     "url": "/spec/adr/ADR-006-discriminated-responses.html",
     "excerpt": "Date: 2026-01-16",
     "keywords": [
-      "adrs",
       "spec",
+      "adrs",
       "docs",
       "adr",
       "006",
@@ -464,8 +476,8 @@
     "url": "/spec/adr/index.html",
     "excerpt": "This directory contains Architecture Decision Records (ADRs) documenting significant design decisions in the MCP-AQL protocol specification.",
     "keywords": [
-      "adrs",
       "spec",
+      "adrs",
       "docs",
       "adr",
       "index",
@@ -479,8 +491,8 @@
     "url": "/spec/adr/README.html",
     "excerpt": "See index.md for the complete list of ADRs.",
     "keywords": [
-      "adrs",
       "spec",
+      "adrs",
       "docs",
       "adr",
       "readme",
@@ -494,8 +506,8 @@
     "url": "/spec/architecture/README.html",
     "excerpt": "Implementation architecture documentation has moved to the mcpaql-adapter repository.",
     "keywords": [
-      "architecture",
       "spec",
+      "architecture",
       "docs",
       "readme",
       "documentation"
@@ -506,8 +518,8 @@
     "url": "/spec/conformance-testing.html",
     "excerpt": "Document Status: This document is an informative conformance framework specification aligned to the normative protocol requirements in docs/versions/v1.0.0-draft.md. Implementation Status: The full mcpaql-conformance run",
     "keywords": [
-      "core",
       "spec",
+      "core",
       "docs",
       "conformance",
       "testing",
@@ -521,8 +533,8 @@
     "url": "/spec/crude-pattern.html",
     "excerpt": "Document Status: This document is informative. For normative requirements, see MCP-AQL Specification v1.0.0.",
     "keywords": [
-      "core",
       "spec",
+      "core",
       "docs",
       "crude",
       "pattern",
@@ -536,8 +548,8 @@
     "url": "/spec/endpoint-modes.html",
     "excerpt": "Document Status: This document is informative. For normative requirements, see MCP-AQL Specification v1.0.0.",
     "keywords": [
-      "core",
       "spec",
+      "core",
       "docs",
       "endpoint",
       "modes",
@@ -551,8 +563,8 @@
     "url": "/spec/error-codes.html",
     "excerpt": "This document defines the structured error code system for MCP-AQL protocol responses. Structured error codes enable machine-readable error handling, consistent error categorization, and reliable error mapping across ada",
     "keywords": [
-      "core",
       "spec",
+      "core",
       "docs",
       "error",
       "codes",
@@ -565,8 +577,8 @@
     "url": "/spec/features/field-selection.html",
     "excerpt": "This document specifies the optional field selection feature that enables clients to request only specific fields in responses, reducing payload size and token consumption.",
     "keywords": [
-      "features",
       "spec",
+      "features",
       "docs",
       "field",
       "selection",
@@ -578,8 +590,8 @@
     "url": "/spec/features/pagination.html",
     "excerpt": "This document defines cursor-based pagination semantics for MCP-AQL operations that return collections. Cursor pagination enables efficient iteration through large datasets while minimizing token usage in LLM context win",
     "keywords": [
-      "features",
       "spec",
+      "features",
       "docs",
       "pagination",
       "cursor",
@@ -592,8 +604,8 @@
     "url": "/spec/features/warnings.html",
     "excerpt": "This document specifies the warnings array extension to MCP-AQL's discriminated response format. Warnings provide a mechanism to communicate non-fatal conditions to clients within successful responses, enabling proactive",
     "keywords": [
-      "features",
       "spec",
+      "features",
       "docs",
       "warnings",
       "array",
@@ -605,8 +617,8 @@
     "url": "/spec/guides/protocol-comparison.html",
     "excerpt": "This document helps developers familiar with GraphQL, MongoDB, REST, SQL, or classic MCP understand MCP-AQL by mapping familiar concepts to their MCP-AQL equivalents.",
     "keywords": [
-      "guides",
       "spec",
+      "guides",
       "docs",
       "protocol",
       "comparison",
@@ -618,8 +630,8 @@
     "url": "/spec/guides/README.html",
     "excerpt": "Step-by-step guides for implementing and using MCP-AQL adapters.",
     "keywords": [
-      "guides",
       "spec",
+      "guides",
       "docs",
       "readme",
       "developer"
@@ -630,8 +642,8 @@
     "url": "/spec/introspection.html",
     "excerpt": "Document Status: This document is informative. For normative requirements, see MCP-AQL Specification v1.0.0.",
     "keywords": [
-      "core",
       "spec",
+      "core",
       "docs",
       "introspection",
       "mcp",
@@ -644,8 +656,8 @@
     "url": "/spec/licensing-options.html",
     "excerpt": "This document is a discussion aid for deciding how to license the MCP-AQL ecosystem (spec + schema artifacts + tooling + generated adapters + brand/name), while meeting these goals:",
     "keywords": [
-      "core",
       "spec",
+      "core",
       "docs",
       "licensing",
       "options",
@@ -660,8 +672,8 @@
     "url": "/spec/mcp-integration.html",
     "excerpt": "This document specifies how MCP-AQL adapters integrate with the Model Context Protocol (MCP). It defines tool registration requirements, input schema composition, error mapping between protocols, progress notification ha",
     "keywords": [
-      "core",
       "spec",
+      "core",
       "docs",
       "mcp",
       "integration",
@@ -673,8 +685,8 @@
     "url": "/spec/operations.html",
     "excerpt": "Document Status: This document is informative. For normative requirements, see MCP-AQL Specification v1.0.0.",
     "keywords": [
-      "core",
       "spec",
+      "core",
       "docs",
       "operations",
       "mcp",
@@ -687,8 +699,8 @@
     "url": "/spec/overview.html",
     "excerpt": "MCP-AQL (Model Context Protocol - Agent Query Language) is a protocol that consolidates discrete MCP tools into 5 CRUDE endpoints (Create, Read, Update, Delete, Execute), providing significant token reduction while maint",
     "keywords": [
-      "core",
       "spec",
+      "core",
       "docs",
       "overview",
       "mcp",
@@ -701,8 +713,8 @@
     "url": "/spec/plugin-contracts.html",
     "excerpt": "This document defines the normative plugin interface contracts for the MCP-AQL adapter system. Plugins provide modular, composable functionality for transport, protocol, authentication, and serialization. This specificat",
     "keywords": [
-      "core",
       "spec",
+      "core",
       "docs",
       "plugin",
       "contracts",
@@ -714,8 +726,8 @@
     "url": "/spec/process/breaking-changes.html",
     "excerpt": "This document defines how breaking changes are handled in the MCP-AQL specification, including change classification, deprecation procedures, migration requirements, and communication standards.",
     "keywords": [
-      "process",
       "spec",
+      "process",
       "docs",
       "breaking",
       "changes",
@@ -730,8 +742,8 @@
     "url": "/spec/process/preliminary-public-launch-checklist.html",
     "excerpt": "This checklist defines the minimum quality bar for a coordinated preliminary public launch of:",
     "keywords": [
-      "process",
       "spec",
+      "process",
       "docs",
       "preliminary",
       "public",
@@ -744,8 +756,8 @@
     "url": "/spec/process/rfc-process.html",
     "excerpt": "This document describes the formal process for proposing, reviewing, and accepting changes to the MCP-AQL specification through Requests for Comments (RFCs).",
     "keywords": [
-      "process",
       "spec",
+      "process",
       "docs",
       "rfc",
       "for",
@@ -759,8 +771,8 @@
     "url": "/spec/process/versioning.html",
     "excerpt": "This document describes the version numbering scheme and release process for the MCPAQL specification.",
     "keywords": [
-      "process",
       "spec",
+      "process",
       "docs",
       "versioning",
       "strategy"
@@ -771,8 +783,8 @@
     "url": "/spec/README.html",
     "excerpt": "This directory contains the MCP-AQL specification set:",
     "keywords": [
-      "core",
       "spec",
+      "core",
       "docs",
       "readme",
       "mcp",
@@ -786,8 +798,8 @@
     "url": "/spec/reference/README.html",
     "excerpt": "Detailed specifications for schemas, formats, and protocol structures.",
     "keywords": [
-      "reference",
       "spec",
+      "reference",
       "docs",
       "readme",
       "documentation"
@@ -798,8 +810,8 @@
     "url": "/spec/research/mcp-vs-mcpaql-vs-a2a.html",
     "excerpt": "A strategic comparison of three protocols shaping how AI agents interact with the world: where they overlap, where they diverge, and where the gaps are.",
     "keywords": [
-      "research",
       "spec",
+      "research",
       "docs",
       "mcp",
       "vs",
@@ -815,8 +827,8 @@
     "url": "/spec/security/confirmation-tokens.html",
     "excerpt": "This document specifies the confirmation token mechanism used by MCP-AQL adapters to gate dangerous operations and quota continuations. Confirmation tokens provide a secure, time-limited method for clients to acknowledge",
     "keywords": [
-      "security",
       "spec",
+      "security",
       "docs",
       "confirmation",
       "tokens",
@@ -829,8 +841,8 @@
     "url": "/spec/security/execution-safety-loop.html",
     "excerpt": "Informative Document: This is an informative specification that provides detailed guidance for the execution safety loop pattern defined normatively in Section 8.6 of the core specification. In case of conflict, the norm",
     "keywords": [
-      "security",
       "spec",
+      "security",
       "docs",
       "execution",
       "safety",
@@ -843,8 +855,8 @@
     "url": "/spec/security/gatekeeper.html",
     "excerpt": "This document specifies an optional security model for MCP-AQL adapters, providing multi-layer access control, confirmation requirements, and audit capabilities.",
     "keywords": [
-      "security",
       "spec",
+      "security",
       "docs",
       "gatekeeper",
       "model",
@@ -856,8 +868,8 @@
     "url": "/spec/versions/v1.0.0-draft.html",
     "excerpt": "MCP-AQL (Model Context Protocol - Advanced Agent API Adapter Query Language) is a protocol specification that consolidates multiple MCP tools into semantic CRUDE endpoints, providing significant token reduction while ena",
     "keywords": [
-      "versions",
       "spec",
+      "versions",
       "docs",
       "v1.0.0",
       "draft",
@@ -871,8 +883,8 @@
     "url": "/spec/repo/README.html",
     "excerpt": "Model Context Protocol - Advanced Agent API Adapter Query Language",
     "keywords": [
-      "core",
       "spec",
+      "core",
       "readme",
       "mcp",
       "aql",
@@ -884,9 +896,191 @@
     "url": "/spec/repo/CHANGELOG.html",
     "excerpt": "All notable changes to the MCP-AQL specification will be documented in this file.",
     "keywords": [
-      "process",
       "spec",
+      "process",
       "changelog"
+    ]
+  },
+  {
+    "title": "Adapter: ADR-001: Plugin Pipeline Order",
+    "url": "/adapter-reference/adr/ADR-001-plugin-pipeline-order.html",
+    "excerpt": "Date: 2026-01-26",
+    "keywords": [
+      "adapter",
+      "adrs",
+      "docs",
+      "adr",
+      "001",
+      "plugin",
+      "pipeline",
+      "order"
+    ]
+  },
+  {
+    "title": "Adapter: ADR-002: Schema-Driven Dispatch over Code Generation",
+    "url": "/adapter-reference/adr/ADR-002-schema-driven-dispatch.html",
+    "excerpt": "Date: 2026-01-26",
+    "keywords": [
+      "adapter",
+      "adrs",
+      "docs",
+      "adr",
+      "002",
+      "schema",
+      "driven",
+      "dispatch",
+      "over",
+      "code",
+      "generation"
+    ]
+  },
+  {
+    "title": "Adapter: ADR-003: Stateless Singleton Plugins",
+    "url": "/adapter-reference/adr/ADR-003-stateless-plugins.html",
+    "excerpt": "Date: 2026-01-26",
+    "keywords": [
+      "adapter",
+      "adrs",
+      "docs",
+      "adr",
+      "003",
+      "stateless",
+      "plugins",
+      "singleton"
+    ]
+  },
+  {
+    "title": "Adapter: Architecture Decision Records",
+    "url": "/adapter-reference/adr/README.html",
+    "excerpt": "This directory contains Architecture Decision Records (ADRs) for implementation decisions in the MCP-AQL adapter.",
+    "keywords": [
+      "adapter",
+      "adrs",
+      "docs",
+      "adr",
+      "readme",
+      "architecture",
+      "decision",
+      "records"
+    ]
+  },
+  {
+    "title": "Adapter: Schema-Driven Dispatch",
+    "url": "/adapter-reference/architecture/dispatch.html",
+    "excerpt": "This document specifies the schema-driven dispatch pattern that enables declarative operation definitions with automatic parameter resolution, validation, and handler invocation. This is an optional but recommended patte",
+    "keywords": [
+      "adapter",
+      "architecture",
+      "docs",
+      "dispatch",
+      "schema",
+      "driven"
+    ]
+  },
+  {
+    "title": "Adapter: MCP-AQL Architecture Overview",
+    "url": "/adapter-reference/architecture/overview.html",
+    "excerpt": "This document describes the architecture of MCP-AQL adapters, explaining how they transform existing APIs and services into MCP-AQL compliant endpoints. It covers the core components, request flow, and design principles ",
+    "keywords": [
+      "adapter",
+      "architecture",
+      "docs",
+      "overview",
+      "mcp",
+      "aql"
+    ]
+  },
+  {
+    "title": "Adapter: Plugin System Implementation",
+    "url": "/adapter-reference/architecture/plugin-system.html",
+    "excerpt": "This document defines the plugin system implementation for the MCP-AQL adapter runtime, including plugin resolution, composition pipeline, execution order, and the behavior of MVP built-in plugins.",
+    "keywords": [
+      "adapter",
+      "architecture",
+      "docs",
+      "plugin",
+      "system",
+      "implementation"
+    ]
+  },
+  {
+    "title": "Adapter: Universal Adapter Runtime Specification",
+    "url": "/adapter-reference/architecture/runtime.html",
+    "excerpt": "This document defines the Universal Adapter Runtime specification - the execution engine that interprets adapter schema files and translates MCP-AQL CRUDE operations to target API calls. The runtime enables schema-driven",
+    "keywords": [
+      "adapter",
+      "architecture",
+      "docs",
+      "runtime",
+      "universal",
+      "specification"
+    ]
+  },
+  {
+    "title": "Adapter: MCP-AQL Adapter Development Guide",
+    "url": "/adapter-reference/guides/development.html",
+    "excerpt": "This guide provides practical instructions for developing MCP-AQL compliant adapters. It covers the implementation steps, required components, and best practices for building adapters that wrap existing services.",
+    "keywords": [
+      "adapter",
+      "guides",
+      "docs",
+      "development",
+      "mcp",
+      "aql",
+      "guide"
+    ]
+  },
+  {
+    "title": "Adapter: Migration Guide: MCP Server to MCP-AQL Adapter",
+    "url": "/adapter-reference/guides/migration.html",
+    "excerpt": "This guide walks through the process of migrating an existing Model Context Protocol (MCP) server — one that exposes individual tools — to an MCP-AQL adapter that consolidates those tools into semantic CRUDE endpoints. T",
+    "keywords": [
+      "adapter",
+      "guides",
+      "docs",
+      "migration",
+      "guide",
+      "mcp",
+      "server",
+      "to",
+      "aql"
+    ]
+  },
+  {
+    "title": "Adapter: MCP-AQL Adapter Testing Guide",
+    "url": "/adapter-reference/guides/testing.html",
+    "excerpt": "This guide defines testing patterns and strategies for MCP-AQL adapter implementations. It covers unit testing, integration testing, endpoint routing validation, introspection verification, and conformance testing.",
+    "keywords": [
+      "adapter",
+      "guides",
+      "docs",
+      "testing",
+      "mcp",
+      "aql",
+      "guide"
+    ]
+  },
+  {
+    "title": "Adapter: MCP-AQL Reference Adapter",
+    "url": "/adapter-reference/repo/README.html",
+    "excerpt": "Reference implementation for MCP-AQL (Model Context Protocol - Advanced Agent API Adapter Query Language) adapters.",
+    "keywords": [
+      "adapter",
+      "overview",
+      "readme",
+      "mcp",
+      "aql",
+      "reference"
+    ]
+  },
+  {
+    "title": "Adapter: Examples",
+    "url": "/adapter-reference/examples/README.html",
+    "excerpt": "Minimal working examples demonstrating MCP-AQL adapter patterns.",
+    "keywords": [
+      "adapter",
+      "examples",
+      "readme"
     ]
   }
 ]

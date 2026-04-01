@@ -63,6 +63,7 @@
             <p class="callout">This is conceptual guidance. A public website/web API adapter reference is not published yet.</p>
             <div class="hero-actions">
               <a class="btn btn-primary" href="../docs/adapter-contracts.html">Adapter Contracts</a>
+              <a class="btn btn-secondary" href="../adapter-reference/index.html">Reference Adapter Docs</a>
               <a class="btn btn-secondary" href="../spec/features/field-selection.html">Field Selection Spec</a>
             </div>
           </div>
@@ -76,6 +77,8 @@
               <p>These references carry the deeper constraints behind read-heavy and action-heavy web integrations.</p>
               <ul>
                 <li><a href="../docs/adapter-contracts.html">Adapter Contracts</a></li>
+                <li><a href="../adapter-reference/guides/development.html">Development Guide</a></li>
+                <li><a href="../adapter-reference/guides/testing.html">Testing Guide</a></li>
                 <li><a href="../spec/features/field-selection.html">Field Selection Specification</a></li>
                 <li><a href="../spec/error-codes.html">Structured Error Codes</a></li>
                 <li><a href="../spec/operations.html">Operations Specification</a></li>
@@ -152,7 +155,26 @@
         </section>
 
         <section>
+          <h2 class="section-title">Implementation Reference</h2>
+          <div class="grid cols-3">
+            <article class="card">
+              <h3><a class="card-title-link" href="../adapter-reference/guides/development.html">Development Guide</a></h3>
+              <p>Turn mixed retrieval and action workflows into explicit READ and EXECUTE operations with clearer contracts.</p>
+            </article>
+            <article class="card">
+              <h3><a class="card-title-link" href="../adapter-reference/guides/testing.html">Testing Guide</a></h3>
+              <p>Validate selector-driven flows, action boundaries, and error normalization before exposing web-facing operations.</p>
+            </article>
+            <article class="card">
+              <h3><a class="card-title-link" href="../adapter-reference/architecture/plugin-system.html">Plugin System</a></h3>
+              <p>Use plugin composition to isolate transport, auth, serialization, and transformation concerns in web integrations.</p>
+            </article>
+          </div>
+        </section>
+
+        <section>
           <div class="hero-actions">
+            <a class="btn btn-secondary" href="../adapter-reference/index.html">Reference adapter docs</a>
             <a class="btn btn-secondary" href="../docs/index.html">Back to docs library</a>
             <a class="btn btn-secondary" href="../index.html">&larr; Back to portal</a>
           </div>

@@ -3,7 +3,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "generate:spec-docs": "node scripts/generate-spec-docs.mjs",
-    "generate:spec-docs:check": "node scripts/generate-spec-docs.mjs --check"
+    "generate:repo-docs": "node scripts/generate-repo-docs.mjs",
+    "generate:repo-docs:check": "node scripts/generate-repo-docs.mjs --check",
+    "generate:spec-docs": "npm run generate:repo-docs",
+    "generate:spec-docs:check": "npm run generate:repo-docs:check"
   }
 }
