@@ -36,10 +36,10 @@
       <section class="hero">
         <div class="hero-inner">
           <span class="status-pill">PRELIMINARY PUBLIC DRAFT</span>
-          <h1>MCP-AQL documentation that tracks the draft spec as it exists today</h1>
+          <h1>MCP-AQL tells AI clients what operations mean, not just how to call them</h1>
           <p class="lede">
-            This site is the browse-first public surface for MCP-AQL: what the protocol is, how it routes operations,
-            how it handles safety and errors, what counts as draft-compatible today, and what remains open in the live spec backlog.
+            MCP-AQL adds semantic routing on top of MCP transport, so operation intent is explicit at the protocol layer instead of buried in tool descriptions.
+            Clients can distinguish safe reads from destructive deletes by endpoint alone, while cutting tool-definition token overhead by about 85-96%.
           </p>
           <div class="hero-actions">
             <a class="btn btn-primary" href="docs/getting-started.html">Start With The Quick Path</a>
@@ -51,24 +51,99 @@
       </section>
 
       <section>
-        <h2 class="section-title">Start Here</h2>
+        <h2 class="section-title">Why MCP-AQL Matters</h2>
         <p class="section-subtitle">
-          If you are new to MCP-AQL, this sequence gets you from protocol overview to launch reality without repo spelunking.
+          MCP-AQL makes operation intent visible at the protocol layer, keeps discovery runtime-driven, and gives clients enough structure
+          to reason about safety without guessing from prose.
+        </p>
+        <div class="grid cols-3">
+          <article class="card">
+            <h3>MCP's semantics gap</h3>
+            <p>
+              In plain MCP, <code>get_user</code> and <code>drop_database</code> are structurally identical. The only clue about safety
+              or intent is the human-written description field.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Semantic routing in MCP-AQL</h3>
+            <p>
+              In MCP-AQL, routing an operation to <code>READ</code> guarantees side-effect-free intent, while routing to
+              <code>DELETE</code> declares destructive intent at the protocol layer.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Policy and agent benefit</h3>
+            <p>
+              Clients, LLMs, and policy systems can make decisions from the endpoint alone instead of burning tokens trying to infer
+              behavior from descriptive text.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="section-title">Token Efficiency In One View</h2>
+        <p class="section-subtitle">
+          The fastest way to understand why the protocol exists is to look at the registration footprint. MCP-AQL moves capability discovery
+          to runtime, so clients do not pay the full schema cost up front for operations they may never use.
+        </p>
+        <div class="card table-card">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Configuration</th>
+                <th>Approximate token cost</th>
+                <th>Reduction</th>
+                <th>What the client gets</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Discrete tools (50+)</td>
+                <td>~30,000 tokens</td>
+                <td>Baseline</td>
+                <td>Every tool definition loaded up front</td>
+              </tr>
+              <tr>
+                <td>CRUDE mode (5 endpoints)</td>
+                <td>~4,500 tokens</td>
+                <td>~85%</td>
+                <td>Semantic endpoints plus runtime discovery</td>
+              </tr>
+              <tr>
+                <td>Single mode (1 endpoint)</td>
+                <td>~1,100 tokens</td>
+                <td>~96%</td>
+                <td>One routed entrypoint plus runtime discovery</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="callout">
+          The deeper discovery math lives in the spec too: the introspection guide models a typical path dropping from about
+          <strong>29,600 tokens</strong> for discrete tools to about <strong>2,600 total</strong> for MCP-AQL plus on-demand introspection over ten operations.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="section-title">Getting Started</h2>
+        <p class="section-subtitle">
+          Start here for the shortest path from the core idea to the draft spec, operational rules, and current launch posture.
         </p>
         <div class="grid cols-3">
           <article class="card">
             <h3>1. Understand The Model</h3>
-            <p>Start with the short overview, token-efficiency story, and quick-start request shape before dropping into the full draft.</p>
+            <p>Start with the semantics gap, token-efficiency story, and introspection-first request flow before dropping into the full draft.</p>
             <ul>
               <li><a href="docs/getting-started.html">Getting Started</a></li>
-              <li><a href="https://github.com/MCPAQL/spec/blob/main/docs/versions/v1.0.0-draft.md">Specification v1.0.0-draft</a></li>
-              <li><a href="https://github.com/MCPAQL/spec/blob/main/docs/crude-pattern.md">CRUDE Pattern</a></li>
-              <li><a href="https://github.com/MCPAQL/spec/blob/main/docs/introspection.md">Introspection</a></li>
+              <li><a href="spec/versions/v1.0.0-draft.html">Specification v1.0.0-draft</a></li>
+              <li><a href="spec/crude-pattern.html">CRUDE Pattern</a></li>
+              <li><a href="spec/introspection.html">Introspection</a></li>
             </ul>
           </article>
           <article class="card">
             <h3>2. Learn The Operational Rules</h3>
-            <p>Read the public summaries for routing, structured errors, safety controls, and conformance boundaries.</p>
+            <p>Read the public summaries for semantic routing, structured errors, safety controls, and conformance boundaries.</p>
             <ul>
               <li><a href="docs/protocol-core.html">Protocol Core</a></li>
               <li><a href="docs/error-model.html">Error Model</a></li>
@@ -89,7 +164,7 @@
 
       <section>
         <h2 class="section-title">Protocol Coverage</h2>
-        <p class="section-subtitle">Website coverage is organized to mirror how production protocol sites are typically navigated: core, security, validation, implementation, ecosystem.</p>
+        <p class="section-subtitle">Explore the protocol by core behavior, safety model, validation surface, implementation guidance, and ecosystem reference material.</p>
         <div class="grid cols-2">
           <article class="card">
             <h3>Core Protocol Surface</h3>
@@ -142,8 +217,39 @@
       </section>
 
       <section>
+        <h2 class="section-title">How MCP-AQL Differs From Familiar Patterns</h2>
+        <p class="section-subtitle">See where MCP-AQL aligns with familiar patterns, and where its semantic routing and runtime discovery make it different.</p>
+        <div class="grid cols-3">
+          <article class="card">
+            <h3>MCP</h3>
+            <p>
+              MCP-AQL is a protocol layer on top of MCP transport, not a replacement. The difference is semantic endpoints,
+              runtime discovery, and built-in safety classification instead of prose-only intent.
+            </p>
+            <a href="docs/getting-started.html">Read the guided explanation</a>
+          </article>
+          <article class="card">
+            <h3>GraphQL</h3>
+            <p>
+              Both use runtime discovery, but GraphQL requires a schema language and type system. MCP-AQL keeps the existing MCP transport
+              and adds semantic routing without introducing a new SDL.
+            </p>
+            <a href="spec/guides/protocol-comparison.html">Open the comparison guide</a>
+          </article>
+          <article class="card">
+            <h3>REST</h3>
+            <p>
+              REST uses HTTP verbs for semantics. MCP-AQL applies a similar idea to the MCP tool layer, where HTTP verbs do not exist,
+              so intent stays visible even when everything would otherwise look like an undifferentiated tool call.
+            </p>
+            <a href="spec/guides/protocol-comparison.html">See the detailed comparison</a>
+          </article>
+        </div>
+      </section>
+
+      <section>
         <h2 class="section-title">Full Website-Hosted Spec Reference</h2>
-        <p class="section-subtitle">The public site now has a repo-synced spec layer generated from the canonical docs, so readers can stay on the website for the deeper protocol material too.</p>
+        <p class="section-subtitle">Read the canonical spec material on-site, with the same navigation and search used across the rest of the documentation portal.</p>
         <div class="grid cols-2">
           <article class="card">
             <h3>What changed</h3>
@@ -166,7 +272,7 @@
 
       <section>
         <h2 class="section-title">Reference Adapter Docs On-Site</h2>
-        <p class="section-subtitle">The implementation architecture is mirrored onto the website too, so adapter guidance now has a real runtime reference behind it.</p>
+        <p class="section-subtitle">Reference adapter architecture, runtime, testing, and ADR material are available on-site alongside the protocol docs.</p>
         <div class="grid cols-2">
           <article class="card">
             <h3>What changed</h3>
@@ -189,7 +295,7 @@
 
       <section>
         <h2 class="section-title">Current Draft Blockers</h2>
-        <p class="section-subtitle">The website is explicit about the live spec issues that still shape launch messaging.</p>
+        <p class="section-subtitle">These live spec issues still shape compatibility claims, launch language, and what the public draft can promise today.</p>
         <div class="grid cols-2">
           <article class="card">
             <h3>Phase-1 launch gate issues</h3>
@@ -213,7 +319,7 @@
 
       <section>
         <h2 class="section-title">Repository Map</h2>
-        <p class="section-subtitle">Each repository has a distinct role in launch readiness. The website summarizes and links all of them in one public path.</p>
+        <p class="section-subtitle">Each repository has a specific role in the protocol, reference implementations, tooling, and launch readiness work.</p>
         <div class="grid cols-3 repo-list">
           <article class="card">
             <h3>spec</h3>

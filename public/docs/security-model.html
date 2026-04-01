@@ -62,7 +62,7 @@
             <h1>Trust And Safety Controls</h1>
             <p class="lede">
               MCP-AQL security is designed around operation risk, trust-level mediation, and explicit confirmation for dangerous actions.
-              This page maps the current security model used in draft protocol and practical profiles.
+              This page explains how the draft protocol handles approval paths, danger tiers, and safe execution behavior.
             </p>
             <div class="hero-actions">
               <a class="btn btn-primary" href="../spec/security/gatekeeper.html">Gatekeeper Spec</a>
@@ -91,7 +91,7 @@
               <p class="page-toc-intro">Use the outline to move through longer pages without losing your place.</p>
             </div>
             <ol class="page-toc-list" data-page-toc-list>
-              <li class="page-toc-item level-2"><a href="#trust-level-mediation" data-toc-target="trust-level-mediation">Trust-Level Mediation</a></li><li class="page-toc-item level-2"><a href="#danger-classification" data-toc-target="danger-classification">Danger Classification</a></li><li class="page-toc-item level-2"><a href="#execution-safety-loop" data-toc-target="execution-safety-loop">Execution Safety Loop</a></li><li class="page-toc-item level-2"><a href="#open-security-hardening-tracks" data-toc-target="open-security-hardening-tracks">Open Security Hardening Tracks</a></li><li class="page-toc-item level-2"><a href="#source-documents-behind-this-summary" data-toc-target="source-documents-behind-this-summary">Source documents behind this summary</a></li>
+              <li class="page-toc-item level-2"><a href="#trust-level-mediation" data-toc-target="trust-level-mediation">Trust-Level Mediation</a></li><li class="page-toc-item level-2"><a href="#danger-classification" data-toc-target="danger-classification">Danger Classification</a></li><li class="page-toc-item level-2"><a href="#confirmation-token-flow" data-toc-target="confirmation-token-flow">Confirmation token flow</a></li><li class="page-toc-item level-2"><a href="#execution-safety-loop" data-toc-target="execution-safety-loop">Execution Safety Loop</a></li><li class="page-toc-item level-2"><a href="#open-security-hardening-tracks" data-toc-target="open-security-hardening-tracks">Open Security Hardening Tracks</a></li><li class="page-toc-item level-2"><a href="#source-documents-behind-this-summary" data-toc-target="source-documents-behind-this-summary">Source documents behind this summary</a></li>
             </ol>
           </div>
         </section>
@@ -124,16 +124,27 @@
 
         <section>
           <h2 class="section-title" id="trust-level-mediation">Trust-Level Mediation</h2>
-          <div class="card">
-            <p>
-              Implementations classify requester trust and apply policy gates before operation dispatch. The exact trust taxonomy is adapter-defined,
-              but the enforcement pattern is protocol-aligned: low-trust contexts default toward read-only or restricted mutations.
-            </p>
-            <ul>
-              <li>Trust-level checks happen before execution</li>
-              <li>Dangerous operations require stronger policy context</li>
-              <li>Policies should be introspectable where feasible</li>
-            </ul>
+          <div class="grid cols-2">
+            <article class="card">
+              <h3>What it means in practice</h3>
+              <p>
+                Implementations classify requester trust and apply policy gates before operation dispatch. The exact trust taxonomy is
+                adapter-defined, but the enforcement pattern is consistent: low-trust contexts default toward safe reads, while higher-trust
+                contexts can unlock mutations or execution flows.
+              </p>
+              <ul>
+                <li>Trust-level checks happen before execution</li>
+                <li>Dangerous operations require stronger policy context</li>
+                <li>Policies should be introspectable where feasible</li>
+              </ul>
+            </article>
+            <article class="card">
+              <h3>Typical mediation outcome</h3>
+              <p>
+                A validated user might be allowed to call <code>list_files</code> and <code>update_profile</code>, but blocked from
+                <code>bulk_delete</code> until stronger review, confirmation, or out-of-band verification is available.
+              </p>
+            </article>
           </div>
         </section>
 
@@ -141,30 +152,122 @@
           <h2 class="section-title" id="danger-classification">Danger Classification</h2>
           <div class="grid cols-2">
             <article class="card">
-              <h3>Operation Risk Labels</h3>
+              <h3>Operation risk labels</h3>
               <p>
                 Operations can be tagged by danger class to support UI and agent policy decisions. Draft specification work tracks stronger
                 requirements for danger metadata alignment with runtime surfaces.
               </p>
             </article>
             <article class="card">
-              <h3>Confirmation Handshake</h3>
+              <h3>Why the labels matter</h3>
               <p>
-                For destructive or high-impact operations, adapters can require a confirmation token round-trip so intent is explicit and auditable.
+                Danger labels are the bridge between semantics and policy. They help an agent distinguish advisory actions from ones that must
+                pause for approval or trigger hard-stop verification.
               </p>
+            </article>
+          </div>
+          <div class="card table-card">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Danger level</th>
+                  <th>Example operation</th>
+                  <th>Likely safety tier</th>
+                  <th>Expected behavior</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>safe</code></td>
+                  <td><code>list_files</code></td>
+                  <td><code>advisory</code></td>
+                  <td>No intervention beyond normal logging</td>
+                </tr>
+                <tr>
+                  <td><code>destructive</code></td>
+                  <td><code>delete_account</code></td>
+                  <td><code>confirm</code></td>
+                  <td>Pause and require an approval path</td>
+                </tr>
+                <tr>
+                  <td><code>dangerous</code></td>
+                  <td><code>bulk_delete</code></td>
+                  <td><code>verify</code></td>
+                  <td>Mandatory pause plus stronger verification</td>
+                </tr>
+                <tr>
+                  <td><code>forbidden</code></td>
+                  <td><code>drop_database</code></td>
+                  <td><code>danger_zone</code></td>
+                  <td>Hard stop with out-of-band verification</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section>
+          <h2 class="section-title" id="confirmation-token-flow">Confirmation token flow</h2>
+          <div class="grid code-example-stack">
+            <article class="card">
+              <h3>Request and required confirmation response</h3>
+              <pre class="code-box" data-code-language="json">{
+  "operation": "delete_repo",
+  "params": {
+    "owner": "acme",
+    "repo": "widgets"
+  }
+}
+
+{
+  "success": false,
+  "error": {
+    "code": "CONFIRMATION_REQUIRED",
+    "message": "This operation requires confirmation",
+    "details": {
+      "danger_level": "destructive",
+      "confirmation_message": "Delete repository 'acme/widgets'?",
+      "confirmation_token": "conf_abc123xyz"
+    }
+  }
+}</pre>
+            </article>
+            <article class="card">
+              <h3>Confirmed retry</h3>
+              <p>
+                The client retries the same operation with the issued token. That keeps the first denial machine-readable and makes the second
+                request an explicit act of confirmation.
+              </p>
+              <pre class="code-box" data-code-language="json">{
+  "operation": "delete_repo",
+  "params": {
+    "owner": "acme",
+    "repo": "widgets",
+    "_confirmation": "conf_abc123xyz"
+  }
+}</pre>
             </article>
           </div>
         </section>
 
         <section>
           <h2 class="section-title" id="execution-safety-loop">Execution Safety Loop</h2>
-          <div class="card">
-            <p>
-              Stateful execute flows must support lifecycle controls (start, continue, complete, abort) and maintain safe transitions.
-              Session-bound controls should prevent stale token reuse or operation drift across disconnected contexts.
-            </p>
-            <pre class="code-box">execute_agent -> record_execution_step -> continue_execution
+          <div class="grid code-example-stack">
+            <article class="card">
+              <h3>What it means for agents</h3>
+              <p>
+                The execution safety loop means actions are evaluated before they happen, not merely logged afterward. An agent reports intent,
+                receives an autonomy decision, and only proceeds when the current step is allowed.
+              </p>
+            </article>
+            <article class="card">
+              <h3>Lifecycle shape</h3>
+              <pre class="code-box" data-code-language="text">execute_agent -> record_execution_step -> continue_execution
                  \-> pause/confirm -> complete_execution or abort_execution</pre>
+              <p>
+                Session-bound controls prevent stale confirmation tokens, unexpected operation drift, and hidden escalation during long-running execution.
+              </p>
+            </article>
           </div>
         </section>
 

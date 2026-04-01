@@ -90,7 +90,7 @@
               <p class="page-toc-intro">Use the outline to move through longer pages without losing your place.</p>
             </div>
             <ol class="page-toc-list" data-page-toc-list>
-              <li class="page-toc-item level-2"><a href="#canonical-response-envelope" data-toc-target="canonical-response-envelope">Canonical response envelope</a></li><li class="page-toc-item level-2"><a href="#why-the-code-field-matters" data-toc-target="why-the-code-field-matters">Why the code field matters</a></li><li class="page-toc-item level-2"><a href="#current-draft-focus" data-toc-target="current-draft-focus">Current draft focus</a></li>
+              <li class="page-toc-item level-2"><a href="#canonical-response-envelope" data-toc-target="canonical-response-envelope">Canonical response envelope</a></li><li class="page-toc-item level-2"><a href="#error-code-registry" data-toc-target="error-code-registry">MVP error code registry</a></li><li class="page-toc-item level-2"><a href="#why-the-code-field-matters" data-toc-target="why-the-code-field-matters">Why the code field matters</a></li><li class="page-toc-item level-2"><a href="#concrete-error-examples" data-toc-target="concrete-error-examples">Concrete error examples</a></li><li class="page-toc-item level-2"><a href="#client-handling-guidance" data-toc-target="client-handling-guidance">Client handling guidance</a></li><li class="page-toc-item level-2"><a href="#adapter-error-mapping" data-toc-target="adapter-error-mapping">How adapter-specific failures map in</a></li><li class="page-toc-item level-2"><a href="#current-draft-focus" data-toc-target="current-draft-focus">Current draft focus</a></li>
             </ol>
           </div>
         </section>
@@ -123,17 +123,17 @@
 
         <section>
           <h2 class="section-title" id="canonical-response-envelope">Canonical response envelope</h2>
-          <div class="grid cols-2">
+          <div class="grid code-example-stack">
             <article class="card">
               <h3>Success</h3>
-              <pre class="code-box">{
+              <pre class="code-box" data-code-language="json">{
   "success": true,
   "data": { ... }
 }</pre>
             </article>
             <article class="card">
               <h3>Failure</h3>
-              <pre class="code-box">{
+              <pre class="code-box" data-code-language="json">{
   "success": false,
   "error": {
     "code": "VALIDATION_MISSING_PARAM",
@@ -145,6 +145,63 @@
         </section>
 
         <section>
+          <h2 class="section-title" id="error-code-registry">MVP error code registry</h2>
+          <div class="card table-card">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Code</th>
+                  <th>Category</th>
+                  <th>Meaning</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>VALIDATION_MISSING_PARAM</code></td>
+                  <td>Validation</td>
+                  <td>Required parameter not provided</td>
+                </tr>
+                <tr>
+                  <td><code>VALIDATION_INVALID_TYPE</code></td>
+                  <td>Validation</td>
+                  <td>Parameter value does not match the expected type</td>
+                </tr>
+                <tr>
+                  <td><code>VALIDATION_UNKNOWN_PARAM</code></td>
+                  <td>Validation</td>
+                  <td>Request contains a parameter outside the declared schema</td>
+                </tr>
+                <tr>
+                  <td><code>NOT_FOUND_OPERATION</code></td>
+                  <td>Not Found</td>
+                  <td>Requested operation does not exist</td>
+                </tr>
+                <tr>
+                  <td><code>NOT_FOUND_RESOURCE</code></td>
+                  <td>Not Found</td>
+                  <td>Target resource does not exist</td>
+                </tr>
+                <tr>
+                  <td><code>PERMISSION_DENIED</code></td>
+                  <td>Permission</td>
+                  <td>Caller lacks the required authorization</td>
+                </tr>
+                <tr>
+                  <td><code>CONFIRMATION_REQUIRED</code></td>
+                  <td>Permission</td>
+                  <td>Operation is denied pending explicit confirmation</td>
+                </tr>
+                <tr>
+                  <td><code>INTERNAL_ERROR</code></td>
+                  <td>Internal</td>
+                  <td>Unexpected server or adapter failure</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section>
           <h2 class="section-title" id="why-the-code-field-matters">Why the code field matters</h2>
           <div class="card">
             <ul>
@@ -152,6 +209,106 @@
               <li>Adapters can map target-system failures into a predictable registry.</li>
               <li>Monitoring and analytics can group failures by category instead of message text.</li>
               <li>Localized or rewritten human messages do not break programmatic recovery.</li>
+            </ul>
+          </div>
+        </section>
+
+        <section>
+          <h2 class="section-title" id="concrete-error-examples">Concrete error examples</h2>
+          <div class="grid code-example-stack">
+            <article class="card">
+              <h3>Validation error</h3>
+              <pre class="code-box" data-code-language="json">{
+  "success": false,
+  "error": {
+    "code": "VALIDATION_MISSING_PARAM",
+    "message": "Missing required parameter 'owner'",
+    "details": {
+      "param_name": "owner"
+    }
+  }
+}</pre>
+            </article>
+            <article class="card">
+              <h3>Not-found error</h3>
+              <pre class="code-box" data-code-language="json">{
+  "success": false,
+  "error": {
+    "code": "NOT_FOUND_RESOURCE",
+    "message": "Repository 'acme/widgets' not found",
+    "details": {
+      "resource_type": "repository",
+      "resource_id": "acme/widgets"
+    }
+  }
+}</pre>
+            </article>
+            <article class="card">
+              <h3>Permission error</h3>
+              <pre class="code-box" data-code-language="json">{
+  "success": false,
+  "error": {
+    "code": "PERMISSION_DENIED",
+    "message": "Operation 'delete_user' is not allowed for this caller",
+    "details": {
+      "operation": "delete_user"
+    }
+  }
+}</pre>
+            </article>
+            <article class="card">
+              <h3>Internal error</h3>
+              <pre class="code-box" data-code-language="json">{
+  "success": false,
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "message": "Unexpected adapter failure",
+    "details": {
+      "request_id": "req_7f1d"
+    }
+  }
+}</pre>
+            </article>
+          </div>
+        </section>
+
+        <section>
+          <h2 class="section-title" id="client-handling-guidance">Client handling guidance</h2>
+          <div class="grid cols-2">
+            <article class="card">
+              <h3>Branch on <code>error.code</code></h3>
+              <p>
+                Use the code for programmatic behavior: retry policy, UI state, escalation path, and whether a client should fix the request
+                or stop execution entirely.
+              </p>
+              <ul>
+                <li><code>VALIDATION_*</code>: repair the request</li>
+                <li><code>NOT_FOUND_*</code>: stop or ask the user to choose another target</li>
+                <li><code>PERMISSION_*</code>: request credentials or confirmation</li>
+                <li><code>INTERNAL_*</code>: surface a server-side fault and preserve request context</li>
+              </ul>
+            </article>
+            <article class="card">
+              <h3>Display <code>error.message</code> to humans</h3>
+              <p>
+                The message is for logs, dashboards, and human-visible explanations. It can be localized or rewritten without breaking the
+                client's recovery logic because the recovery key is the code.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section>
+          <h2 class="section-title" id="adapter-error-mapping">How adapter-specific failures map in</h2>
+          <div class="card">
+            <p>
+              Adapters do not expose raw target-system failures as their public contract. They translate them into the MCP-AQL registry and
+              preserve target-specific context in <code>error.details</code> when it helps recovery.
+            </p>
+            <ul>
+              <li>Target API 404s should map to <code>NOT_FOUND_RESOURCE</code></li>
+              <li>Target permission failures should map to <code>PERMISSION_DENIED</code> or <code>CONFIRMATION_REQUIRED</code></li>
+              <li>Unexpected downstream failures should map to <code>INTERNAL_ERROR</code> with request context preserved in <code>details</code></li>
             </ul>
           </div>
         </section>
