@@ -19,7 +19,7 @@
           <li><a href="../index.html">Home</a></li>
           <li><a href="../docs/index.html">Docs</a></li>
           <li><a href="../launch-checklist.html">Launch Checklist</a></li>
-          <li><a href="mcp-server.html">Adapter Patterns</a></li>
+          <li><a href="index.html">Adapter Patterns</a></li>
         </ul>
         <form class="site-search" data-search-form data-index-url="../data/search-index.json" role="search">
           <label class="sr-only" for="site-search-input">Search MCP-AQL docs</label>
@@ -35,8 +35,9 @@
     <div class="container docs-shell">
       <aside class="docs-side">
         <h2>Adapter Patterns</h2>
-        <p class="docs-side-note">Conceptual integration profiles that connect the protocol rules to common target-system shapes.</p>
+        <p class="docs-side-note">Use the overview to orient first, then compare the child pages to see how contract shape and safety posture change by target system.</p>
         <ul>
+          <li><a href="index.html">Overview</a></li>
           <li><a class="current" aria-current="page" href="mcp-server.html">MCP Server</a></li>
           <li><a href="application.html">Application</a></li>
           <li><a href="cloud-service.html">Cloud Service</a></li>
@@ -49,8 +50,8 @@
         <nav class="breadcrumbs" aria-label="Breadcrumb">
           <ol>
             <li><a href="../index.html">Home</a></li>
-            <li><a href="../docs/index.html">Docs</a></li>
-            <li><span class="current">MCP Server Pattern</span></li>
+            <li><a href="index.html">Adapter Patterns</a></li>
+            <li><span class="current">MCP Server</span></li>
           </ol>
         </nav>
 
@@ -90,6 +91,28 @@
                 <li><a href="cloud-service.html">Cloud Services</a></li>
                 <li><a href="operating-system.html">Operating System Flows</a></li>
                 <li><a href="website.html">Website / Web API Flows</a></li>
+              </ul>
+            </article>
+          </div>
+        </section>
+
+        <section>
+          <h2 class="section-title">When this pattern fits</h2>
+          <div class="grid cols-2">
+            <article class="card">
+              <h3>Best fit</h3>
+              <ul>
+                <li>The upstream system already exposes MCP tools or tool-like operations.</li>
+                <li>You want runtime discovery to remain central instead of freezing a large static tool surface.</li>
+                <li>You need a clear path from interrogated MCP behavior into a spec-aligned adapter contract.</li>
+              </ul>
+            </article>
+            <article class="card">
+              <h3>Watch for</h3>
+              <ul>
+                <li>Operation naming or parameter drift between upstream descriptions and adapter output.</li>
+                <li>Tools with unclear side effects that need better CREATE, UPDATE, DELETE, or EXECUTE classification.</li>
+                <li>Discovery artifacts that can fall out of sync with the normative draft if generation is loose.</li>
               </ul>
             </article>
           </div>

@@ -19,7 +19,7 @@
           <li><a href="../index.html">Home</a></li>
           <li><a href="../docs/index.html">Docs</a></li>
           <li><a href="../launch-checklist.html">Launch Checklist</a></li>
-          <li><a href="mcp-server.html">Adapter Patterns</a></li>
+          <li><a href="index.html">Adapter Patterns</a></li>
         </ul>
         <form class="site-search" data-search-form data-index-url="../data/search-index.json" role="search">
           <label class="sr-only" for="site-search-input">Search MCP-AQL docs</label>
@@ -35,8 +35,9 @@
     <div class="container docs-shell">
       <aside class="docs-side">
         <h2>Adapter Patterns</h2>
-        <p class="docs-side-note">Conceptual integration profiles that connect the protocol rules to common target-system shapes.</p>
+        <p class="docs-side-note">Use the overview to orient first, then compare the child pages to see how contract shape and safety posture change by target system.</p>
         <ul>
+          <li><a href="index.html">Overview</a></li>
           <li><a href="mcp-server.html">MCP Server</a></li>
           <li><a href="application.html">Application</a></li>
           <li><a href="cloud-service.html">Cloud Service</a></li>
@@ -49,8 +50,7 @@
         <nav class="breadcrumbs" aria-label="Breadcrumb">
           <ol>
             <li><a href="../index.html">Home</a></li>
-            <li><a href="../docs/index.html">Docs</a></li>
-            <li><a href="mcp-server.html">Adapter Patterns</a></li>
+            <li><a href="index.html">Adapter Patterns</a></li>
             <li><span class="current">Operating System</span></li>
           </ol>
         </nav>
@@ -89,6 +89,28 @@
                 <li><a href="application.html">Application</a></li>
                 <li><a href="cloud-service.html">Cloud Service</a></li>
                 <li><a href="website.html">Website / Web API</a></li>
+              </ul>
+            </article>
+          </div>
+        </section>
+
+        <section>
+          <h2 class="section-title">When this pattern fits</h2>
+          <div class="grid cols-2">
+            <article class="card">
+              <h3>Best fit</h3>
+              <ul>
+                <li>The adapter exposes local files, processes, or other system-level capabilities.</li>
+                <li>You need explicit distinctions between read-only queries, state-changing actions, and true execution flows.</li>
+                <li>Permissions, confirmations, and auditability are part of the product requirement, not optional add-ons.</li>
+              </ul>
+            </article>
+            <article class="card">
+              <h3>Watch for</h3>
+              <ul>
+                <li>Destructive or execute-capable operations that are too easy to trigger accidentally.</li>
+                <li>Insufficient scoping on file-system or process queries that can cause runaway work.</li>
+                <li>Security models that rely on labels instead of machine-readable policy signals.</li>
               </ul>
             </article>
           </div>
