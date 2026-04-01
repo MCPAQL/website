@@ -30,3 +30,7 @@ CLAUDE.md
 
 # DollhouseMCP (local MCP server state)
 .dollhousemcp/
+
+# Local-only planning notes kept out of the public repository
+docs/prelaunch-readiness-review.md
+docs/session-notes/pending-infrastructure-setup.md
