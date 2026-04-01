@@ -472,7 +472,6 @@ function wrapSpecIndexPage(navGroups) {
     <span class="state-chip live">${escapeHtml(doc.scopeLabel)}</span>
     ${doc.status ? `<span class="state-chip pending">${escapeHtml(doc.status)}</span>` : ""}
   </div>
-  <a href="${href}">Open Page</a>
 </article>`;
     }).join("\n");
 
