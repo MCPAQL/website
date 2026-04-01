@@ -195,6 +195,45 @@
     });
   }
 
+  function mountPageNavigationShortcuts() {
+    const nav = document.querySelector(".page-nav");
+    if (!nav) return;
+
+    const prevLink = nav.querySelector(".page-nav-link.prev");
+    const nextLink = nav.querySelector(".page-nav-link.next");
+
+    document.addEventListener("keydown", function (event) {
+      const active = document.activeElement;
+      const isEditable = active && (
+        active.tagName === "INPUT" ||
+        active.tagName === "TEXTAREA" ||
+        active.tagName === "SELECT" ||
+        active.isContentEditable
+      );
+      const selection = window.getSelection && window.getSelection();
+
+      if (
+        event.defaultPrevented ||
+        event.altKey ||
+        event.ctrlKey ||
+        event.metaKey ||
+        event.shiftKey ||
+        isEditable ||
+        (selection && selection.type === "Range")
+      ) {
+        return;
+      }
+
+      if (event.key === "ArrowLeft" && prevLink) {
+        event.preventDefault();
+        window.location.href = prevLink.href;
+      } else if (event.key === "ArrowRight" && nextLink) {
+        event.preventDefault();
+        window.location.href = nextLink.href;
+      }
+    });
+  }
+
   function mountSearchPage() {
     const page = document.querySelector("[data-search-page]");
     if (!page) return;
@@ -257,5 +296,6 @@
   document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll("[data-search-form]").forEach(mountSearch);
     mountSearchPage();
+    mountPageNavigationShortcuts();
   });
 })();
