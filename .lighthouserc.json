@@ -1,0 +1,47 @@
+{
+  "ci": {
+    "collect": {
+      "staticDistDir": "./public",
+      "numberOfRuns": 1,
+      "url": [
+        "/index.html",
+        "/docs/index.html",
+        "/docs/protocol-core.html",
+        "/docs/error-model.html",
+        "/docs/adapter-contracts.html",
+        "/launch-checklist.html"
+      ]
+    },
+    "assert": {
+      "assertions": {
+        "categories:performance": [
+          "error",
+          {
+            "minScore": 0.9
+          }
+        ],
+        "categories:accessibility": [
+          "error",
+          {
+            "minScore": 1
+          }
+        ],
+        "categories:best-practices": [
+          "error",
+          {
+            "minScore": 0.9
+          }
+        ],
+        "categories:seo": [
+          "error",
+          {
+            "minScore": 0.9
+          }
+        ]
+      }
+    },
+    "upload": {
+      "target": "temporary-public-storage"
+    }
+  }
+}

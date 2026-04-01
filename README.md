@@ -2,6 +2,11 @@
 
 Static website for the MCP-AQL public draft documentation portal.
 
+[![Pages deploy](https://github.com/MCPAQL/website/actions/workflows/static.yml/badge.svg)](https://github.com/MCPAQL/website/actions/workflows/static.yml)
+[![Website quality](https://github.com/MCPAQL/website/actions/workflows/website-quality.yml/badge.svg)](https://github.com/MCPAQL/website/actions/workflows/website-quality.yml)
+[![Link check](https://github.com/MCPAQL/website/actions/workflows/link-check.yml/badge.svg)](https://github.com/MCPAQL/website/actions/workflows/link-check.yml)
+[![Lighthouse CI](https://github.com/MCPAQL/website/actions/workflows/lighthouse.yml/badge.svg)](https://github.com/MCPAQL/website/actions/workflows/lighthouse.yml)
+
 ## Purpose
 
 This repository hosts browse-first web documentation for MCP-AQL so users can:
@@ -23,13 +28,40 @@ This repository hosts browse-first web documentation for MCP-AQL so users can:
 All web assets are under `public/`:
 
 - `public/index.html`: portal home and repository map
-- `public/docs/*.html`: protocol library pages (core, security, conformance, profiles, roadmap)
+- `public/docs/*.html`: protocol library pages (getting started, core, error model, security, conformance, adapter contracts, profiles, roadmap, release notes)
+- `public/spec/**/*.html`: repo-synced spec pages generated from `../spec/docs`
 - `public/launch-checklist.html`: public launch readiness summary
 - `public/apis/*.html`: integration-surface guidance pages
 - `public/css/style.css`: shared styles and responsive layout
 - `public/js/search.js`: client-side documentation search
 - `public/data/search-index.json`: search index catalog
+- `source/search-index.base.json`: hand-authored search entries merged with generated spec entries
+- `scripts/generate-spec-docs.mjs`: Markdown-to-HTML generator for the full website-hosted spec reference
 - `docs/prelaunch-readiness-review.md`: launch readiness assessment and guidance
+
+## Repo-Synced Spec Generation
+
+The website now carries a full spec reference generated from the sibling `MCPAQL/spec` checkout. This lets the public site host the deeper protocol material directly instead of only linking readers back to GitHub.
+
+Generation inputs:
+
+- source Markdown: `../spec/docs/**/*.md`
+- canonical versioned draft: `../spec/docs/versions/v1.0.0-draft.md`
+- generated output: `public/spec/**/*.html`
+- generated index: `public/spec/index.html`
+- merged search output: `public/data/search-index.json`
+
+Generate or refresh the spec mirror:
+
+```bash
+npm run generate:spec-docs
+```
+
+Check whether generated files are up to date:
+
+```bash
+npm run generate:spec-docs:check
+```
 
 ## Local Preview
 
@@ -45,13 +77,28 @@ Then open <http://localhost:8000>.
 GitHub Pages deploys automatically from `main` using `.github/workflows/static.yml`.
 The workflow publishes only the `public/` directory.
 
+Preview/build behavior:
+
+- Pull requests build the static site artifact and run CI checks.
+- Content PRs also run `visidelta-preview.yml` for rendered diff previews.
+- `develop` is reserved for shared preview integration once the branch and protections are enabled on GitHub.
+
 ## CI Checks
 
-Pull requests and pushes to `main` run `.github/workflows/website-quality.yml`:
+Pull requests and pushes to `main` or `develop` run `.github/workflows/website-quality.yml`:
 
 - Markdown linting (`markdownlint-cli2`)
 - HTML linting for files under `public/` (`htmlhint`)
+
+Pull requests, pushes to `main` or `develop`, and weekly scheduled runs execute `.github/workflows/link-check.yml`:
+
 - Link checks across Markdown and HTML (`lychee`)
+- Weekly drift detection for external and internal links
+
+Pull requests touching site content and pushes to `main` run `.github/workflows/lighthouse.yml`:
+
+- Lighthouse CI audits for performance, accessibility, best practices, and SEO
+- Artifact upload plus temporary public report storage for review
 
 Pull requests that modify site content also run `.github/workflows/visidelta-preview.yml`:
 

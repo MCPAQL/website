@@ -1,0 +1,9 @@
+{
+  "name": "mcpaql-website",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "generate:spec-docs": "node scripts/generate-spec-docs.mjs",
+    "generate:spec-docs:check": "node scripts/generate-spec-docs.mjs --check"
+  }
+}

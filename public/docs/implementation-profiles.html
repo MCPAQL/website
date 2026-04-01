@@ -23,7 +23,7 @@
         </ul>
         <form class="site-search" data-search-form data-index-url="../data/search-index.json" role="search">
           <label class="sr-only" for="site-search-input">Search MCP-AQL docs</label>
-          <input id="site-search-input" data-search-input type="search" placeholder="Search implementation topics...">
+          <input id="site-search-input" data-search-input type="search" placeholder="Search MCP-AQL docs, spec pages, and adapter patterns...">
           <span class="search-count" data-search-count></span>
           <ul class="search-results" data-search-results hidden></ul>
         </form>
@@ -36,15 +36,26 @@
       <aside class="docs-side">
         <h2>In This Library</h2>
         <ul>
+          <li><a href="getting-started.html">Getting Started</a></li>
           <li><a href="protocol-core.html">Protocol Core</a></li>
+          <li><a href="error-model.html">Error Model</a></li>
           <li><a href="security-model.html">Security Model</a></li>
           <li><a href="conformance.html">Conformance</a></li>
-          <li><a href="implementation-profiles.html">Implementation Profiles</a></li>
+          <li><a href="adapter-contracts.html">Adapter Contracts</a></li>
+          <li><a class="current" href="implementation-profiles.html">Implementation Profiles</a></li>
           <li><a href="roadmap.html">Roadmap</a></li>
+          <li><a href="release-notes.html">Release Notes</a></li>
         </ul>
       </aside>
 
       <article class="docs-main">
+        <nav class="breadcrumbs" aria-label="Breadcrumb">
+          <ol>
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="index.html">Docs</a></li>
+            <li><span class="current">Implementation Profiles</span></li>
+          </ol>
+        </nav>
         <section class="hero docs-hero">
           <div class="hero-inner">
             <span class="status-pill">IMPLEMENTATION PROFILES</span>
@@ -54,9 +65,35 @@
               This boundary prevents implementation details from being mistaken as protocol law.
             </p>
             <div class="hero-actions">
-              <a class="btn btn-primary" href="https://github.com/MCPAQL/spec">Canonical Spec Source</a>
+              <a class="btn btn-primary" href="../spec/repo/README.html">Canonical Spec Source</a>
               <a class="btn btn-secondary" href="https://github.com/DollhouseMCP/mcp-server">Dollhouse Practical Profile</a>
             </div>
+          </div>
+        </section>
+
+        <section class="topic-bridge">
+          <h2 class="sr-only">Related reading</h2>
+          <div class="grid cols-2">
+            <article class="card">
+              <h3>Go Deeper In The Full Spec</h3>
+              <p>The protocol authority remains on-site in the spec pages, while implementation repos stay as practical reference material.</p>
+              <ul>
+                <li><a href="../spec/repo/README.html">Spec README</a></li>
+                <li><a href="../spec/adapter/generator.html">Generator Specification</a></li>
+                <li><a href="../spec/versions/v1.0.0-draft.html">Normative Draft</a></li>
+                <li><a href="../spec/index.html">Browse the full spec reference</a></li>
+              </ul>
+            </article>
+            <article class="card">
+              <h3>Related Summary Pages</h3>
+              <p>These pages are the closest summary-layer companions to the profile and implementation story.</p>
+              <ul>
+                <li><a href="adapter-contracts.html">Adapter Contracts</a></li>
+                <li><a href="roadmap.html">Roadmap</a></li>
+                <li><a href="release-notes.html">Release Notes</a></li>
+                <li><a href="index.html">Back to the docs library</a></li>
+              </ul>
+            </article>
           </div>
         </section>
 
@@ -132,6 +169,36 @@
             </ul>
           </div>
         </section>
+
+        <section>
+          <h2 class="section-title">Where to look next</h2>
+          <div class="grid cols-2">
+            <article class="card">
+              <h3>Contract details</h3>
+              <ul>
+                <li><a href="adapter-contracts.html">Adapter Contracts</a></li>
+                <li><a href="../spec/adapter/generator.html">Generator specification</a></li>
+              </ul>
+            </article>
+            <article class="card">
+              <h3>Launch and release context</h3>
+              <ul>
+                <li><a href="../launch-checklist.html">Launch Checklist</a></li>
+                <li><a href="release-notes.html">Release Notes</a></li>
+              </ul>
+            </article>
+          </div>
+        </section>
+        <nav class="page-nav" aria-label="Page navigation">
+          <a class="page-nav-link prev" href="adapter-contracts.html">
+            <span class="page-nav-eyebrow">Previous page</span>
+            <strong class="page-nav-label">Adapter Contracts</strong>
+          </a>
+          <a class="page-nav-link next" href="roadmap.html">
+            <span class="page-nav-eyebrow">Next page</span>
+            <strong class="page-nav-label">Roadmap</strong>
+          </a>
+        </nav>
       </article>
     </div>
   </main>

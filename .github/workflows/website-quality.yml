@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - main
+      - develop
   workflow_dispatch:
 
 permissions:
@@ -47,18 +48,3 @@ jobs:
 
       - name: Lint HTML
         run: htmlhint --config .htmlhintrc "public/**/*.html"
-
-  links:
-    name: Link Check
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Check Links
-        uses: lycheeverse/lychee-action@v2
-        with:
-          args: --config .lychee.toml --no-progress --verbose "README.md" "docs/prelaunch-readiness-review.md" "public/**/*.html"
-          fail: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,50 @@
+name: Content request
+description: Request a new page, section, or spec-alignment update for the MCP-AQL website.
+title: "content: "
+labels:
+  - documentation
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this template for new documentation coverage, source-of-truth updates, or missing content from the spec.
+  - type: input
+    id: page_area
+    attributes:
+      label: Target area
+      description: Which page or section should change?
+      placeholder: Docs library / new error-model page
+    validations:
+      required: true
+  - type: textarea
+    id: request
+    attributes:
+      label: Requested content
+      description: Describe what should be added or clarified.
+    validations:
+      required: true
+  - type: textarea
+    id: sources
+    attributes:
+      label: Source material
+      description: Link the canonical docs, spec sections, or issues this should reflect.
+      placeholder: |
+        https://github.com/MCPAQL/spec/blob/main/docs/error-codes.md
+        https://github.com/MCPAQL/spec/issues/199
+    validations:
+      required: true
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      options:
+        - Launch blocker
+        - Important for draft clarity
+        - Nice to have
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Done looks like
+      description: Describe the outcome that would satisfy the request.
