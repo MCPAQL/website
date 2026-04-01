@@ -37,7 +37,6 @@ All web assets are under `public/`:
 - `public/data/search-index.json`: search index catalog
 - `source/search-index.base.json`: hand-authored search entries merged with generated spec entries
 - `scripts/generate-spec-docs.mjs`: Markdown-to-HTML generator for the full website-hosted spec reference
-- `docs/prelaunch-readiness-review.md`: launch readiness assessment and guidance
 
 ## Repo-Synced Spec Generation
 
