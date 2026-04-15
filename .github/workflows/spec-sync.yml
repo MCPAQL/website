@@ -1,0 +1,72 @@
+name: Spec Mirror Sync
+
+on:
+  schedule:
+    - cron: "15 14 * * 1-5"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: spec-mirror-sync
+  cancel-in-progress: false
+
+jobs:
+  sync-spec:
+    name: Sync website spec mirror from spec main
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout website
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Checkout spec main
+        uses: actions/checkout@v4
+        with:
+          repository: MCPAQL/spec
+          ref: main
+          path: .mirror/spec
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Setup pandoc
+        uses: r-lib/actions/setup-pandoc@v2
+
+      - name: Regenerate spec mirror
+        run: node scripts/generate-repo-docs.mjs --mirror spec --spec-dir .mirror/spec
+
+      - name: Validate derived TOCs
+        run: npm run validate:toc
+
+      - name: Remove temporary mirror checkout
+        run: rm -rf .mirror
+
+      - name: Create or update sync PR
+        uses: peter-evans/create-pull-request@v7
+        with:
+          add-paths: |
+            public/spec/**
+            public/data/search-index.json
+          base: develop
+          branch: automation/spec-sync
+          commit-message: "chore: sync website spec mirror from latest spec main"
+          title: "chore: sync website spec mirror from latest spec main"
+          body: |
+            ## Summary
+            - regenerate the website-hosted spec mirror from the latest `MCPAQL/spec` `main`
+            - refresh website search entries for the generated spec pages
+
+            ## Notes
+            - this PR was generated automatically by `.github/workflows/spec-sync.yml`
+            - adapter mirror content is intentionally left untouched by this workflow
+          labels: |
+            ci
+            enhancement
+          delete-branch: false
