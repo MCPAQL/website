@@ -50,7 +50,7 @@
   <ul><li><a href="../security/confirmation-tokens.html">Confirmation Token Specification</a></li><li><a href="../security/execution-safety-loop.html">Execution Safety Loop Specification</a></li><li><a href="../security/gatekeeper.html">Security Model: Gatekeeper Specification</a></li></ul>
 </div><div class="docs-side-group">
   <h3>Features</h3>
-  <ul><li><a href="../features/field-selection.html">Field Selection Specification</a></li><li><a href="../features/pagination.html">Cursor-Based Pagination Specification</a></li><li><a href="../features/warnings.html">Warnings Array Specification</a></li></ul>
+  <ul><li><a href="../features/collection-querying.html">MCP-AQL Collection Querying</a></li><li><a href="../features/field-selection.html">Field Selection Specification</a></li><li><a href="../features/pagination.html">Cursor-Based Pagination Specification</a></li><li><a href="../features/warnings.html">Warnings Array Specification</a></li></ul>
 </div><div class="docs-side-group">
   <h3>Guides</h3>
   <ul><li><a href="../guides/protocol-comparison.html">Protocol Comparison Guide</a></li><li><a href="../guides/README.html">Developer Guides</a></li></ul>
@@ -85,7 +85,7 @@
             <span class="status-pill">REPO-SYNCED SPEC DOC</span>
             <h1>MCP-AQL Specification</h1>
             <p class="lede">MCP-AQL (Model Context Protocol - Advanced Agent API Adapter Query Language) is a protocol specification that consolidates multiple MCP tools into semantic CRUDE endpoints, providing significant token reduction while ena</p>
-            <div class="spec-meta"><span class="state-chip live">Support document</span><span class="state-chip pending">Draft</span><span class="state-chip">1.0.0-draft</span><span class="state-chip">2026-03-06</span></div>
+            <div class="spec-meta"><span class="state-chip live">Support document</span><span class="state-chip pending">Draft</span><span class="state-chip">1.0.0-draft</span><span class="state-chip">2026-04-15</span></div>
             <p class="spec-source">Source: <a href="https://github.com/MCPAQL/spec/blob/main/docs/versions/v1.0.0-draft.md">spec/docs/versions/v1.0.0-draft.md</a></p>
             <div class="hero-actions">
               <a class="btn btn-primary" href="https://github.com/MCPAQL/spec/blob/main/docs/versions/v1.0.0-draft.md">Open Source Markdown</a><a class="btn btn-secondary" href="../index.html">Browse Full Spec Reference</a>
@@ -109,7 +109,7 @@
 
         <section>
           <div class="card spec-prose">
-            <p><strong>Version:</strong> 1.0.0-draft <strong>Status:</strong> Draft <strong>Last Updated:</strong> 2026-03-06</p>
+            <p><strong>Version:</strong> 1.0.0-draft <strong>Status:</strong> Draft <strong>Last Updated:</strong> 2026-04-15</p>
 <h2 id="abstract">Abstract</h2>
 <p>MCP-AQL (Model Context Protocol - Advanced Agent API Adapter Query Language) is a protocol specification that consolidates multiple MCP tools into semantic CRUDE endpoints, providing significant token reduction while enabling runtime operation discovery through introspection.</p>
 <h2 id="status-of-this-document">Status of This Document</h2>
@@ -314,6 +314,9 @@ mcp_aql_execute  - EXECUTE operations</code></pre>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;operation&quot;</span><span class="fu">:</span> <span class="st">&quot;get_user&quot;</span><span class="fu">,</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;user_id&quot;</span><span class="fu">:</span> <span class="st">&quot;user_456&quot;</span></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<blockquote>
+<p><strong>Collection Querying Note:</strong> Collection-returning READ operations often combine field selection, filtering, sorting, and pagination. See the informative <a href="../features/collection-querying.html">Collection Querying</a> guide for the preferred cross-cutting request shape moving forward.</p>
+</blockquote>
 <h3 id="45-update-input-pattern">4.5 UPDATE Input Pattern</h3>
 <p>UPDATE operations MUST use a nested <code>input</code> object within <code>params</code> to contain all updateable fields. Identifier parameters (used to locate the resource) MUST remain at the <code>params</code> level.</p>
 <p><strong>Structure:</strong></p>

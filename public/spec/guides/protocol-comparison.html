@@ -50,7 +50,7 @@
   <ul><li><a href="../security/confirmation-tokens.html">Confirmation Token Specification</a></li><li><a href="../security/execution-safety-loop.html">Execution Safety Loop Specification</a></li><li><a href="../security/gatekeeper.html">Security Model: Gatekeeper Specification</a></li></ul>
 </div><div class="docs-side-group">
   <h3>Features</h3>
-  <ul><li><a href="../features/field-selection.html">Field Selection Specification</a></li><li><a href="../features/pagination.html">Cursor-Based Pagination Specification</a></li><li><a href="../features/warnings.html">Warnings Array Specification</a></li></ul>
+  <ul><li><a href="../features/collection-querying.html">MCP-AQL Collection Querying</a></li><li><a href="../features/field-selection.html">Field Selection Specification</a></li><li><a href="../features/pagination.html">Cursor-Based Pagination Specification</a></li><li><a href="../features/warnings.html">Warnings Array Specification</a></li></ul>
 </div><div class="docs-side-group">
   <h3>Guides</h3>
   <ul><li><a class="current" aria-current="page" href="protocol-comparison.html">Protocol Comparison Guide</a></li><li><a href="README.html">Developer Guides</a></li></ul>
@@ -1098,10 +1098,9 @@ mcp_aql_execute - EXECUTE operations (execute workflows, update state)</code></p
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">operation</span><span class="op">:</span> <span class="st">&quot;list_resources&quot;</span><span class="op">,</span></span>
 <span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">params</span><span class="op">:</span> {</span>
 <span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">resource_type</span><span class="op">:</span> <span class="st">&quot;user&quot;</span><span class="op">,</span></span>
-<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">page</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
-<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">pageSize</span><span class="op">:</span> <span class="dv">10</span></span>
-<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">first</span><span class="op">:</span> <span class="dv">10</span></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <h3 id="tool-to-operation-mapping">Tool to Operation Mapping</h3>
 <table>
 <thead>
@@ -1346,7 +1345,7 @@ mcp_aql_execute - EXECUTE operations (execute workflows, update state)</code></p
 <td><code>skip/limit</code></td>
 <td>Query params</td>
 <td>OFFSET/LIMIT</td>
-<td><code>page/pageSize</code></td>
+<td><code>first/after</code> (preferred) or adapter-documented compatibility params</td>
 </tr>
 </tbody>
 </table>
