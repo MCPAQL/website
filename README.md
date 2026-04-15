@@ -63,6 +63,12 @@ Generate or refresh both repo mirrors:
 npm run generate:repo-docs
 ```
 
+Generate or refresh only the website-hosted spec mirror:
+
+```bash
+node scripts/generate-repo-docs.mjs --mirror spec --spec-dir ../spec
+```
+
 Generate or refresh only the derived TOCs for hand-authored long-form pages:
 
 ```bash
@@ -125,6 +131,12 @@ Pull requests that modify site content also run `.github/workflows/visidelta-pre
 - Builds rendered visual diffs with VisiDelta
 - Uploads an artifact for each run (`visidelta-<run_id>-<attempt>`)
 - Optionally publishes hosted previews when `VISIDELTA_PREVIEW_PAGES_TOKEN` is configured
+
+Scheduled and manual spec-mirror automation lives in `.github/workflows/spec-sync.yml`:
+
+- Checks out the latest `MCPAQL/spec` `main`
+- Regenerates only the website-hosted spec mirror
+- Opens or updates a PR against `develop` when generated `public/spec/**` output or `public/data/search-index.json` changes
 
 ## License
 

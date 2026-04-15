@@ -16,13 +16,16 @@ const __dirname = path.dirname(__filename);
 const siteRoot = path.resolve(__dirname, "..");
 const publicRoot = path.join(siteRoot, "public");
 const searchBasePath = path.join(siteRoot, "source", "search-index.base.json");
+const generatedSearchIndexPath = path.join(publicRoot, "data", "search-index.json");
 
 const args = process.argv.slice(2);
 const isCheck = args.includes("--check");
 
 const mirrorConfigs = [createSpecConfig(), createAdapterConfig()];
+const selectedMirrorIds = parseMirrorSelection(args, mirrorConfigs);
+const selectedMirrorConfigs = mirrorConfigs.filter((config) => selectedMirrorIds.has(config.id));
 
-for (const config of mirrorConfigs) {
+for (const config of selectedMirrorConfigs) {
   if (!fs.existsSync(config.docsRoot)) {
     console.error(`${config.repoLabel} docs directory not found: ${config.docsRoot}`);
     process.exit(1);
@@ -31,7 +34,7 @@ for (const config of mirrorConfigs) {
 
 assertPandoc();
 
-const mirrorStates = mirrorConfigs.map(createMirrorState);
+const mirrorStates = selectedMirrorConfigs.map(createMirrorState);
 const docLookups = new Map(
   mirrorStates.map((state) => [
     state.config.repoSlug,
@@ -72,19 +75,29 @@ for (const state of mirrorStates) {
 }
 
 const baseSearchEntries = JSON.parse(fs.readFileSync(searchBasePath, "utf8"));
-const collectionEntries = mirrorStates.map((state) => state.config.collectionSearchEntry);
-const generatedSearchEntries = mirrorStates.flatMap((state) =>
-  state.docs.map((doc) => ({
-    title: `${state.config.searchTitlePrefix}: ${doc.title}`,
-    url: `/${doc.outputRel}`,
-    excerpt: doc.summary,
-    keywords: buildKeywords(doc, state.config)
-  }))
-);
+const existingSearchEntries = fs.existsSync(generatedSearchIndexPath)
+  ? JSON.parse(fs.readFileSync(generatedSearchIndexPath, "utf8"))
+  : [];
+const allMirrorSearchEntries = mirrorConfigs.flatMap((config) => {
+  if (!selectedMirrorIds.has(config.id)) {
+    return preserveExistingMirrorSearchEntries(existingSearchEntries, config);
+  }
+
+  const state = mirrorStates.find((candidate) => candidate.config.id === config.id);
+  return [
+    config.collectionSearchEntry,
+    ...state.docs.map((doc) => ({
+      title: `${config.searchTitlePrefix}: ${doc.title}`,
+      url: `/${doc.outputRel}`,
+      excerpt: doc.summary,
+      keywords: buildKeywords(doc, config)
+    }))
+  ];
+});
 
 changedFiles += writeFile(
-  path.join(publicRoot, "data", "search-index.json"),
-  `${JSON.stringify([...baseSearchEntries, ...collectionEntries, ...generatedSearchEntries], null, 2)}\n`
+  generatedSearchIndexPath,
+  `${JSON.stringify([...baseSearchEntries, ...allMirrorSearchEntries], null, 2)}\n`
 );
 
 if (isCheck && changedFiles > 0) {
@@ -97,6 +110,49 @@ const generatedSummary = mirrorStates
   .join(" and ");
 
 console.log(`${isCheck ? "Checked" : "Generated"} ${generatedSummary}.`);
+
+function parseMirrorSelection(rawArgs, configs) {
+  const selected = new Set();
+
+  for (let index = 0; index < rawArgs.length; index += 1) {
+    if (rawArgs[index] !== "--mirror") {
+      continue;
+    }
+
+    const rawValue = rawArgs[index + 1];
+    if (!rawValue) {
+      console.error("Expected a value after --mirror.");
+      process.exit(1);
+    }
+
+    for (const value of rawValue.split(",")) {
+      const normalized = value.trim().toLowerCase();
+      if (!normalized || normalized === "all") {
+        configs.forEach((config) => selected.add(config.id));
+        continue;
+      }
+
+      const match = configs.find((config) => config.id === normalized);
+      if (!match) {
+        console.error(`Unknown mirror id '${value}'. Expected one of: ${configs.map((config) => config.id).join(", ")}`);
+        process.exit(1);
+      }
+
+      selected.add(match.id);
+    }
+  }
+
+  if (!selected.size) {
+    configs.forEach((config) => selected.add(config.id));
+  }
+
+  return selected;
+}
+
+function preserveExistingMirrorSearchEntries(existingEntries, config) {
+  const prefix = `/${config.outputRootRel}/`;
+  return existingEntries.filter((entry) => typeof entry.url === "string" && entry.url.startsWith(prefix));
+}
 
 function createSpecConfig() {
   const repoRoot = resolveRepoRoot("--spec-dir", "../spec");
