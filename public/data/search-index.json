@@ -573,6 +573,20 @@
     ]
   },
   {
+    "title": "Spec: MCP-AQL Collection Querying",
+    "url": "/spec/features/collection-querying.html",
+    "excerpt": "Document Status: This document is informative. For normative requirements, see MCP-AQL Specification v1.0.0.",
+    "keywords": [
+      "spec",
+      "features",
+      "docs",
+      "collection",
+      "querying",
+      "mcp",
+      "aql"
+    ]
+  },
+  {
     "title": "Spec: Field Selection Specification",
     "url": "/spec/features/field-selection.html",
     "excerpt": "This document specifies the optional field selection feature that enables clients to request only specific fields in responses, reducing payload size and token consumption.",
@@ -588,7 +602,7 @@
   {
     "title": "Spec: Cursor-Based Pagination Specification",
     "url": "/spec/features/pagination.html",
-    "excerpt": "This document defines cursor-based pagination semantics for MCP-AQL operations that return collections. Cursor pagination enables efficient iteration through large datasets while minimizing token usage in LLM context win",
+    "excerpt": "This document defines the preferred cursor-based pagination semantics for MCP-AQL operations that return collections. Cursor pagination enables efficient iteration through large datasets while minimizing token usage in L",
     "keywords": [
       "spec",
       "features",

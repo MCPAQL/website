@@ -50,7 +50,7 @@
   <ul><li><a href="../security/confirmation-tokens.html">Confirmation Token Specification</a></li><li><a href="../security/execution-safety-loop.html">Execution Safety Loop Specification</a></li><li><a href="../security/gatekeeper.html">Security Model: Gatekeeper Specification</a></li></ul>
 </div><div class="docs-side-group">
   <h3>Features</h3>
-  <ul><li><a href="../features/field-selection.html">Field Selection Specification</a></li><li><a href="../features/pagination.html">Cursor-Based Pagination Specification</a></li><li><a href="../features/warnings.html">Warnings Array Specification</a></li></ul>
+  <ul><li><a href="../features/collection-querying.html">MCP-AQL Collection Querying</a></li><li><a href="../features/field-selection.html">Field Selection Specification</a></li><li><a href="../features/pagination.html">Cursor-Based Pagination Specification</a></li><li><a href="../features/warnings.html">Warnings Array Specification</a></li></ul>
 </div><div class="docs-side-group">
   <h3>Guides</h3>
   <ul><li><a href="../guides/protocol-comparison.html">Protocol Comparison Guide</a></li><li><a href="../guides/README.html">Developer Guides</a></li></ul>
@@ -114,6 +114,20 @@
 <h2 id="unreleased">[Unreleased]</h2>
 <h3 id="added">Added</h3>
 <ul>
+<li>Pagination response structure guidance for collection operations (#164)
+<ul>
+<li>Added <code>docs/operations.md</code> guidance for cursor-native, page-based, and offset-based pagination metadata in responses</li>
+<li>Clarified <code>pageInfo</code> as the preferred response shape for MCP-AQL-native cursor pagination</li>
+<li>Added compatibility response examples to <code>docs/features/pagination.md</code> for adapters that expose page or offset controls</li>
+</ul></li>
+<li>Collection querying guide for <code>list_*</code>, <code>search_*</code>, and <code>query_*</code> READ operations
+<ul>
+<li>New <code>docs/features/collection-querying.md</code> document defining the preferred contract for combining <code>query</code>, <code>filter</code>, <code>sort</code>, <code>fields</code>, and pagination</li>
+<li>Added <code>schemas/collection-query.schema.json</code> as a non-normative helper schema for the preferred collection-query request shape</li>
+<li>Clarifies cursor pagination as the preferred shape while documenting offset/page styles as compatibility variants that MUST be disclosed via introspection</li>
+<li>Notes that existing shared-parameter <code>$ref</code> paths should remain stable or be aliased when adapters publish compatibility names</li>
+<li>Cross-links collection-query guidance from the normative draft, operations guide, field-selection guide, and top-level README files</li>
+</ul></li>
 <li>Discovery-bundle contract and schema for MCP server interrogation pipelines (PR #220)
 <ul>
 <li>Added <code>docs/adapter/discovery-bundle.md</code> as informative support text for the GitHub golden-path capture workflow</li>
@@ -301,6 +315,10 @@
 </ul>
 <h3 id="fixed">Fixed</h3>
 <ul>
+<li>Synced stale documentation date metadata after the <code>develop</code> to <code>main</code> release merge
+<ul>
+<li>Updated <code>Last Updated</code> / <code>updated</code> fields for docs changed by the release merge so the documentation date policy passes on <code>main</code></li>
+</ul></li>
 <li><code>get_execution_status</code> misclassified as EXECUTE instead of READ (#161)
 <ul>
 <li>Moved to READ examples in crude-pattern.md Section 2.2</li>
