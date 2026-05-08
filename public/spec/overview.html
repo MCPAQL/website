@@ -7,7 +7,9 @@
   <title>MCP-AQL Spec | MCP-AQL Protocol Overview</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@500;700&display=swap">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" media="print" onload="this.onload=null;this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet"></noscript>
   <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
@@ -154,7 +156,7 @@
 <p>MCP-AQL extends traditional CRUD with an <strong>EXECUTE</strong> endpoint, creating the CRUDE pattern:</p>
 <table>
 <thead>
-<tr class="header">
+<tr>
 <th>Endpoint</th>
 <th>Safety</th>
 <th>Description</th>
@@ -162,31 +164,31 @@
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td><strong>CREATE</strong></td>
 <td>Non-destructive</td>
 <td>Additive operations that create new state</td>
 <td><code>create_entity</code>, <code>import_resource</code></td>
 </tr>
-<tr class="even">
+<tr>
 <td><strong>READ</strong></td>
 <td>Read-only</td>
 <td>Safe operations that query state</td>
 <td><code>list_entities</code>, <code>get_entity</code>, <code>search</code>, <code>introspect</code></td>
 </tr>
-<tr class="odd">
+<tr>
 <td><strong>UPDATE</strong></td>
 <td>Modifying</td>
 <td>Operations that modify existing state</td>
 <td><code>update_entity</code>, <code>update_resource</code></td>
 </tr>
-<tr class="even">
+<tr>
 <td><strong>DELETE</strong></td>
 <td>Destructive</td>
 <td>Operations that remove state</td>
 <td><code>delete_entity</code>, <code>clear</code></td>
 </tr>
-<tr class="odd">
+<tr>
 <td><strong>EXECUTE</strong></td>
 <td>Runtime</td>
 <td>Lifecycle operations for executable elements</td>
@@ -198,34 +200,34 @@
 <p>Each endpoint MUST have defined permission characteristics:</p>
 <table>
 <thead>
-<tr class="header">
+<tr>
 <th>Endpoint</th>
 <th>Read-Only</th>
 <th>Destructive</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td>CREATE</td>
 <td>false</td>
 <td>false</td>
 </tr>
-<tr class="even">
+<tr>
 <td>READ</td>
 <td>true</td>
 <td>false</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>UPDATE</td>
 <td>false</td>
 <td>true</td>
 </tr>
-<tr class="even">
+<tr>
 <td>DELETE</td>
 <td>false</td>
 <td>true</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>EXECUTE</td>
 <td>false</td>
 <td>true</td>
@@ -298,24 +300,24 @@ mcp_aql_operate  - Runtime and lifecycle operations</code></pre>
 <p>The primary motivation for MCP-AQL is reducing the token cost of tool registration. Empirical measurements demonstrate:</p>
 <table>
 <thead>
-<tr class="header">
+<tr>
 <th>Configuration</th>
 <th>Approximate Token Cost</th>
 <th>Reduction</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td>Discrete Tools (50+)</td>
 <td>~30,000 tokens</td>
 <td>baseline</td>
 </tr>
-<tr class="even">
+<tr>
 <td>Semantic Endpoint Mode (CRUDE profile, 5 endpoints)</td>
 <td>~4,300 tokens</td>
 <td>~85%</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>Single Mode (1 endpoint)</td>
 <td>~1,100 tokens</td>
 <td>~96%</td>
@@ -458,6 +460,6 @@ mcp_aql_operate  - Runtime and lifecycle operations</code></pre>
     </div>
   </footer>
 
-  <script src="../js/search.js"></script>
+  <script src="../js/search.js" defer></script>
 </body>
 </html>

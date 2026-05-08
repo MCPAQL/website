@@ -7,7 +7,9 @@
   <title>MCP-AQL Spec | MCP-AQL Aggregations</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@500;700&display=swap">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" media="print" onload="this.onload=null;this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet"></noscript>
   <link rel="stylesheet" href="../../css/style.css">
 </head>
 <body>
@@ -142,33 +144,33 @@
 <p>The preferred aggregation vocabulary is:</p>
 <table>
 <thead>
-<tr class="header">
+<tr>
 <th>Key</th>
 <th>Meaning</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td><code>count</code></td>
 <td>Count matching records</td>
 </tr>
-<tr class="even">
+<tr>
 <td><code>group_by</code></td>
 <td>Group records by a field</td>
 </tr>
-<tr class="odd">
+<tr>
 <td><code>sum</code></td>
 <td>Sum a numeric field</td>
 </tr>
-<tr class="even">
+<tr>
 <td><code>avg</code></td>
 <td>Average a numeric field</td>
 </tr>
-<tr class="odd">
+<tr>
 <td><code>min</code></td>
 <td>Minimum value for a field</td>
 </tr>
-<tr class="even">
+<tr>
 <td><code>max</code></td>
 <td>Maximum value for a field</td>
 </tr>
@@ -262,6 +264,6 @@
     </div>
   </footer>
 
-  <script src="../../js/search.js"></script>
+  <script src="../../js/search.js" defer></script>
 </body>
 </html>

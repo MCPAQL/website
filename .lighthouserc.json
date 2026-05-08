@@ -2,7 +2,7 @@
   "ci": {
     "collect": {
       "staticDistDir": "./public",
-      "numberOfRuns": 1,
+      "numberOfRuns": 3,
       "url": [
         "/index.html",
         "/docs/index.html",

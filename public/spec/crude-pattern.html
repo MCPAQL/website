@@ -7,7 +7,9 @@
   <title>MCP-AQL Spec | MCP-AQL CRUDE Pattern Specification</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@500;700&display=swap">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" media="print" onload="this.onload=null;this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet"></noscript>
   <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
@@ -366,34 +368,34 @@ mcp_aql_execute  - EXECUTE operations</code></pre>
 <p>Each endpoint has canonical verbs that adapters SHOULD use for standard operations:</p>
 <table>
 <thead>
-<tr class="header">
+<tr>
 <th>Endpoint</th>
 <th>Canonical Verb</th>
 <th>Example Operation</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td>CREATE</td>
 <td><code>create</code></td>
 <td><code>create_user</code></td>
 </tr>
-<tr class="even">
+<tr>
 <td>READ</td>
 <td><code>get</code> (single), <code>list</code> (multiple)</td>
 <td><code>get_document</code>, <code>list_users</code></td>
 </tr>
-<tr class="odd">
+<tr>
 <td>UPDATE</td>
 <td><code>update</code></td>
 <td><code>update_profile</code></td>
 </tr>
-<tr class="even">
+<tr>
 <td>DELETE</td>
 <td><code>delete</code></td>
 <td><code>delete_account</code></td>
 </tr>
-<tr class="odd">
+<tr>
 <td>EXECUTE</td>
 <td><code>execute</code> (initiate), <code>cancel</code> (terminate)</td>
 <td><code>execute_workflow</code>, <code>cancel_task</code></td>
@@ -464,6 +466,6 @@ mcp_aql_execute  - EXECUTE operations</code></pre>
     </div>
   </footer>
 
-  <script src="../js/search.js"></script>
+  <script src="../js/search.js" defer></script>
 </body>
 </html>
