@@ -17,6 +17,8 @@ const siteRoot = path.resolve(__dirname, "..");
 const publicRoot = path.join(siteRoot, "public");
 const searchBasePath = path.join(siteRoot, "source", "search-index.base.json");
 const generatedSearchIndexPath = path.join(publicRoot, "data", "search-index.json");
+const fontStylesheetUrl =
+  "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@500;700&display=swap";
 
 const args = process.argv.slice(2);
 const isCheck = args.includes("--check");
@@ -720,9 +722,7 @@ function wrapMirrorDocPage({ config, doc, navGroups, navSequence, bodyHtml, tocE
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="${escapeHtml(doc.summary)}">
   <title>${escapeHtml(config.siteSectionTitle)} | ${escapeHtml(doc.title)}</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  ${renderFontStylesheetTags()}
   <link rel="stylesheet" href="${relativeAssetPath(doc.outputRel, "css/style.css")}">
 </head>
 <body>
@@ -802,7 +802,7 @@ ${tocHtml ? `\n${indentBlock(tocHtml, 8)}\n` : ""}
     </div>
   </footer>
 
-  <script src="${relativeAssetPath(doc.outputRel, "js/search.js")}"></script>
+  <script src="${relativeAssetPath(doc.outputRel, "js/search.js")}" defer></script>
 </body>
 </html>
 `;
@@ -841,9 +841,7 @@ function wrapMirrorIndexPage(config, navGroups) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="${escapeHtml(config.indexDescription)}">
   <title>${escapeHtml(config.siteSectionTitle)} | ${escapeHtml(config.docCollectionLabel)}</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  ${renderFontStylesheetTags()}
   <link rel="stylesheet" href="${relativeAssetPath(config.indexOutputRel, "css/style.css")}">
 </head>
 <body>
@@ -922,10 +920,18 @@ function wrapMirrorIndexPage(config, navGroups) {
     </div>
   </footer>
 
-  <script src="${relativeAssetPath(config.indexOutputRel, "js/search.js")}"></script>
+  <script src="${relativeAssetPath(config.indexOutputRel, "js/search.js")}" defer></script>
 </body>
 </html>
 `;
+}
+
+function renderFontStylesheetTags() {
+  return `<link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="${fontStylesheetUrl}">
+  <link href="${fontStylesheetUrl}" rel="stylesheet" media="print" onload="this.onload=null;this.media='all'">
+  <noscript><link href="${fontStylesheetUrl}" rel="stylesheet"></noscript>`;
 }
 
 function renderHeroActions(actions) {
