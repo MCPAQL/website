@@ -2,8 +2,25 @@ max_retries = 2
 retry_wait_time = 2
 timeout = 20
 no_progress = true
-offline = true
+
+# offline = true was hiding broken external URLs. With offline = false the
+# checker actually fetches each link and reports real 4xx/5xx responses.
+# This is what catches "we linked to a private repo / a not-yet-pushed
+# branch / a renamed page" before it ships to production.
+offline = false
+
+# Cache to keep CI runs fast and avoid hammering the same upstream URL
+# multiple times across files in the same run.
+cache = true
+max_cache_age = "1d"
+
+# Accept rate-limit responses as valid — some hosts (notably GitHub
+# unauth, some CDNs) return 429 under CI load even for live URLs.
+accept = [200, 203, 206, 429]
+
 exclude = [
   "^http://localhost(:[0-9]+)?/.*",
-  "^http://127\\.0\\.0\\.1(:[0-9]+)?/.*"
+  "^http://127\\.0\\.0\\.1(:[0-9]+)?/.*",
+  # Local file/relative anchors with no scheme are not external links;
+  # lychee still validates them via the document tree, just not over HTTP.
 ]
