@@ -6,6 +6,12 @@
     "keywords": ["home", "overview", "public draft", "portal", "launch"]
   },
   {
+    "title": "Case Study: GitHub MCP — Measured Comparison",
+    "url": "/case-studies/github-mcp.html",
+    "excerpt": "Dual-call parity test of the official GitHub MCP server vs an MCP-AQL adapter: 98.3% reduction in tool-discovery overhead, 89/89 operations behaviorally equivalent, all measured and reproducible with public tools.",
+    "keywords": ["case study", "github", "parity", "measurement", "token efficiency", "dual call", "harness", "mcpaql-parity", "evidence"]
+  },
+  {
     "title": "Docs Library",
     "url": "/docs/index.html",
     "excerpt": "Structured documentation map for normative spec, implementation guidance, examples, tooling, and governance.",

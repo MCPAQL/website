@@ -735,6 +735,7 @@ function wrapMirrorDocPage({ config, doc, navGroups, navSequence, bodyHtml, tocE
           <li><a href="${relativePathFromDoc(doc.outputRel, "docs/index.html")}">Docs</a></li>
           <li><a href="${relativePathFromDoc(doc.outputRel, "launch-checklist.html")}">Launch Checklist</a></li>
           <li><a href="${relativePathFromDoc(doc.outputRel, "apis/index.html")}">Adapter Patterns</a></li>
+          <li><a href="${relativePathFromDoc(doc.outputRel, "case-studies/github-mcp.html")}">Case Studies</a></li>
         </ul>
         <form class="site-search" data-search-form data-index-url="${relativePathFromDoc(doc.outputRel, "data/search-index.json")}" role="search">
           <label class="sr-only" for="site-search-input">Search MCP-AQL docs</label>
@@ -854,6 +855,7 @@ function wrapMirrorIndexPage(config, navGroups) {
           <li><a href="${relativePathFromDoc(config.indexOutputRel, "docs/index.html")}">Docs</a></li>
           <li><a href="${relativePathFromDoc(config.indexOutputRel, "launch-checklist.html")}">Launch Checklist</a></li>
           <li><a href="${relativePathFromDoc(config.indexOutputRel, "apis/index.html")}">Adapter Patterns</a></li>
+          <li><a href="${relativePathFromDoc(config.indexOutputRel, "case-studies/github-mcp.html")}">Case Studies</a></li>
         </ul>
         <form class="site-search" data-search-form data-index-url="${relativePathFromDoc(
           config.indexOutputRel,
