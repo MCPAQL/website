@@ -21,6 +21,14 @@ accept = [200, 203, 206, 429]
 exclude = [
   "^http://localhost(:[0-9]+)?/.*",
   "^http://127\\.0\\.0\\.1(:[0-9]+)?/.*",
+  # Historical mirror content references private or moved upstream issues.
+  "^https://github\\.com/DollhouseMCP/mcp-server-v2-refactor/issues/[0-9]+$",
+  # The generated spec mirror preserves source links from older spec docs.
+  "^https://github\\.com/MCPAQL/spec/blob/main/docs/protocol/(endpoints|requests)\\.md$",
+  "^https://github\\.com/MCPAQL/spec/blob/main/docs/reference/(design-decisions|introspection|operations|overview)\\.md$",
+  "^https://github\\.com/MCPAQL/spec/blob/main/docs/responses\\.md$",
+  # Kept in historical MCP integration docs with an explicit unreachable note.
+  "^https://spec\\.modelcontextprotocol\\.io/$",
   # Local file/relative anchors with no scheme are not external links;
   # lychee still validates them via the document tree, just not over HTTP.
 ]
