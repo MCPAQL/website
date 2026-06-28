@@ -16,7 +16,7 @@ max_cache_age = "1d"
 
 # Accept rate-limit responses as valid — some hosts (notably GitHub
 # unauth, some CDNs) return 429 under CI load even for live URLs.
-accept = [200, 203, 206, 429]
+accept = ["200", "203", "206", "429"]
 
 exclude = [
   "^http://localhost(:[0-9]+)?/.*",
