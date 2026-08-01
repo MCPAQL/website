@@ -29,6 +29,9 @@ exclude = [
   "^https://github\\.com/MCPAQL/spec/blob/main/docs/responses\\.md$",
   # Kept in historical MCP integration docs with an explicit unreachable note.
   "^https://spec\\.modelcontextprotocol\\.io/$",
+  # iso.org serves 403 Forbidden to non-browser clients (bot blocking);
+  # the ISO 8601 reference link in the spec mirror is valid in a browser.
+  "^https://www\\.iso\\.org/iso-8601-date-and-time-format\\.html$",
   # Local file/relative anchors with no scheme are not external links;
   # lychee still validates them via the document tree, just not over HTTP.
 ]
